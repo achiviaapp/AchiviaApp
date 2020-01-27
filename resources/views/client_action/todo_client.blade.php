@@ -212,7 +212,7 @@
 
 
 @section('script')
-    <script> HREF = "{{ url('client/get_todo_data') }}"; </script>
+    <script> HREF = "{{ url('/client/get_todo_data') }}"; </script>
     <script>
         function output(data) {
             return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +

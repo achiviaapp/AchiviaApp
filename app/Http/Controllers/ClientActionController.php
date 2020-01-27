@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Events\PushNotificationEvent;
+use DateTime;
 
 class ClientActionController extends Controller
 {
@@ -610,6 +611,10 @@ class ClientActionController extends Controller
      */
     public function getToDoData(Request $request)
     {
+        $date = new DateTime();
+        $timeZone = $date->getTimezone();
+        date_default_timezone_set($timeZone->getName());
+//        date_default_timezone_set('Africa/Cairo');
         $paginationOptions = $request->input('pagination');
         if ($paginationOptions['perpage'] == -1) {
             $paginationOptions['perpage'] = 0;
