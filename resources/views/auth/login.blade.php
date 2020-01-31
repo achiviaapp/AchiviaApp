@@ -430,7 +430,7 @@
 <!--end::Page Scripts -->
 <script>
     $(document).on('ready', function(){
-        if (window.ReactNativeWebView !== undefined) {
+        if (ReactNativeWebView) {
             var form = document.getElementById("target");
             var email = document.getElementById('email');
             var password = document.getElementById('password');
@@ -451,7 +451,7 @@
                         }
                     };
 
-                    window.ReactNativeWebView.postMessage(JSON.stringify(loginData))
+                    ReactNativeWebView.postMessage(JSON.stringify(loginData))
                 });
             }
         }
