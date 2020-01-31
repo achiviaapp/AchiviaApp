@@ -257,7 +257,16 @@
                 ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
                 '</div>\n' +
                 ' </div>\n' +
-                '                        <div class="form-group row">\n' +
+                '<div class="form-group row">\n' +
+                '<div class="col-3">\n' +
+                '<select name="priority" class="form-control">\n' +
+                ' <option selected value="">Select Priority \n' +
+                ' </option>\n' +
+                '<option value="High"> High</option>\n' +
+                ' <option value="Normal"> Normal</option>\n' +
+                '<option value="Low"> Low</option>\n' +
+                '</select>\n' +
+                '</div>\n' +
                 '<div class="col-3">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
                 ' <option selected value="">Select Method</option>\n' +
@@ -405,9 +414,11 @@
             return '<div class="kt-user-card-v2">\
                 <!--<div class="kt-user-card-v2__pic">\
                         <div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
-                    </div>\-->\
+                    </div>-->\
                     <div class="kt-user-card-v2__details">\
-                    <p class="kt-user-card-v2__name">Name : ' + data.name + '</p>\
+                    <p class="kt-user-card-v2__name"> Name : \
+                     <a href="'+ URL +'/client-profile/'+data.userId +'"> ' + data.name + '</a>\
+                     </p>\
                     <p class="kt-user-card-v2__name"> Email : ' + data.email + '  </p>\
                    <p class="kt-user-card-v2__name"> Phone : \
                               <a href="tel:' + data.phone + '">' + data.phone + '</a>  </p>\

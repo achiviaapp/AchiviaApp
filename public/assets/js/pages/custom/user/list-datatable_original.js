@@ -95,7 +95,7 @@ var KTUserListDatatable = function () {
         <div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
     </div>\
     <div class="kt-user-card-v2__details">\
-       <!-- <a href="#" class="kt-user-card-v2__name">' + data.name + '</a>-->\
+         <a href="'+ URL +'/client-profile/'+data.userId +'" class="kt-user-card-v2__name">' + data.name + '</a>\
        \<span class="kt-user-card-v2__name">' + data.name + '</span>\
         <span class="kt-user-card-v2__desc">' + position[pos] + '</span>\
     </div>\
@@ -240,7 +240,7 @@ var KTUserListDatatable = function () {
             var count = checkedNodes.length; // selected records count
 
             var x = $('#kt_subheader_group_selected_rows').html(count);
-            if (window.user == 'admin') {
+            if (window.user == 'admin' || window.user == 'root') {
                 if (count > 0) {
                     $('#kt_subheader_search').addClass('kt-hidden');
                     $('#kt_subheader_group_actions').removeClass('kt-hidden');

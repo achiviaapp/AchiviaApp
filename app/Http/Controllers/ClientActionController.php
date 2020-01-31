@@ -70,7 +70,7 @@ class ClientActionController extends Controller
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
@@ -172,7 +172,7 @@ class ClientActionController extends Controller
             $query = $query->whereDate('created_at', '<=', $dates[1]);
         }
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $data = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('actionId', null)->where('assignToSaleManId', null);
             })->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
@@ -292,7 +292,7 @@ class ClientActionController extends Controller
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
@@ -414,7 +414,7 @@ class ClientActionController extends Controller
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
@@ -519,7 +519,7 @@ class ClientActionController extends Controller
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
@@ -639,7 +639,7 @@ class ClientActionController extends Controller
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
@@ -754,7 +754,7 @@ class ClientActionController extends Controller
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
 
 
-        if ((Auth::user()->role->name == 'admin')) {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });

@@ -45,7 +45,7 @@
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
-                            @if((@Auth::user()->role->name == 'admin'))
+                            @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('new-requests')}}"
                                                                                    class="kt-menu__link "><i
                                                 class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
@@ -117,7 +117,7 @@
                         </ul>
                     </div>
                 </li>
-                @if((@Auth::user()->role->name == 'admin'))
+                @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
                                     class="kt-menu__link-icon  flaticon2-calendar-6"></i><span
@@ -146,7 +146,7 @@
                         </div>
                     </li>
                 @endif
-                @if((@Auth::user()->role->name == 'admin'))
+                @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
                                     class="kt-menu__link-icon  flaticon-statistics"></i><span
@@ -167,8 +167,7 @@
                         </div>
                     </li>
                 @endif
-                @if((@Auth::user()->role->name == 'admin'))
-
+                @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
                                     class="kt-menu__link-icon flaticon-settings-1"></i><span class="kt-menu__link-text">Root Panel</span><span
