@@ -429,33 +429,33 @@
 
 <!--end::Page Scripts -->
 <script>
-    if (window.ReactNativeWebView !== undefined) {
+    $(document).on('ready', function(){
+        if (window.ReactNativeWebView !== undefined) {
+            var form = document.getElementById("target");
+            var email = document.getElementById('email');
+            var password = document.getElementById('password');
 
-        var form = document.getElementById("target");
-        var email = document.getElementById('email');
-        var password = document.getElementById('password');
+            if (credentials.email && credentials.password) {
+                email.value = credentials.email;
+                password.value = credentials.password;
+                form.submit();
+            } else {
+                // login form on submit
+                form.addEventListener(function(){
+                    // get credentials from it and send them to mobile app
+                    const loginData = {
+                        type: 'login',
+                        credentials: {
+                            email: email.value,
+                            password: password.value
+                        }
+                    };
 
-        if (credentials.email && credentials.password) {
-            email.value = credentials.email;
-            password.value = credentials.password;
-            form.submit();
-        } else {
-            // login form on submit
-            form.addEventListener(function(){
-                // get credentials from it and send them to mobile app
-                const loginData = {
-                    type: 'login',
-                    credentials: {
-                        email: email.value,
-                        password: password.value
-                    }
-                };
-
-                ReactNativeWebView.postMessage(JSON.stringify(loginData))
-            });
+                    window.ReactNativeWebView.postMessage(JSON.stringify(loginData))
+                });
+            }
         }
-    }
-
+    });
 </script>
 
 </body>
