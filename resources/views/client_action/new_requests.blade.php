@@ -39,7 +39,7 @@
 
                     </form>
                 </div>
-                @if((Auth::user()->role->name == 'admin'))
+                @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                 <div class="kt-subheader__group" id="kt_subheader_group_actions">
                     <div class="kt-subheader__desc"><span id="kt_subheader_group_selected_rows"></span> Selected:</div>
                     <div class="btn-toolbar kt-margin-l-20">
@@ -84,7 +84,7 @@
                                   id="kt_dashboard_daterangepicker_date"></span>
                             <i class="flaticon2-calendar-1"></i>
                         </a>
-                        @if((Auth::user()->role->name == 'admin'))
+                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <a class="btn kt-subheader__btn-primary btn-icon">
                                 <i class="flaticon-download-1"></i>
                             </a>

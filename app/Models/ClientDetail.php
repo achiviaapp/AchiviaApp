@@ -20,7 +20,7 @@ class ClientDetail extends Model
         'saleManAssignedToClient', 'assignToSaleManId', 'notificationTime',
         'notificationDate', 'transferred','campaignId','marketerId','platform',
         'property','propertyLocation','propertyUtility','areaFrom','areaTo','budget',
-        'deliveryDateId','convertProject1','convertProject2',
+        'deliveryDateId','convertProject1','convertProject2','priority',
         ];
 
     protected $table = 'client_details';

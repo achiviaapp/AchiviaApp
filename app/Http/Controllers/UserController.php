@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use App\Events\PushNotificationEvent;
+use App\Models\Team;
 
 class UserController extends Controller
 {
@@ -52,6 +53,14 @@ class UserController extends Controller
 
         $data = $this->model->where('roleId', '!=', 5)->with('role')->whereHas('role')
             ->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
+
+        $key = 0;
+        foreach ($data as $one) {
+            $teamId = User::where('id', $one['id'])->first()['teamId'];
+            $teamName = Team::where('teamLeaderId' ,$teamId)->first()['name'];
+            $data[$key]['teamName'] = $teamName;
+            $key = $key + 1;
+        }
 
 
         $meta = [
@@ -117,13 +126,17 @@ class UserController extends Controller
             if ($request->teamId == 0) {
                 $teamId = null;
             }
+            $created = null;
+            if($request->createdBy !=0){
+                $created = $request->createdBy;
+            }
             $userData = array(
                 'name' => $request->name,
                 'password' => $password,
                 'image' => $image,
                 'email' => $request->email,
                 'roleId' => $request->roleId,
-                'createdBy' => $request->createdBy,
+                'createdBy' => $created,
                 'userName' => '',
                 'phone' => $phone,
                 'teamId' => $teamId,

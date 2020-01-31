@@ -96,8 +96,7 @@ var KTUserListDatatable = function () {
         <div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
     </div>\
     <div class="kt-user-card-v2__details">\
-       <!-- <a href="#" class="kt-user-card-v2__name">' + data.name + '</a>-->\
-       \<span class="kt-user-card-v2__name">' + data.name + '</span>\
+        <a href="'+ URL +'/client-profile/'+data.userId +'" class="kt-user-card-v2__name">' + data.name + '</a>\
         <span class="kt-user-card-v2__desc"> Phone : ' + data.phone + '</span></br>\
         <span class="kt-user-card-v2__desc"> Email : ' + data.email + '</span>\
         <span class="kt-user-card-v2__desc"> Project : ' + data.projectName + '</span>\
@@ -239,13 +238,13 @@ var KTUserListDatatable = function () {
                 </a>\
             </li>\ -->\
             <li class="kt-nav__item">\
-                <a href="' + URL + '/client-edit/' + data.id + '" class="kt-nav__link">\
+                <a href="' + URL + '/client-edit/' + data.userId + '" class="kt-nav__link">\
                     <i class="kt-nav__link-icon flaticon2-contract"></i>\
                     <span class="kt-nav__link-text">Edit</span>\
                 </a>\
             </li>\
             <li class="kt-nav__item">\
-                <a href="' + URL + '/history-clients/' + data.id + '" class="kt-nav__link">\
+                <a href="' + URL + '/history-clients/' + data.userId + '" class="kt-nav__link">\
                     <i class="kt-nav__link-icon flaticon2-list"></i>\
                     <span class="kt-nav__link-text">History</span>\
                 </a>\
@@ -305,7 +304,7 @@ var KTUserListDatatable = function () {
             var count = checkedNodes.length; // selected records count
 
             var x = $('#kt_subheader_group_selected_rows').html(count);
-            if (window.user == 'admin') {
+            if (window.user == 'admin' || window.user=='root') {
                 if (count > 0) {
                     $('#kt_subheader_search').addClass('kt-hidden');
                     $('#kt_subheader_group_actions').removeClass('kt-hidden');

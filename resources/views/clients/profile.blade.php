@@ -96,60 +96,53 @@
     <script>
         function last(data) {
             var status = {
-                0: {
-                    'title': 'new',
-                    'class': ' btn-label-brand'
-                },
 
                 null: {
-                    'title': 'new',
-                    'class': ' btn-label-brand'
+                    'class': 'btn-label-brand',
                 },
 
-                1: {
-                    'title': 'done',
-                    'class': ' btn-label-success'
+                1 : {
+                    'class': 'btn-label-success',
                 },
                 2: {
-                    'title': 'following',
-                    'class': ' btn-label-success'
+                    'class': 'btn-label-brand',
                 },
                 3: {
-                    'title': 'comingVisit',
-                    'class': ' btn-label-info'
+                    'class': 'btn-label-success',
                 },
                 4: {
-                    'title': 'meeting',
-                    'class': ' btn-label-info'
+                    'class': 'btn-label-primary',
                 },
                 5: {
-                    'title': 'Scouting',
-                    'class': ' btn-label-primary'
+                    'class': 'btn-label-primary',
                 },
                 6: {
-                    'title': 'Convert to another project',
-                    'class': ' btn-label-primary'
+                    'class': 'btn-label-warning',
                 },
 
-                7: {
-                    'title': 'No Answer',
-                    'class': ' btn-label-warning'
+                7 : {
+                    'class': 'btn-label-warning',
                 },
                 8: {
-                    'title': 'Not Available Or Closed',
-                    'class': ' btn-label-warning'
+                    'class': 'btn-label-danger',
                 },
                 9: {
-                    'title': 'Low Budget',
-                    'class': ' btn-label-warning'
+                    'class': 'btn-label-info',
                 },
                 10: {
-                    'title': 'Trash',
-                    'class': ' btn-label-danger'
+                    'class': 'btn-label-danger',
                 },
                 11: {
-                    'title': 'Invitation',
-                    'class': ' btn-label-info'
+                    'class': 'btn-label-primary',
+                },
+                12 : {
+                    'class': 'btn-label-brand',
+                },
+                13: {
+                    'class': 'btn-label-success',
+                },
+                14: {
+                    'class': 'btn-label-danger',
                 },
 
             };
@@ -198,7 +191,7 @@
             };
             return '<div class="kt-user-card-v2">\
                         			<div class="kt-user-card-v2__details">\
-                        			<p class="btn btn-bold btn-sm btn-font-sm ' + status[data.detail.actionId].class + '">' + status[data.detail.actionId].title + ' At ' + data.detail.notificationDate + ' ' + data.detail.notificationTime + '</p>\
+                        			 <p class="btn btn-bold btn-sm btn-font-sm ' + status[data.detail.actionId].class + '">' + data.detail.statusName + ' At ' + data.detail.notificationDate + ' ' + data.detail.notificationTime + '</p>\
                         			<p class="kt-user-card-v2__name"> Via ' + methods[data.detail.viaMethodId].title + '  </p>\
                         			<p class="kt-user-card-v2__name"> Summery : ' + summery[data.detail.summery].title + '  </p>\
                         			<p class="kt-user-card-v2__name"> Note : ' + data.detail.notes + '  </p>\
@@ -248,7 +241,7 @@
                     <p class="kt-user-card-v2__name"> Interested Project : ' + data.detail.projectName + '  </p>\
                     <p class="kt-user-card-v2__name"> Job Title : ' + data.detail.jobTitle + '  </p>\
                     <p class="kt-user-card-v2__name"> Notes : ' + data.detail.notes + '  </p>\
-                    @if(Auth::user()->role->name == 'admin')\
+                    @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
                     <p class="kt-user-card-v2__name"> Assign To : ' + data.detail.saleName + '  </p>\
                     @endif\
                     <p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\

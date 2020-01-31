@@ -201,4 +201,20 @@
         </div>
     </div>
 </div>
+<script>
+
+    // reset password page
+    if (window.ReactNativeWebView !== undefined) {
+
+        // reset password form on submit
+        // get password from it and send it to mobile app
+        const resetPasswordData = {
+            type: 'reset',
+            credentials: {
+                password: document.getElementById('password').value
+            }
+        };
+        ReactNativeWebView.postMessage(JSON.stringify(resetPasswordData))
+    }
+</script>
 </body>

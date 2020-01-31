@@ -120,13 +120,13 @@ var KTUserListDatatable = function () {
 											</a>\
 										</li>\ -->\
 										<li class="kt-nav__item">\
-											<a href="' + URL + '/client-edit/' + data.id + '" class="kt-nav__link">\
+											<a href="' + URL + '/client-edit/' + data.userId + '" class="kt-nav__link">\
 												<i class="kt-nav__link-icon flaticon2-contract"></i>\
 												<span class="kt-nav__link-text">Edit</span>\
 											</a>\
 										</li>\
 										<li class="kt-nav__item">\
-										<a href="' + URL + '/history-clients/' + data.id + '" class="kt-nav__link">\
+										<a href="' + URL + '/history-clients/' + data.userId + '" class="kt-nav__link">\
                                           <i class="kt-nav__link-icon flaticon2-trash"></i>\
                                             <span class="kt-nav__link-text">History</span>\
                                             </a>\

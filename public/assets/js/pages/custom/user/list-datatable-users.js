@@ -74,6 +74,17 @@ var KTUserListDatatable = function () {
 
                 },
 
+                {
+                    field: 'teamId',
+                    title: 'Team',
+                    width:150,
+                    template: function (data) {
+                        console.log(data);
+                        return '<span class="btn btn-bold btn-sm btn-font-sm">  ' + data.teamName + ' </span>';
+                    },
+
+                },
+
                 // {
                 //     field: 'image',
                 //     title: 'Image',

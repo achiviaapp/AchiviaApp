@@ -114,6 +114,7 @@
 
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="{{url('assets/media/logos/favicon.ico')}}"/>
+
 </head>
 
 <!-- end::Head -->
@@ -153,14 +154,15 @@
                         <div class="kt-login__head">
                             <h3 class="kt-login__title">Sign In </h3>
                         </div>
-                        <form method="POST" action="{{ url('login') }}" class="kt-form">
+                        <form id="target" method="POST" action="{{ url('login') }}" class="kt-form">
                             @csrf
                             <div class="input-group">
-                                <input class="form-control" type="email" placeholder="Email" name="email"
+                                <input id="email" class="form-control" type="email" placeholder="Email" name="email"
                                        autocomplete="on">
                             </div>
                             <div class="input-group">
-                                <input class="form-control" type="password" placeholder="Password" name="password">
+                                <input id="password" class="form-control" type="password" placeholder="Password"
+                                       name="password">
                             </div>
                             <div class="row kt-login__extra">
                                 <div class="col">
@@ -180,7 +182,8 @@
                                 </button>
                             </div>
                             <div class="kt-login__actions">
-                                <a  href="{{url('/join-to-us')}}" type="button" class="btn btn-pill kt-login__btn-primary" style="line-height:2.0">
+                                <a href="{{url('/join-to-us')}}" type="button"
+                                   class="btn btn-pill kt-login__btn-primary" style="line-height:2.0">
                                     Join To Us
                                 </a>
                             </div>
@@ -425,7 +428,35 @@
 <script src="{{url('assets/js/pages/custom/login/login-general.js')}}" type="text/javascript"></script>
 
 <!--end::Page Scripts -->
+<script>
+    if (window.ReactNativeWebView !== undefined) {
 
+        var form = document.getElementById("target");
+        var email = document.getElementById('email');
+        var password = document.getElementById('password');
+
+        if (credentials.email && credentials.password) {
+            email.value = credentials.email;
+            password.value = credentials.password;
+            form.submit();
+        } else {
+            // login form on submit
+            form.addEventListener(function(){
+                // get credentials from it and send them to mobile app
+                const loginData = {
+                    type: 'login',
+                    credentials: {
+                        email: email.value,
+                        password: password.value
+                    }
+                };
+
+                ReactNativeWebView.postMessage(JSON.stringify(loginData))
+            });
+        }
+    }
+
+</script>
 
 </body>
 
