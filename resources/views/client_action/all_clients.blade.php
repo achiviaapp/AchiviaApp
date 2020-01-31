@@ -42,7 +42,7 @@
 													</span>
 												</span>
                         </div>
-                        @if((Auth::user()->role->name == 'admin'))
+                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                                 <select class="form-control" id="saleFilter">
                                     <option value="0">Select SaleMan</option>
@@ -69,7 +69,7 @@
                     </form>
                 </div>
 
-                @if((Auth::user()->role->name == 'admin'))
+                @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                     <div class="kt-subheader__group" id="kt_subheader_group_actions">
                         <div class="kt-subheader__desc"><span id="kt_subheader_group_selected_rows"></span> Selected:
                         </div>
@@ -118,7 +118,7 @@
                                   id="kt_dashboard_daterangepicker_date"></span>
                             <i class="flaticon2-calendar-1"></i>
                         </a>
-                        @if((Auth::user()->role->name == 'admin'))
+                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <a class="btn kt-subheader__btn-primary btn-icon">
                                 <i class="flaticon-download-1"></i>
                             </a>

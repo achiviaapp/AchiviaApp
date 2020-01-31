@@ -114,15 +114,32 @@
                             </select>
                         </div>
                         <div class="col-lg-2 col-xl-2">
-                            <select id="" name="platformCol"
-                                    class="form-control">
-                                <option selected value="0">Select Platform</option>
-                                <option value="facebook"> FaceBook</option>
-                                <option value="google"> Google</option>
-                                <option value="instgram"> Instagram</option>
-                                <option value="linkedin"> LinkedIn</option>
-                                <option value="twitter"> Twitter</option>
-                                <option value="youtube"> YouTube</option>
+                            <select id="platform" name="platform"
+                                    class="form-control col-lg-9 col-xl-9">
+                                <option selected value="0">Select Platform
+                                </option>
+                                <option value="Direct Call"> Direct Call</option>
+                                <option disabled>──────────</option>
+                                <option value="Facebook Ads"> Facebook Ads</option>
+                                <option value="Facebook moderation"> Facebook moderation</option>
+                                <option disabled>──────────</option>
+                                <option value="Instagram"> Instagram</option>
+                                <option value="Whatsapp"> Whatsapp</option>
+                                <option value="Google"> Google</option>
+                                <option value="Twitter"> Twitter</option>
+                                <option value="Youtube"> Youtube</option>
+                                <option value="LinkedIn"> LinkedIn</option>
+                                <option disabled>──────────</option>
+                                <option value="SMS campaign"> SMS campaign</option>
+                                <option value="Email campaign"> Email campaign</option>
+                                <option value="Website"> Website</option>
+                                <option value="Event"> Event</option>
+                                <option disabled>──────────</option>
+                                <option value="Cold Call"> Cold Call</option>
+                                <option value="Client referral"> Client referral</option>
+                                <option value="Personal Referral"> Personal Referral</option>
+                                <option value="Business Card"> Business Card</option>
+
                             </select>
                         </div>
                         <div class="col-lg-2 col-xl-2">

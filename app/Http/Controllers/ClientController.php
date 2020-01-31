@@ -419,6 +419,11 @@ class ClientController extends Controller
             $platform = $request->platform;
         }
 
+        $priority = $client['priority'];
+        if ($request->priority != '') {
+            $priority = $request->priority;
+        }
+
         $assignToSaleManId = $client['assignToSaleManId'];
         if ($request->assignToSaleManId != 0) {
             $assignToSaleManId = $request->assignToSaleManId;
@@ -454,6 +459,7 @@ class ClientController extends Controller
             'deliveryDateId' => $request->deliveryDateId,
             'convertProject1' => $request->convertProject1,
             'convertProject2' => $request->convertProject2,
+            'priority' => $priority,
         );
 
         //update record
@@ -482,7 +488,7 @@ class ClientController extends Controller
             $note = UserNote::create(['userId' => $request->_id, 'note' => $request->notes]);
         }
 
-        return redirect()->back()->withMessage('Updated successfully');
+        return redirect('client-profile/'. $request->_id )->withMessage('Updated successfully');
     }
 
 
@@ -498,6 +504,7 @@ class ClientController extends Controller
             'notes' => 'required',
             'via_method' => 'required|integer',
             'actionId' => 'required|integer',
+            'priority' => 'required',
         ]);
 
         $client = $this->clientModel->where('userId', $request->_id)->first()->toArray();
@@ -568,6 +575,11 @@ class ClientController extends Controller
             $assignToSaleManId = $request->assignToSaleManId;
         }
 
+        $priority = $client['priority'];
+        if ($request->priority != '') {
+            $priority = $request->priority;
+        }
+
         $clientDetailsData = array(
             'assignToSaleManId' => $assignToSaleManId,
             'notes' => $notes,
@@ -586,6 +598,7 @@ class ClientController extends Controller
             'saleManAssignedToClient' => $saleManAssignedToClient,
             'assignedDate' => $assignedDate,
             'assignedTime' => $assignedTime,
+            'priority' => $priority,
 
         );
 
@@ -760,8 +773,10 @@ class ClientController extends Controller
         $data = User::where('id', $id)->with('detail')->whereHas('detail')->first();
         $projectName = Project::where('id', $data['detail']['projectId'])->first()['name'];
         $saleName = User::where('id', $data['detail']['assignToSaleManId'])->first()['name'];
+        $statusName = Action::where('id', $data['detail']['actionId'])->first()['name'];
         $data['detail']['projectName'] = $projectName;
         $data['detail']['saleName'] = $saleName;
+        $data['detail']['statusName'] = $statusName;
 
         $meta = [
             "page" => '',

@@ -51,7 +51,7 @@
 													</span>
 												</span>
                         </div>
-                        @if((Auth::user()->role->name == 'admin'))
+                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                                 <select class="form-control" id="saleFilter">
                                     <option value="0">Select SaleMan</option>
@@ -77,7 +77,7 @@
                         {{--</div>--}}
                     </form>
                 </div>
-                @if((Auth::user()->role->name == 'admin'))
+                @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                     <div class="kt-subheader__group" id="kt_subheader_group_actions">
                         <div class="kt-subheader__desc"><span id="kt_subheader_group_selected_rows"></span> Selected:
                         </div>
@@ -125,7 +125,7 @@
                                   id="kt_dashboard_daterangepicker_date"></span>
                             <i class="flaticon2-calendar-1"></i>
                         </a>
-                        @if((Auth::user()->role->name == 'admin'))
+                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <a class="btn kt-subheader__btn-primary btn-icon">
                                 <i class="flaticon-download-1"></i>
                             </a>
@@ -257,7 +257,16 @@
                 ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
                 '</div>\n' +
                 ' </div>\n' +
-                '                        <div class="form-group row">\n' +
+                ' <div class="form-group row">\n' +
+                '<div class="col-3">\n' +
+                '<select name="priority" class="form-control">\n' +
+                ' <option selected value="">Select Priority \n' +
+                ' </option>\n' +
+                '<option value="High"> High</option>\n' +
+                ' <option value="Normal"> Normal</option>\n' +
+                '<option value="Low"> Low</option>\n' +
+                '</select>\n' +
+                '</div>\n' +
                 '<div class="col-3">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
                 ' <option selected value="">Select Method</option>\n' +
@@ -407,16 +416,18 @@
             return '<div class="kt-user-card-v2">\
                         		<!--<div class="kt-user-card-v2__pic">\
                         				<div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
-                        			</div>\-->\
+                        			</div>-->\
                         			<div class="kt-user-card-v2__details">\
-                        			<p class="kt-user-card-v2__name">Name : ' + data.name + '</p>\
+                        			  <p class="kt-user-card-v2__name"> Name : \
+                     <a href="'+ URL +'/client-profile/'+data.userId +'"> ' + data.name + '</a>\
+                     </p>\
                         			<p class="kt-user-card-v2__name"> Email : ' + data.email + '  </p>\
                         			<p class="kt-user-card-v2__name"> Phone : \
                                            <a href="tel:' + data.phone + '">' + data.phone + '</a>  </p>\
                         			<p class="kt-user-card-v2__name"> Interested Project : ' + data.projectName + '  </p>\
                         			<p class="kt-user-card-v2__name"> Job Title : ' + data.jobTitle + '  </p>\
                         			<p class="kt-user-card-v2__name"> Notes : ' + data.notes + '  </p>\
-                        			@if(Auth::user()->role->name == 'admin')\
+                        			@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
                         			<p class="kt-user-card-v2__name"> Assign To : ' + data.saleName + '  </p>\
                         			@endif\
                         			<p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\
