@@ -74,7 +74,6 @@ var KTUserListDatatable = function () {
                     }
                 },
 
-
                 {
                     field: "actionId",
                     title: window.title,

@@ -229,7 +229,6 @@
                 '                                @endforeach\n' +
                 '                            </select>\n' +
                 '                        </div>\n' +
-                '                    </div>\n' +
                 '                    <div class="col-lg-4">\n' +
                 '                            <div class="input-group date hidden">\n' +
                 '                                <input type="date" class="form-control"\n' +
@@ -254,6 +253,7 @@
                 '                                </div>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
+                '</div>\n' +
                 ' <div class="form-group row">\n' +
                 ' <div class="col-lg-12 col-xl-12">\n' +
                 ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
