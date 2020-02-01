@@ -499,8 +499,8 @@ class ClientController extends Controller
     {
         $request->validate([
             'summery' => 'required|min:1',
-            'notificationDate' => 'required|date',
-            'notificationTime' => 'required',
+//            'notificationDate' => 'required|date',
+//            'notificationTime' => 'required',
             'notes' => 'required',
             'via_method' => 'required|integer',
             'actionId' => 'required|integer',
