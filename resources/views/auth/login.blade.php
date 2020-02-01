@@ -434,7 +434,6 @@
             var form = document.getElementById("target");
             var email = document.getElementById('email');
             var password = document.getElementById('password');
-
             if (credentials.email && credentials.password) {
                 email.value = credentials.email;
                 password.value = credentials.password;

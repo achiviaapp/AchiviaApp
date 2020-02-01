@@ -103,7 +103,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            <button class="btn btn-label-danger btn-bold btn-sm btn-icon-h" id="kt_subheader_group_actions_delete_all">
+                            <button class="btn btn-label-danger btn-bold btn-sm btn-icon-h"
+                                    id="kt_subheader_group_actions_delete_all">
                                 Delete
                             </button>
                         </div>
@@ -220,8 +221,17 @@
                 '    @csrf\n' +
                 '                    <input name="_id" type="text" hidden value="' + data.userId + '">\n' +
                 '                    <div class="form-group row">\n' +
-                '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group date">\n' +
+                '                      <div class="col-lg-4">\n' +
+                '                            <select class="form-control" id="hadeer" name="actionId">\n' +
+                '                                <option selected value="">Select Action</option>\n' +
+                '                                @foreach($actions as $action)\n' +
+                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
+                '                                @endforeach\n' +
+                '                            </select>\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '                    <div class="col-lg-4">\n' +
+                '                            <div class="input-group date hidden">\n' +
                 '                                <input type="date" class="form-control"\n' +
                 '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
                 '                                       name="notificationDate"/>\n' +
@@ -233,7 +243,7 @@
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group timepicker">\n' +
+                '                            <div class="input-group timepicker hidden">\n' +
                 '                                <input class="form-control" id="kt_timepicker_2"\n' +
                 '                                       placeholder="Select time" type="time"\n' +
                 '                                       name="notificationTime"/>\n' +
@@ -244,15 +254,6 @@
                 '                                </div>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
-                '<div class="col-lg-4">\n' +
-                '                            <select class="form-control" id="" name="actionId">\n' +
-                '                                <option selected value="">Select Action</option>\n' +
-                '                                @foreach($actions as $action)\n' +
-                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
-                '                                @endforeach\n' +
-                '                            </select>\n' +
-                '                        </div>\n' +
-                '                    </div>\n' +
                 ' <div class="form-group row">\n' +
                 ' <div class="col-lg-12 col-xl-12">\n' +
                 ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
@@ -261,10 +262,10 @@
                 ' <div class="form-group row">\n' +
                 '<div class="col-3">\n' +
                 '<select name="priority" class="form-control">\n' +
-               ' <option selected value="">Select Priority \n' +
-           ' </option>\n' +
-            '<option value="High"> High</option>\n' +
-               ' <option value="Normal"> Normal</option>\n' +
+                ' <option selected value="">Select Priority \n' +
+                ' </option>\n' +
+                '<option value="High"> High</option>\n' +
+                ' <option value="Normal"> Normal</option>\n' +
                 '<option value="Low"> Low</option>\n' +
                 '</select>\n' +
                 '</div>\n' +
@@ -328,7 +329,7 @@
                     'class': 'btn-label-brand',
                 },
 
-                1 : {
+                1: {
                     'class': 'btn-label-success',
                 },
                 2: {
@@ -347,7 +348,7 @@
                     'class': 'btn-label-warning',
                 },
 
-                7 : {
+                7: {
                     'class': 'btn-label-warning',
                 },
                 8: {
@@ -362,7 +363,7 @@
                 11: {
                     'class': 'btn-label-primary',
                 },
-                12 : {
+                12: {
                     'class': 'btn-label-brand',
                 },
                 13: {
@@ -385,7 +386,7 @@
                         		<div>\
                         		<input type="text" hidden class="user" value="' + data.userId + '"> \
                         	<button type="button" class="getHistory btn btn-bold btn-label-brand btn-lg" style="width:160px; margin-bottom:10px">Load History</button>\
-                            <a  href="https://wa.me/'+ data.phone +'" target="_blank" class="whats btn btn-bold btn-label-success btn-lg" style="width:160px;">\
+                            <a  href="https://wa.me/' + data.phone + '" target="_blank" class="whats btn btn-bold btn-label-success btn-lg" style="width:160px;">\
                              <i class="fab fa-whatsapp"></i>whatsApp</a>\
                               </div>';
 
@@ -420,7 +421,7 @@
                     </div>-->\
                     <div class="kt-user-card-v2__details">\
                     <p class="kt-user-card-v2__name"> Name : \
-                     <a href="'+ URL +'/client-profile/'+data.userId +'"> ' + data.name + '</a>\
+                     <a href="' + URL + '/client-profile/' + data.userId + '"> ' + data.name + '</a>\
                      </p>\
                     <p class="kt-user-card-v2__name"> Email : ' + data.email + '  </p>\
                    <p class="kt-user-card-v2__name"> Phone : \
@@ -460,11 +461,9 @@
             4: {
                 'title': 'Wrong Number',
             },
-
         };
 
         $(document).on('click', 'button.getHistory', function () {
-
             $.get(
                 "{{ url('client/load-history')}}",
                 {
@@ -479,7 +478,7 @@
                             "<p>" + element.actionName + " </p>" +
                             "<p>" + element.date + " </p>" +
                             "<p>" + data.methodName + " </p>" +
-                            "<p>" + summery[element.summery].title+ " </p>" +
+                            "<p>" + summery[element.summery].title + " </p>" +
                             "<p>" + element.state + " </p>" +
                             "<p>" + element.notes + " </p>" +
                             "</div>");
@@ -492,7 +491,18 @@
     </script>
     <script> title = "Last Action"; </script>
     <script src="{{url('assets/js/pages/custom/user/list-datatable.js')}}" type="text/javascript"></script>
-
+    <script>
+        $('#hadeer').change(function () {
+            var actionId = $('#hadeer').val();
+            console.log(actionId);
+            // if (actionId == 10) {
+            //     console.log('yes');
+            //     $('.hidden').hide();
+            // } else {
+            //     $('.hidden').show();
+            // }
+        });
+    </script>
 @endsection
 
 
