@@ -209,6 +209,7 @@
 
     <script>
         function info(data) {
+            console.log(data);
             var pos = data.roleId;
             var position = [
                 'none',
@@ -245,6 +246,12 @@
                     <p class="kt-user-card-v2__name"> Assign To : ' + data.detail.saleName + '  </p>\
                     @endif\
                     <p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\
+                    <p class="kt-user-card-v2__name"> Property: ' + data.detail.property + '  </p>\
+                    <p class="kt-user-card-v2__name"> Property Location: ' + data.detail.propertyLocation + '  </p>\
+                    <p class="kt-user-card-v2__name"> Property Utility: ' + data.detail.propertyUtility + '  </p>\
+                    <p class="kt-user-card-v2__name"> Area : ' + 'From ' + data.detail.areaFrom +' To ' + data.detail.areaTo + ' </p>\
+                    <p class="kt-user-card-v2__name"> Budget: ' + data.detail.budget + '  </p>\
+                    <p class="kt-user-card-v2__name"> deliveryDate: ' + data.detail.deliveryDateId + '  </p>\
                 </div>\
                 </div>\
                      ';
