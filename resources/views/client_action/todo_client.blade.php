@@ -425,7 +425,7 @@
                     <p class="kt-user-card-v2__name"> Interested Project : ' + data.projectName + '  </p>\
                     <p class="kt-user-card-v2__name"> Job Title : ' + data.jobTitle + '  </p>\
                     <p class="kt-user-card-v2__name"> Notes : ' + data.notes + '  </p>\
-                    @if(Auth::user()->role->name == 'admin')\
+                    @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
                     <p class="kt-user-card-v2__name"> Assign To : ' + data.saleName + '  </p>\
                     @endif\
                     <p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\
