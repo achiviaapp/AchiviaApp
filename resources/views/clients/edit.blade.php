@@ -150,27 +150,28 @@
                                                         class="form-control col-lg-9 col-xl-9">
                                                     <option selected value="0">Select Platform
                                                     </option>
-                                                    <option value="Direct Call" {{'Direct Call' == $requestData['detail']['platform'] ? 'selected' : '' }}> Direct Call</option>
+                                                    <option value="DirectCall"> Direct Call</option>
                                                     <option disabled>──────────</option>
-                                                    <option value="Facebook Ads" {{'Facebook Ads' == $requestData['detail']['platform'] ? 'selected' : '' }}> Facebook Ads</option>
-                                                    <option value="Facebook moderation" {{'Facebook moderation' == $requestData['detail']['platform'] ? 'selected' : '' }}> Facebook moderation</option>
+                                                    <option value="FacebookAds"> Facebook Ads</option>
+                                                    <option value="Facebookmoderation"> Facebook moderation</option>
                                                     <option disabled>──────────</option>
-                                                    <option value="Instagram" {{'Instagram' == $requestData['detail']['platform'] ? 'selected' : '' }}> Instagram</option>
-                                                    <option value="Whatsapp" {{'Whatsapp' == $requestData['detail']['platform'] ? 'selected' : '' }}> Whatsapp</option>
-                                                    <option value="Google" {{'Google' == $requestData['detail']['platform'] ? 'selected' : '' }}> Google</option>
-                                                    <option value="Twitter" {{'Twitter' == $requestData['detail']['platform'] ? 'selected' : '' }}> Twitter</option>
-                                                    <option value="Youtube" {{'Youtube' == $requestData['detail']['platform'] ? 'selected' : '' }}> Youtube</option>
-                                                    <option value="LinkedIn" {{'LinkedIn' == $requestData['detail']['platform'] ? 'selected' : '' }}> LinkedIn</option>
+                                                    <option value="Instagram"> Instagram</option>
+                                                    <option value="Whatsapp"> Whatsapp</option>
+                                                    <option value="Google"> Google</option>
+                                                    <option value="Twitter"> Twitter</option>
+                                                    <option value="Youtube"> Youtube</option>
+                                                    <option value="LinkedIn"> LinkedIn</option>
                                                     <option disabled>──────────</option>
-                                                    <option value="SMS campaign" {{'SMS campaign' == $requestData['detail']['platform'] ? 'selected' : '' }}> SMS campaign</option>
-                                                    <option value="Email campaign" {{'Email campaign' == $requestData['detail']['platform'] ? 'selected' : '' }}> Email campaign</option>
-                                                    <option value="Website" {{'Website' == $requestData['detail']['platform'] ? 'selected' : '' }}> Website</option>
-                                                    <option value="Event" {{'Event' == $requestData['detail']['platform'] ? 'selected' : '' }}> Event</option>
+                                                    <option value="SMScampaign"> SMS campaign</option>
+                                                    <option value="Emailcampaign"> Email campaign</option>
+                                                    <option value="Website"> Website</option>
+                                                    <option value="Event"> Event</option>
                                                     <option disabled>──────────</option>
-                                                    <option value="Cold Call" {{'Cold Call' == $requestData['detail']['platform'] ? 'selected' : '' }}> Cold Call</option>
-                                                    <option value="Client referral" {{'Client referral' == $requestData['detail']['platform'] ? 'selected' : '' }}> Client referral</option>
-                                                    <option value="Personal Referral" {{'Personal Referral' == $requestData['detail']['platform'] ? 'selected' : '' }}> Personal Referral</option>
-                                                    <option value="Business Card" {{'Business Card' == $requestData['detail']['platform'] ? 'selected' : '' }}> Business Card</option>
+                                                    <option value="ColdCall"> Cold Call</option>
+                                                    <option value="Clientreferral"> Client referral</option>
+                                                    <option value="PersonalReferral"> Personal Referral</option>
+                                                    <option value="BusinessCard"> Business Card</option>
+
                                                 </select>
                                             </div>
 

@@ -290,10 +290,10 @@
                                                                 class="form-control col-lg-9 col-xl-9">
                                                             <option selected value="0">Select Platform
                                                             </option>
-                                                            <option value="Direct Call"> Direct Call</option>
+                                                            <option value="DirectCall"> Direct Call</option>
                                                             <option disabled>──────────</option>
-                                                            <option value="Facebook Ads"> Facebook Ads</option>
-                                                            <option value="Facebook moderation"> Facebook moderation</option>
+                                                            <option value="FacebookAds"> Facebook Ads</option>
+                                                            <option value="Facebookmoderation"> Facebook moderation</option>
                                                             <option disabled>──────────</option>
                                                             <option value="Instagram"> Instagram</option>
                                                             <option value="Whatsapp"> Whatsapp</option>
@@ -302,15 +302,16 @@
                                                             <option value="Youtube"> Youtube</option>
                                                             <option value="LinkedIn"> LinkedIn</option>
                                                             <option disabled>──────────</option>
-                                                            <option value="SMS campaign"> SMS campaign</option>
-                                                            <option value="Email campaign"> Email campaign</option>
+                                                            <option value="SMScampaign"> SMS campaign</option>
+                                                            <option value="Emailcampaign"> Email campaign</option>
                                                             <option value="Website"> Website</option>
                                                             <option value="Event"> Event</option>
                                                             <option disabled>──────────</option>
-                                                            <option value="Cold Call"> Cold Call</option>
-                                                            <option value="Client referral"> Client referral</option>
-                                                            <option value="Personal Referral"> Personal Referral</option>
-                                                            <option value="Business Card"> Business Card</option>
+                                                            <option value="ColdCall"> Cold Call</option>
+                                                            <option value="Clientreferral"> Client referral</option>
+                                                            <option value="PersonalReferral"> Personal Referral</option>
+                                                            <option value="BusinessCard"> Business Card</option>
+
                                                         </select>
                                                     </div>
 
