@@ -222,7 +222,7 @@
                 '                    <input name="_id" type="text" hidden value="' + data.userId + '">\n' +
                 '                    <div class="form-group row">\n' +
                 '                      <div class="col-lg-4">\n' +
-                '                            <select class="form-control" id="hadeer" name="actionId">\n' +
+                '                            <select class="form-control actionId"  name="actionId">\n' +
                 '                                <option selected value="">Select Action</option>\n' +
                 '                                @foreach($actions as $action)\n' +
                 '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
@@ -492,15 +492,13 @@
     <script> title = "Last Action"; </script>
     <script src="{{url('assets/js/pages/custom/user/list-datatable.js')}}" type="text/javascript"></script>
     <script>
-        $('#hadeer').change(function () {
-            var actionId = $('#hadeer').val();
-            console.log(actionId);
-            // if (actionId == 10) {
-            //     console.log('yes');
-            //     $('.hidden').hide();
-            // } else {
-            //     $('.hidden').show();
-            // }
+        $(document).on('change', '.actionId', function () {
+            var actionId = $(this).val();
+            if (actionId == 10 || actionId == 9|| actionId == 7 ) {
+                $(this).parents('.form-group.row').find ('.hidden').css({"opacity": 0});
+            } else {
+                $(this).parents('.form-group.row').find ('.hidden').css({"opacity": 1});
+            }
         });
     </script>
 @endsection

@@ -69,6 +69,16 @@ var KTUserListDatatable = function () {
                         return window.last(data);
                     }
                 },
+                {
+                    field: '',
+                    title: 'Next Action',
+                    width: 650,
+
+                    template: function (data) {
+
+                        return window.output(data);
+                    }
+                },
 
             ]
         });
