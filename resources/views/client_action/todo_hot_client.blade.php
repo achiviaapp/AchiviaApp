@@ -218,40 +218,40 @@
             return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
                 '    @csrf\n' +
                 '                    <input name="_id" type="text" hidden value="' + data.userId + '">\n' +
-                '                    <div class="form-group row">\n' +
-                '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group date">\n' +
-                '                                <input type="date" class="form-control"\n' +
-                '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
-                '                                       name="notificationDate"/>\n' +
-                '                                <div class="input-group-append">\n' +
-                '                                    <span class="input-group-text">\n' +
-                '                                        <i class="la la-calendar-check-o"></i>\n' +
-                '                                    </span>\n' +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group timepicker">\n' +
-                '                                <input class="form-control" id="kt_timepicker_2"\n' +
-                '                                       placeholder="Select time" type="time"\n' +
-                '                                       name="notificationTime"/>\n' +
-                '                                <div class="input-group-append">\n' +
-                '                                    <span class="input-group-text">\n' +
-                '                                        <i class="la la-clock-o"></i>\n' +
-                '                                    </span>\n' +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '<div class="col-lg-4">\n' +
-                '                            <select class="form-control" id="" name="actionId">\n' +
-                '                                <option selected value="">Select Action</option>\n' +
-                '                                @foreach($actions as $action)\n' +
-                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
-                '                                @endforeach\n' +
-                '                            </select>\n' +
-                '                        </div>\n' +
-                '                    </div>\n' +
+               ' <div class="form-group row">\n' +
+            '                      <div class="col-lg-4">\n' +
+            '                            <select class="form-control actionId"  name="actionId">\n' +
+            '                                <option selected value="">Select Action</option>\n' +
+            '                                @foreach($actions as $action)\n' +
+            '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
+            '                                @endforeach\n' +
+            '                            </select>\n' +
+            '                        </div>\n' +
+            '                    <div class="col-lg-4">\n' +
+            '                            <div class="input-group date hidden">\n' +
+            '                                <input type="date" class="form-control"\n' +
+            '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
+            '                                       name="notificationDate"/>\n' +
+            '                                <div class="input-group-append">\n' +
+            '                                    <span class="input-group-text">\n' +
+            '                                        <i class="la la-calendar-check-o"></i>\n' +
+            '                                    </span>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                        <div class="col-lg-4">\n' +
+            '                            <div class="input-group timepicker hidden">\n' +
+            '                                <input class="form-control" id="kt_timepicker_2"\n' +
+            '                                       placeholder="Select time" type="time"\n' +
+            '                                       name="notificationTime"/>\n' +
+            '                                <div class="input-group-append">\n' +
+            '                                    <span class="input-group-text">\n' +
+            '                                        <i class="la la-clock-o"></i>\n' +
+            '                                    </span>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '</div>\n' +
                 ' <div class="form-group row">\n' +
                 ' <div class="col-lg-12 col-xl-12">\n' +
                 ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
@@ -489,6 +489,16 @@
                     $('#kt_modal_4').modal('show');
                 }
             );
+        });
+    </script>
+    <script>
+        $(document).on('change', '.actionId', function () {
+            var actionId = $(this).val();
+            if (actionId == 10 || actionId == 9|| actionId == 7 ) {
+                $(this).parents('.form-group.row').find ('.hidden').css({"opacity": 0});
+            } else {
+                $(this).parents('.form-group.row').find ('.hidden').css({"opacity": 1});
+            }
         });
     </script>
     <script> title = "Last Action"; </script>

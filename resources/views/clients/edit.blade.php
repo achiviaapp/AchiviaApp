@@ -291,6 +291,17 @@
                                             <h3 class="kt-section__title kt-section__title-lg">Customer Questions
                                                 :</h3>
                                             <div class="form-group row">
+                                                <label class="col-xl-3 col-lg-3 col-form-label">
+                                                    Action</label>
+                                                <select id="cityId" name="actionId"
+                                                        class="form-control col-lg-9 col-xl-9 actionId">
+                                                    <option selected value="0">Select Action</option>
+                                                    @foreach($actions as $action)
+                                                        <option value="{{$action['id']}}">{{$action['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group row hidden">
                                                 <label class="col-form-label col-lg-3 col-sm-12">Date</label>
                                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                                     <div class="input-group date">
@@ -305,7 +316,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="form-group row hidden">
                                                 <label class="col-xl-3 col-lg-3 col-form-label">Time</label>
                                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                                     <div class="input-group timepicker">
@@ -319,17 +330,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-xl-3 col-lg-3 col-form-label">
-                                                    Action</label>
-                                                <select id="cityId" name="actionId"
-                                                        class="form-control col-lg-9 col-xl-9">
-                                                    <option selected value="0">Select Action</option>
-                                                    @foreach($actions as $action)
-                                                        <option value="{{$action['id']}}">{{$action['name']}}</option>
-                                                    @endforeach
-                                                </select>
                                             </div>
 
                                             <div class="form-group row">
@@ -503,6 +503,17 @@
                     }
                 );
             });
+        });
+    </script>
+    <script>
+        $(document).on('change', '.actionId', function () {
+            var actionId = $(this).val();
+
+            if (actionId == 10 || actionId == 9|| actionId == 7 ) {
+                $(this).parents('.kt-section__body').find ('.hidden').hide();
+            } else {
+                $(this).parents('.kt-section__body').find ('.hidden').show();
+            }
         });
     </script>
 
