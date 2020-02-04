@@ -208,6 +208,91 @@
     </script>
 
     <script>
+        function output(data) {
+            console.log(data);
+            return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
+                '    @csrf\n' +
+                '                    <input name="_id" type="text" hidden value="' + data.detail.userId + '">\n' +
+                '                    <div class="form-group row">\n' +
+                '                      <div class="col-lg-4">\n' +
+                '                            <select class="form-control" id="hadeer" name="actionId">\n' +
+                '                                <option selected value="">Select Action</option>\n' +
+                '                                @foreach($actions as $action)\n' +
+                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
+                '                                @endforeach\n' +
+                '                            </select>\n' +
+                '                        </div>\n' +
+                '                    <div class="col-lg-4">\n' +
+                '                            <div class="input-group date hidden">\n' +
+                '                                <input type="date" class="form-control"\n' +
+                '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
+                '                                       name="notificationDate"/>\n' +
+                '                                <div class="input-group-append">\n' +
+                '                                    <span class="input-group-text">\n' +
+                '                                        <i class="la la-calendar-check-o"></i>\n' +
+                '                                    </span>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>\n' +
+                '                        <div class="col-lg-4">\n' +
+                '                            <div class="input-group timepicker hidden">\n' +
+                '                                <input class="form-control" id="kt_timepicker_2"\n' +
+                '                                       placeholder="Select time" type="time"\n' +
+                '                                       name="notificationTime"/>\n' +
+                '                                <div class="input-group-append">\n' +
+                '                                    <span class="input-group-text">\n' +
+                '                                        <i class="la la-clock-o"></i>\n' +
+                '                                    </span>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>\n' +
+                '</div>\n' +
+                ' <div class="form-group row">\n' +
+                ' <div class="col-lg-12 col-xl-12">\n' +
+                ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
+                '</div>\n' +
+                ' </div>\n' +
+                ' <div class="form-group row">\n' +
+                '<div class="col-3">\n' +
+                '<select name="priority" class="form-control">\n' +
+                ' <option selected value="">Select Priority \n' +
+                ' </option>\n' +
+                '<option value="High"> High</option>\n' +
+                ' <option value="Normal"> Normal</option>\n' +
+                '<option value="Low"> Low</option>\n' +
+                '</select>\n' +
+                '</div>\n' +
+                '<div class="col-3">\n' +
+                '<select class="form-control" id="" name="via_method">\n' +
+                ' <option selected value="">Select Method</option>\n' +
+                ' @foreach($methods as $method)\n' +
+                '<option value="{{$method['id']}}">{{$method['name']}}</option>\n' +
+                ' @endforeach \n' +
+                '</select>\n' +
+                ' </div>\n' +
+                '<div class="col-lg-3">\n' +
+                ' <select id="" name="summery" class="form-control">\n' +
+                '<option selected value="">Select Summery</option>\n' +
+                '<option value="1"> Replied </option>\n' +
+                ' <option value="2"> Switched Off </option>\n' +
+                '<option value="3"> No Answer </option>\n' +
+                '<option value="4"> Wrong Number </option>\n' +
+                ' </select>\n' +
+                '</div>\n' +
+                '<div class="btn-group col-lg-3">\n' +
+                '<button type="submit" class="btn btn-brand" id="">\n' +
+                '<span class="kt-hidden-mobile">Submit</span>\n' +
+                '</button>\n' +
+                '</div>\n' +
+                '</div>\n' +
+                '                        </div>\n' +
+
+                '                    </div>\n' +
+                '</form>\n';
+        }
+    </script>
+
+    <script>
         function info(data) {
             console.log(data);
             var pos = data.roleId;

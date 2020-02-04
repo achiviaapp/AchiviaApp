@@ -348,7 +348,11 @@ class ClientController extends Controller
         if ($request->notificationDate != null) {
             $notificationDate = date("Y-m-d", strtotime($request->notificationDate));
         }
-        if ($request->notificationTime != null) {
+        if ($request->notificationDate == null) {
+            $notificationDate = $request->notificationDate;
+        }
+
+        if ($request->notificationTime) {
             $notificationTime = $request->notificationTime;
         }
 
@@ -499,24 +503,22 @@ class ClientController extends Controller
     {
         $request->validate([
             'summery' => 'required|min:1',
-//            'notificationDate' => 'required|date',
-//            'notificationTime' => 'required',
+            'actionId' => 'required|integer',
+            'notificationDate' =>  'required_if:actionId,1,2,3,4,5,6,8,11,12,13,14',
+            'notificationTime' =>  'required_if:actionId,1,2,3,4,5,6,8,11,12,13,14',
             'notes' => 'required',
             'via_method' => 'required|integer',
-            'actionId' => 'required|integer',
             'priority' => 'required',
         ]);
 
         $client = $this->clientModel->where('userId', $request->_id)->first()->toArray();
         $user = User::where('id', $client['userId'])->first();
 
-        $notificationDate = $client['newActionDate'];
-        $notificationTime = $client['notificationTime'];
+
         if ($request->notificationDate != null) {
             $notificationDate = date("Y-m-d", strtotime($request->notificationDate));
-        }
-        if ($request->notificationTime != null) {
-            $notificationTime = $request->notificationTime;
+        }else{
+            $notificationDate = $request->notificationDate;
         }
 
         $transferred = 0;
@@ -589,7 +591,7 @@ class ClientController extends Controller
             'newActionDate' => $newActionDate,
             'newActionTime' => $newActionTime,
             'notificationDate' => $notificationDate,
-            'notificationTime' => $notificationTime,
+            'notificationTime' => $request->notificationTime,
             'transferred' => $transferred,
             'projectId' => $projectId,
             'interestsUserProjects' => $projectId,

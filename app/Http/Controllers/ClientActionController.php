@@ -58,7 +58,8 @@ class ClientActionController extends Controller
         $userId = Auth::user()->id;
         $filter = $request->input('query');
         $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
-        $to = date('Y-m-d H:i:s');
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
@@ -90,8 +91,8 @@ class ClientActionController extends Controller
                         ->orWhere('phone', 'like', '%' . $filter['name'] . '%');
                 });
             })
-            ->orderBy('client_details.notificationDate', 'asc')
-            ->orderBy('client_details.notificationTime', 'asc')
+            ->orderBy('client_details.notificationDate', 'desc')
+            ->orderBy('client_details.notificationTime', 'desc')
             ->select('users.*', 'client_details.*');
 
 //        dd($query->toSql());
@@ -280,7 +281,8 @@ class ClientActionController extends Controller
         $userId = Auth::user()->id;
         $filter = $request->input('query');
         $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
-        $to = date('Y-m-d H:i:s');
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
@@ -324,7 +326,6 @@ class ClientActionController extends Controller
                         ->orWhere('phone', 'like', '%' . $filter['name'] . '%');
                 });
             })
-
             ->when($id == null, function ($query) {
                 $query->orderBy('client_details.assignedDate', 'asc')
                     ->orderBy('client_details.assignedTime', 'asc');
@@ -402,7 +403,8 @@ class ClientActionController extends Controller
         $userId = Auth::user()->id;
         $filter = $request->input('query');
         $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
-        $to = date('Y-m-d H:i:s');
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
@@ -507,7 +509,8 @@ class ClientActionController extends Controller
         $userId = Auth::user()->id;
         $filter = $request->input('query');
         $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
-        $to = date('Y-m-d H:i:s');
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
@@ -627,14 +630,15 @@ class ClientActionController extends Controller
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
         } else {
-            $time = strtotime(date('Y-m-d') . ' -6 days');
-            $from = date('Y-m-d H:i:s', $time);
+            $from = date('Y-m-d H:i:s');
         }
 
         if (isset($dates[1])) {
             $to = $dates[1];
         } else {
-            $to = date('Y-m-d H:i:s');
+
+            $time = strtotime(date('Y-m-d') . ' +7 days');
+            $to = date('Y-m-d H:i:s', $time);
         }
 
         $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
