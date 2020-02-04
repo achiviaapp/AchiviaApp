@@ -328,7 +328,7 @@ class ClientController extends Controller
                 $sales = $this->model->where('id', (Auth::user()->id)->get(['id', 'name']));
             }
             if ((Auth::user()->role->name != 'sale Man')) {
-                $sales = $this->model->where('roleId', 4)->get(['id', 'name']);
+                $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
             }
         }
         $dates = DeliveryDate::all()->toArray();

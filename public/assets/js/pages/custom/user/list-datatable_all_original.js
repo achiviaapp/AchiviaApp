@@ -47,6 +47,10 @@ var KTUserListDatatable = function () {
                 input: $('#saleFilter'),
                 delay: 500,
             },
+            filterDone: {
+                input: $('#doneFilter'),
+                delay: 500,
+            },
             projectFilter: {
                 input: $('#projectFilter'),
                 delay: 500,
@@ -146,6 +150,15 @@ var KTUserListDatatable = function () {
                 },
 
                 {
+                    field: 'updated_at',
+                    title: 'Create Action Date',
+                    type: 'date',
+                    template: function (data) {
+                        return '<span class="btn btn-bold btn-sm btn-font-sm">' + data.updated_at + '</span>';
+                    },
+                },
+
+                {
                     field: "actionId",
                     title: "Status",
 // callback function support for column rendering
@@ -202,8 +215,7 @@ var KTUserListDatatable = function () {
 
                         };
                         return '<span class="btn btn-bold btn-sm btn-font-sm ' + status[row.actionId].class + '">' + row.statusName + '</span></br>' +
-                            '<span class="btn btn-bold btn-sm btn-font-sm">' + row.notificationDate + '</span>' +
-                            '<span class="btn btn-bold btn-sm btn-font-sm">' + row.notificationTime + '</span>';
+                            '<span class="btn btn-bold btn-sm btn-font-sm">' + row.notificationDate + '  ' + row.notificationTime + '</span>';
                     }
                 },
                 {
@@ -270,6 +282,11 @@ var KTUserListDatatable = function () {
         }, false);
     };
 
+    var createListners = function () {
+        window.addEventListener('createDate', function (elem) {
+            datatable.search(elem.detail.range, "createDate");
+        }, false);
+    };
 
     // search
     var search = function () {
@@ -282,6 +299,13 @@ var KTUserListDatatable = function () {
     var filterSale = function () {
         $('#saleFilter').on('change', function () {
             datatable.search($(this).val(), "sale");
+        });
+    }
+
+    // filter
+    var filterDone = function () {
+        $('#doneFilter').on('change', function () {
+            datatable.search($(this).val(), "done");
         });
     }
 
@@ -514,8 +538,10 @@ var KTUserListDatatable = function () {
             init();
             search();
             filterSale();
+            filterDone();
             projectFilter();
             listners();
+            createListners();
             selection();
             selectedFetch();
             selectedStatusUpdate();
