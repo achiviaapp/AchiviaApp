@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
             $list = Action::where('active', 1)->orderBy('order')->get()->toArray();
             $view->with('list', $list);
         });
+        view()->composer('web/layouts/aside', function ($view) {
+            $list = Action::where('active', 1)->orderBy('order')->get()->toArray();
+            $view->with('list', $list);
+        });
     }
 }
