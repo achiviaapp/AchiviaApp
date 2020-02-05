@@ -113,6 +113,7 @@ class ImportClients implements ToModel
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $user['notes'],
+                'date' => $user['notificationDate'] .' ' .$user['notificationTime'],
             ]);
         }
 

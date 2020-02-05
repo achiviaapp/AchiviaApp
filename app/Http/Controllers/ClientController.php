@@ -162,6 +162,8 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
+                    'date' => $user['notificationDate'] . ' ' . $user['notificationTime'],
+
                 ]);
             }
 
@@ -255,6 +257,8 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
+                    'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
+
                 ]);
             }
 
@@ -328,7 +332,7 @@ class ClientController extends Controller
                 $sales = $this->model->where('id', (Auth::user()->id)->get(['id', 'name']));
             }
             if ((Auth::user()->role->name != 'sale Man')) {
-                $sales = $this->model->where('roleId', 4)->get(['id', 'name']);
+                $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
             }
         }
         $dates = DeliveryDate::all()->toArray();
@@ -486,6 +490,7 @@ class ClientController extends Controller
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $request->notes,
+                'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
             ]);
         }
         if ($request->notes != '') {

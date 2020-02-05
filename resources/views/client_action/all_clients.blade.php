@@ -60,6 +60,13 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                            <select class="form-control" id="doneFilter">
+                                <option value="">Select Status</option>
+                                    <option value="1">  Done </option>
+                                    <option value="0">  Not Done </option>
+                            </select>
+                        </div>
                         {{--<div class="kt-input-icon kt-input-icon--right kt-subheader__search">--}}
                         {{--<input type="date" class="form-control" placeholder="Search..." id="fromDateFilter">--}}
                         {{--</div>--}}

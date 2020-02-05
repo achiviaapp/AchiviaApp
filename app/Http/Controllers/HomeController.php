@@ -34,7 +34,70 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $userId = Auth::user()->id;
+        $query = new user();
+        $totalDuplicated = count($this->totalDuplicated($query, $userId));
+        $totalTransfered = count($this->totalTransfered($query, $userId));
+        $totalNew = count($this->totalNew($query, $userId));
+
+        $totalNextToday = '';
+        $totalDelay = '';
+        return view('home', compact('totalDuplicated', 'totalTransfered' , 'totalNew'));
+    }
+
+    public function totalDuplicated($query, $userId)
+    {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) {
+                $q->where('assignToSaleManId', '!=', null);
+            })->where('duplicated', '>', 1)->get()->toArray();
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
+                $q->where('assignToSaleManId', $userId);
+            })->where('duplicated', '>', 1)->toArray();
+
+        }
+
+        return $totalDuplicated;
+
+    }
+
+    public function totalTransfered($query, $userId)
+    {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $totalTransfered = $query->with('detail')->whereHas('detail', function ($q) {
+                $q->where('assignToSaleManId', '!=', null)
+                    ->where('transferred', 1);
+            })->get()->toArray();
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $totalTransfered = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
+                $q->where('assignToSaleManId', $userId)
+                    ->where('transferred', 1);
+            })->get()->toArray();
+
+        }
+
+        return $totalTransfered;
+
+    }
+
+    public function totalNew($query, $userId)
+    {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $totalNew = $query->with('detail')->whereHas('detail', function ($q) {
+                $q->where('assignToSaleManId', '!=', null)
+                    ->where('actionId', null);
+            })->where('duplicated', '=', 1)->get()->toArray();
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $totalNew = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
+                $q->where('assignToSaleManId', $userId)
+                    ->where('actionId', null);
+            })->where('duplicated', '=', 1)->get()->toArray();
+
+        }
+
+        return $totalNew;
+
     }
 
     /**
@@ -42,7 +105,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function welCome()
+    public
+    function welCome()
     {
         $projects = Project::all()->toArray();
         $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
@@ -57,7 +121,8 @@ class HomeController extends Controller
     }
 
 
-    public function login(Request $request)
+    public
+    function login(Request $request)
     {
         $user = User::where('email', $request->email)->first();
 
@@ -74,7 +139,8 @@ class HomeController extends Controller
 
     }
 
-    public function reGenerateApiToken($user)
+    public
+    function reGenerateApiToken($user)
     {
         $api_token = md5(bcrypt($user->email));
         $user->api_token = $api_token;
@@ -82,7 +148,8 @@ class HomeController extends Controller
 
     }
 
-    public function facebookForm(Request $request)
+    public
+    function facebookForm(Request $request)
     {
         $projectName = $request->projectName;
         $projectId = Project::where('name', 'like', '%' . $projectName . '%')->get()->first()['id'];
@@ -141,7 +208,8 @@ class HomeController extends Controller
     /**
      * store user
      */
-    public function landingStore(Request $request)
+    public
+    function landingStore(Request $request)
     {
         $request->validate([
             'name' => 'required|max:255',
@@ -175,7 +243,8 @@ class HomeController extends Controller
         return $user;
     }
 
-    public function mobData(Request $request)
+    public
+    function mobData(Request $request)
     {
         $user_id = @Auth::user()->id;
         $device_id = $request->device_id;

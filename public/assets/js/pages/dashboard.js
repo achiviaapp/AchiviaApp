@@ -1433,7 +1433,7 @@ var KTDashboard = function() {
             endDate: end,
             opens: 'left',
             ranges: {
-                'All Time': [moment('1970-01-01'), moment()],
+                'All Time': [moment('1970-01-01'), moment().add(365, 'days')],
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
