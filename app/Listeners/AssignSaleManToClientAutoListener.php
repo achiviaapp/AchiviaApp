@@ -69,7 +69,8 @@ class AssignSaleManToClientAutoListener
                             'createdBy' => $user['createdBy'],
                             'state' => 'Re assigned',
                             'notes' => $client['notes'],
-//                            'date' => $client['notificationDate'] . $client['notificationTime'],
+                            'date' => $client['notificationDate'] .' '. $client['notificationTime'],
+
                         ]);
 
                         $sale = $saleMan->first();

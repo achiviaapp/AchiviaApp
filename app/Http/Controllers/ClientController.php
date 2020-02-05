@@ -162,6 +162,8 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
+                    'date' => $user['notificationDate'] . ' ' . $user['notificationTime'],
+
                 ]);
             }
 
@@ -255,6 +257,8 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
+                    'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
+
                 ]);
             }
 
@@ -486,6 +490,7 @@ class ClientController extends Controller
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $request->notes,
+                'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
             ]);
         }
         if ($request->notes != '') {
