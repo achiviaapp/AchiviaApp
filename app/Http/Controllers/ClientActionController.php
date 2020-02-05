@@ -302,6 +302,7 @@ class ClientActionController extends Controller
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
+            $to = $dates[0];
         }
 
         if (isset($dates[1])) {
@@ -439,6 +440,7 @@ class ClientActionController extends Controller
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
+            $to = $dates[0];
         }
 
         if (isset($dates[1])) {
@@ -556,6 +558,7 @@ class ClientActionController extends Controller
         if (isset($filter['date'])) {
             $dates = explode(' - ', $filter['date'] ?? '');
             $from = $dates[0];
+            $to = $dates[0];
         }
 
         if (isset($dates[1])) {
