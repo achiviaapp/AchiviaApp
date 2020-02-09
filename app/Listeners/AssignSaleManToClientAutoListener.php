@@ -63,14 +63,17 @@ class AssignSaleManToClientAutoListener
 
                         $saleMan = User::where('id', $sale['id']);
                         $saleMan->update(['lastAssigned' => ($sale['lastAssigned'] + 1)]);
+                        $date = null;
+                        if ($client['notificationDate']) {
+                            $date = $client['notificationDate'] . ' ' . $client['notificationTime'];
+                        }
                         $history = ClientHistory::create([
                             'userId' => $client['userId'],
                             'actionId' => null,
                             'createdBy' => $user['createdBy'],
                             'state' => 'Re assigned',
                             'notes' => $client['notes'],
-                            'date' => $client['notificationDate'] .' '. $client['notificationTime'],
-
+                            'date' => $date,
                         ]);
 
                         $sale = $saleMan->first();
