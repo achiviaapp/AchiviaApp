@@ -34,7 +34,7 @@ class ClientActionController extends Controller
     public function allClients()
     {
         $actionId = 'all';
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get()->toArray();
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get()->toArray();
         $projects = Project::all()->toArray();
         $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
         foreach ($projects as $key => $project) {
@@ -151,7 +151,7 @@ class ClientActionController extends Controller
     function newRequests()
     {
         $actionId = 0;
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get()->toArray();
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get()->toArray();
 
         return View('client_action.new_requests', compact('actionId', 'sales'));
     }
@@ -232,7 +232,7 @@ class ClientActionController extends Controller
     function newClients()
 
     {
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $actionId = 0;
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
@@ -258,7 +258,7 @@ class ClientActionController extends Controller
      */
     public function actionClient($id)
     {
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $actionId = $id;
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
@@ -324,7 +324,8 @@ class ClientActionController extends Controller
 
         if ($id == null) {
             $query->whereDate('client_details.assignedDate', '>=', $from)
-                ->whereDate('client_details.assignedDate', '<=', $to);
+                ->whereDate('client_details.assignedDate', '<=', $to)
+                ->where('client_details.transferred', '=', 0);
         } else {
             $query->whereDate('client_details.notificationDate', '>=', $from)
                 ->whereDate('client_details.notificationDate', '<=', $to)
@@ -410,7 +411,7 @@ class ClientActionController extends Controller
         $actionId = 'duplicated';
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $projects = Project::all()->toArray();
         $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
         foreach ($projects as $key => $project) {
@@ -529,7 +530,7 @@ class ClientActionController extends Controller
         $actionId = 'transfered';
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $projects = Project::all()->toArray();
         $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
         foreach ($projects as $key => $project) {
@@ -644,7 +645,7 @@ class ClientActionController extends Controller
      */
     public function toDoClients()
     {
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $actionId = 'todo';
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
@@ -775,7 +776,7 @@ class ClientActionController extends Controller
      */
     public function toDoHotClients()
     {
-        $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get(['id', 'name']);
         $actionId = 'todo';
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();

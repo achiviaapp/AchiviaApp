@@ -32,17 +32,33 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filter = $request->input('query');
         $userId = Auth::user()->id;
         $query = new user();
-        $totalDuplicated = count($this->totalDuplicated($query, $userId));
-        $totalTransfered = count($this->totalTransfered($query, $userId));
-        $totalNew = count($this->totalNew($query, $userId));
+        $firstBar = $this->firstBar($query, $userId);
+        $secondBar = $this->secondBar($query, $userId, $filter);
 
-        $totalNextToday = '';
-        $totalDelay = '';
-        return view('home', compact('totalDuplicated', 'totalTransfered' , 'totalNew'));
+        return view('home', compact('firstBar', 'secondBar'));
+    }
+
+    public function firstBar($query, $userId)
+    {
+
+        $totalDuplicated = count($this->totalDuplicated($query, $userId));
+        $totalTransferred = count($this->totalTransferred($query, $userId));
+        $totalNew = count($this->totalNew($query, $userId));
+        $totalNextToday = count($this->totalNextToday($query, $userId));
+        $totalDelay = count($this->totalDelay($query, $userId));
+        $firstBar = [
+            'totalDuplicated' => $totalDuplicated,
+            'totalTransferred' => $totalTransferred,
+            'totalNew' => $totalNew,
+            'totalNextToday' => $totalNextToday,
+            'totalDelay' => $totalDelay,
+        ];
+        return $firstBar;
     }
 
     public function totalDuplicated($query, $userId)
@@ -62,7 +78,7 @@ class HomeController extends Controller
 
     }
 
-    public function totalTransfered($query, $userId)
+    public function totalTransferred($query, $userId)
     {
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $totalTransfered = $query->with('detail')->whereHas('detail', function ($q) {
@@ -99,6 +115,96 @@ class HomeController extends Controller
         return $totalNew;
 
     }
+
+    public function totalNextToday($query, $userId)
+    {
+        $from = date('Y-m-d H:i:s');
+        $to = date('Y-m-d H:i:s');
+
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $totalNext = $query->with('detail')->whereHas('detail', function ($q) use ($from, $to) {
+                $q->where('assignToSaleManId', '!=', null)
+                    ->whereDate('notificationDate', '>=', $from)
+                    ->whereDate('notificationDate', '<=', $to)
+                    ->where(function ($query) {
+                        $query->orWhere('transferred', 1)
+                            ->orWhereIn('actionId', [2, 3, 4, 5, 11, 12, null]);
+                    });
+            })->where('duplicated', '=', 1)->get()->toArray();
+
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $totalNext = $query->with('detail')->whereHas('detail', function ($q) use ($userId, $from, $to) {
+                $q->where('assignToSaleManId', $userId)
+                    ->whereDate('notificationDate', '>=', $from)
+                    ->whereDate('notificationDate', '<=', $to)
+                    ->where(function ($query) {
+                        $query->orWhere('transferred', 1)
+                            ->orWhereIn('actionId', [2, 3, 4, 5, 11, 12, null]);
+                    });
+            })->where('duplicated', '=', 1)->get()->toArray();
+        }
+
+        return $totalNext;
+
+
+    }
+
+    public function totalDelay($query, $userId)
+    {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $totalDelay = $query->with('detail')->whereHas('detail', function ($q) {
+                $q->where('assignToSaleManId', '!=', null);
+            })->where('duplicated', '=', 1)->get()->toArray();
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $totalDelay = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
+                $q->where('assignToSaleManId', $userId);
+            })->where('duplicated', '=', 1)->toArray();
+
+        }
+
+        return $totalDelay;
+    }
+
+    public function secondBar($query, $userId, $filter)
+    {
+        $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
+        if ($filter['createDate']) {
+            $dates = explode(' - ', $filter['createDate']);
+            $from = $dates[0];
+            $to = $dates[0];
+            if (isset($dates[1])) {
+                $to = $dates[1];
+            }
+        }
+        $status = Action::where('active', 1)->select('id', 'name')->get()->toArray();
+        $allStatus = [];
+        foreach ($status as $state) {
+            if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+                $total = $query->with('detail')->whereHas('detail', function ($q) use ($state, $from, $to) {
+                    $q->where('assignToSaleManId', '!=', null)
+                        ->whereDate('notificationDate', '>=', $from)
+                        ->whereDate('notificationDate', '<=', $to)
+                        ->where('transferred', '=', 0)
+                        ->where('actionId', $state['id']);
+                })->where('duplicated', '=', 1)->get()->toArray();
+            } elseif ((Auth::user()->role->name == 'sale Man')) {
+                $total = $query->with('detail')->whereHas('detail', function ($q) use ($userId, $state, $from, $to) {
+                    $q->where('assignToSaleManId', $userId)
+                        ->whereDate('notificationDate', '>=', $from)
+                        ->whereDate('notificationDate', '<=', $to)
+                        ->where('transferred', '=', 0)
+                        ->where('actionId', $state['id']);
+                })->where('duplicated', '=', 1)->get()->toArray();
+            }
+
+            $allStatus[$state['id']]['name'] = $state['name'];
+            $allStatus[$state['id']]['total'] = count($total);
+        }
+        return $allStatus;
+    }
+
 
     /**
      * Show the application dashboard.

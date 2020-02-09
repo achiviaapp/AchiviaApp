@@ -105,6 +105,11 @@ class ImportClients implements ToModel
             $sale = User::where('id', $cols['saleCol'])->first();
             event(new PushNotificationEvent($sale, $userCreated));
             event(new UserSalesUpdatedEvent($userCreated));
+            $date = null;
+            if ($user['notificationDate']) {
+                $date = $user['notificationDate'] . ' ' . $user['notificationTime'];
+            }
+
             $history = ClientHistory::create([
                 'userId' => $user->id,
                 'actionId' => null,
@@ -113,7 +118,7 @@ class ImportClients implements ToModel
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $user['notes'],
-                'date' => $user['notificationDate'] .' ' .$user['notificationTime'],
+                'date' => $date ,
             ]);
         }
 
