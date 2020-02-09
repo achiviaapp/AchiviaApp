@@ -154,6 +154,10 @@ class ClientController extends Controller
                     $state = 'Re assigned';
                 }
 
+                $date = null;
+                if ($user['notificationDate']) {
+                    $date = $user['notificationDate'] . ' ' . $user['notificationTime'];
+                }
                 $history = ClientHistory::create([
                     'userId' => $user['userId'],
                     'actionId' => null,
@@ -162,7 +166,7 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
-                    'date' => $user['notificationDate'] . ' ' . $user['notificationTime'],
+                    'date' => $date,
 
                 ]);
             }
@@ -249,6 +253,10 @@ class ClientController extends Controller
                 if ($request->assignToSaleManId != 0) {
                     $state = 'Re assigned';
                 }
+                $date = null;
+                if ($user['notificationDate']) {
+                    $date = $user['notificationDate'] . ' ' . $user['notificationTime'];
+                }
                 $history = ClientHistory::create([
                     'userId' => $user['userId'],
                     'actionId' => null,
@@ -257,7 +265,7 @@ class ClientController extends Controller
                     'createdBy' => Auth::user()->id,
                     'state' => $state,
                     'notes' => $user['notes'],
-                    'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
+                    'date' => $date,
 
                 ]);
             }
@@ -482,6 +490,10 @@ class ClientController extends Controller
             if ($request->actionId != $client['actionId']) {
                 $state = 'change State';
             }
+            $date = null;
+            if ($user['notificationDate']) {
+                $date = $user['notificationDate'] . ' ' . $user['notificationTime'];
+            }
             $history = ClientHistory::create([
                 'userId' => $request->_id,
                 'actionId' => $request->actionId,
@@ -490,7 +502,7 @@ class ClientController extends Controller
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $request->notes,
-                'date' => $user['notificationDate'] .' ' . $user['notificationTime'],
+                'date' => $date,
             ]);
         }
         if ($request->notes != '') {
@@ -622,6 +634,10 @@ class ClientController extends Controller
             if ($request->actionId != $client['actionId']) {
                 $state = 'change State';
             }
+            $date = null;
+            if ($user['notificationDate']) {
+                $date = $user['notificationDate'] . ' ' . $user['notificationTime'];
+            }
             $history = ClientHistory::create([
                 'userId' => $request->_id,
                 'actionId' => $request->actionId,
@@ -630,7 +646,7 @@ class ClientController extends Controller
                 'createdBy' => Auth::user()->id,
                 'state' => $state,
                 'notes' => $notes,
-                'date' => $client['notificationDate'] .' '. $client['notificationTime'],
+                'date' => $date,
 
             ]);
         }
