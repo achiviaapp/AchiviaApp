@@ -134,6 +134,10 @@
             <p>{{ var_dump($firstBar)}}</p>
             <p>{{ var_dump($secondBar)}}</p>
         </div>
+        {{--<div style="height: 750px">--}}
+            {{--<p>{{ var_dump($firstBar)}}</p>--}}
+            {{--<p>{{ var_dump($secondBar)}}</p>--}}
+        {{--</div>--}}
 
     </div>
 
