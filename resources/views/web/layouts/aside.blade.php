@@ -51,13 +51,14 @@
                         </ul>
                     </div>
                 </li>
-
-                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                    data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon flaticon-settings-1"><span></span></i><span
-                                class="kt-menu__link-text">Clients Status</span><i
-                                class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                    <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                <li class="kt-menu__item kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                        <i class="kt-menu__link-icon flaticon2-group"><span></span></i>
+                        <span class="kt-menu__link-text">New Clients</span>
+                        <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                    </a>
+                    <div class="kt-menu__submenu ">
+                        <span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
                             @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('new-requests')}}"
@@ -78,24 +79,45 @@
                                             class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
                                             class="kt-menu__link-text">Re Assigned</span></a></li>
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-sm"></div>
-                            @foreach($list as $one)
-                                @if($one['order'] == 9)
-                                    <div class="kt-separator kt-separator--border-dashed kt-separator--space-sm"></div>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
+                                class="kt-menu__link-icon flaticon-settings-1"><span></span></i><span
+                                class="kt-menu__link-text">Clients Status</span><i
+                                class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                    <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                        <ul class="kt-menu__subnav">
+                            <div class="row pr-5 pl-5" style="width:max-content;">
+                                <div class="col">
+                                @foreach($list as $one)
+                                    @if($one['order'] == 9)
+                                    </div><!--End Of Column-->
+                                    <div class="col">
                                     <li class="kt-menu__item " aria-haspopup="true"><a
                                                 href="{{url('action-client/' . $one['id'])}}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-icon flaticon-avatar"><span></span></i><span
                                                     class="kt-menu__link-text">{{$one['name']}}</span></a>
                                     </li>
-                                @else
-                                    <li class="kt-menu__item " aria-haspopup="true"><a
-                                                href="{{url('action-client/' . $one['id'])}}"
-                                                class="kt-menu__link "><i
-                                                    class="kt-menu__link-bullet kt-menu__link-icon flaticon-avatar"><span></span></i><span
-                                                    class="kt-menu__link-text">{{$one['name']}}</span></a>
-                                    </li>
-                                @endif
-                            @endforeach
+                                    @else
+                                        <li class="kt-menu__item " aria-haspopup="true"><a
+                                                    href="{{url('action-client/' . $one['id'])}}"
+                                                    class="kt-menu__link "><i
+                                                        class="kt-menu__link-bullet kt-menu__link-icon flaticon-avatar"><span></span></i><span
+                                                        class="kt-menu__link-text">{{$one['name']}}</span></a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                                </div><!--End Of Column-->
+                            </div><!--End Of Row-->
+                            
+                                
+                                
+                            
 
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-sm"></div>
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('all-clients')}}"

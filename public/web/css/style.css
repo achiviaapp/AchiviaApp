@@ -16,7 +16,12 @@
 #app-name{
 	background-color: #fff!important;
 }
+
 @media (min-width: 1025px){
+	.kt-aside--minimize .kt-aside-menu .kt-menu__nav .kt-menu__item:not([data-ktmenu-submenu-mode=accordion]).kt-menu__item--hover > .kt-menu__submenu, .kt-aside-menu.kt-aside-menu--dropdown .kt-menu__nav .kt-menu__item:not([data-ktmenu-submenu-mode=accordion]).kt-menu__item--hover > .kt-menu__submenu{
+		min-width: 245px;
+		width: fit-content;
+	}
 	.kt-aside .kt-aside-menu .kt-menu__nav > .kt-menu__item > .kt-menu__link .kt-menu__link-text {
 		text-align: center;
 	}

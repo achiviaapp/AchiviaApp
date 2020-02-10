@@ -115,6 +115,21 @@
 
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="{{url('assets/media/logos/favicon.ico')}}"/>
+    <script src="{{url('assets/plugins/general/sweetalert2/dist/sweetalert2.min.js')}}" type="text/javascript"></script>
+<script src="{{url('assets/plugins/general/js/global/integration/plugins/sweetalert2.init.js')}}"
+        type="text/javascript"></script>
+    <style>
+            /*Background canvas particals*/
+                .particles-js-canvas-el{
+                display:block;
+                vertical-align:bottom;
+                position: absolute;
+                top: 0;
+                }
+                .kt-login.kt-login--v6 .kt-login__aside .kt-login__wrapper{
+                        z-index: 100;
+                }
+    </style>
 
 </head>
 
@@ -123,19 +138,28 @@
 <!-- begin::Body -->
 <body style="overflow-x: hidden;" class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
 @if(session()->has('message'))
-    <div class="alert alert-danger">
-        {{ session()->get('message') }}
-    </div>
+        <script>
+                Swal.fire({
+                        text: "{{ session()->get('message') }}",
+                        icon: 'info',
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                })
+        </script>
 @endif
 
 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <script>
+                Swal.fire({
+                        title: 'You Got Some Errors!',
+                        html: "@foreach ($errors->all() as $error){{ $error }} <br>@endforeach",
+                        icon: 'error',
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                })
+        </script>
 @endif
 		<!-- begin:: Page -->
 		<div class="kt-grid kt-grid--ver kt-grid--root kt-page">
@@ -154,7 +178,7 @@
 					</div>
 
 
-                    <div class="kt-grid__item  kt-grid__item--order-tablet-and-mobile-2  kt-grid kt-grid--hor kt-login__aside">
+                    <div id="particles-js" class="kt-grid__item  kt-grid__item--order-tablet-and-mobile-2  kt-grid kt-grid--hor kt-login__aside">
 						<div class="kt-login__wrapper">
 							<div class="kt-login__container">
 								<div class="kt-login__body">
@@ -389,9 +413,7 @@
 <script src="{{url('assets/plugins/general/waypoints/lib/jquery.waypoints.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/general/counterup/jquery.counterup.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/general/es6-promise-polyfill/promise.min.js')}}" type="text/javascript"></script>
-<script src="{{url('assets/plugins/general/sweetalert2/dist/sweetalert2.min.js')}}" type="text/javascript"></script>
-<script src="{{url('assets/plugins/general/js/global/integration/plugins/sweetalert2.init.js')}}"
-        type="text/javascript"></script>
+
 <script src="{{url('assets/plugins/general/jquery.repeater/src/lib.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/general/jquery.repeater/src/jquery.input.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/general/jquery.repeater/src/repeater.js')}}" type="text/javascript"></script>
@@ -471,6 +493,8 @@
 <script src="{{url('assets/plugins/custom/tinymce/tinymce.min.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/custom/tinymce/themes/silver/theme.js')}}" type="text/javascript"></script>
 <script src="{{url('assets/plugins/custom/tinymce/themes/mobile/theme.js')}}" type="text/javascript"></script>
+<script src="{{url('assets/js/particles.js')}}"></script>
+<script src="{{url('assets/js/app.js')}}"></script>
 
 <!--end:: Vendor Plugins for custom pages -->
 
