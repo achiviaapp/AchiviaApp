@@ -10,10 +10,10 @@
 
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
 
-        <div style="height: 750px">
-            <p>{{ var_dump($firstBar)}}</p>
-            <p>{{ var_dump($secondBar)}}</p>
-        </div>
+        {{--<div style="height: 750px">--}}
+            {{--<p>{{ var_dump($firstBar)}}</p>--}}
+            {{--<p>{{ var_dump($secondBar)}}</p>--}}
+        {{--</div>--}}
 
     </div>
 

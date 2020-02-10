@@ -34,18 +34,18 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->input('query');
-        $userId = Auth::user()->id;
-        $query = new user();
-        $firstBar = $this->firstBar($query, $userId);
-        $secondBar = $this->secondBar($query, $userId, $filter);
+//        $filter = $request->input('query');
+//        $userId = Auth::user()->id;
+//        $query = new user();
+//        $firstBar = $this->firstBar($query, $userId);
+//        $secondBar = $this->secondBar($query, $userId, $filter);
 
-        return view('home', compact('firstBar', 'secondBar'));
+//        return view('home', compact('firstBar', 'secondBar'));
+        return view('home');
     }
 
     public function firstBar($query, $userId)
     {
-
         $totalDuplicated = count($this->totalDuplicated($query, $userId));
         $totalTransferred = count($this->totalTransferred($query, $userId));
         $totalNew = count($this->totalNew($query, $userId));
