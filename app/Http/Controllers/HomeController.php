@@ -43,7 +43,7 @@ class HomeController extends Controller
         $projectsChartBar = $this->projectsChartBar($userId, $filter);
         $salesChartBar = $this->salesChartBar($userId, $filter);
 
-        return view('home', compact('firstBar', 'statusBar' , 'projectsChartBar' , 'salesChartBar'));
+        return view('home', compact('firstBar', 'statusBar', 'projectsChartBar', 'salesChartBar'));
 //        return view('home');
     }
 
@@ -240,7 +240,7 @@ class HomeController extends Controller
         }
 
         $projectsWithPlatforms = $query->groupBy(['projectId', 'platform'])->toArray();
-
+        $data = [];
         foreach ($projectsWithPlatforms as $key => $one) {
             $projectName = Project::where('id', $key)->first()['name'];
             foreach ($one as $platform => $value) {
@@ -250,6 +250,7 @@ class HomeController extends Controller
 
         return $data;
     }
+
     public function salesChartBar($userId, $filter)
     {
         $from = date('Y-m-d');
@@ -269,7 +270,7 @@ class HomeController extends Controller
             whereDate('notificationDate', '>=', $from)
                 ->whereDate('notificationDate', '<=', $to)
                 ->where('actionId', '!=', null)
-                ->where('assignToSaleManId','!=' ,null)->get();
+                ->where('assignToSaleManId', '!=', null)->get();
 
         } elseif ((Auth::user()->role->name == 'sale Man')) {
             $query = ClientDetail::
@@ -280,11 +281,11 @@ class HomeController extends Controller
         }
 
         $salesWithStatus = $query->groupBy(['assignToSaleManId', 'actionId'])->toArray();
-
+        $data = [];
         foreach ($salesWithStatus as $key => $one) {
             $saleName = User::where('id', $key)->first()['name'];
             foreach ($one as $action => $value) {
-               $statusName = Action::where('id' , $action)->first()['name'];
+                $statusName = Action::where('id', $action)->first()['name'];
                 $data[$saleName][$statusName] = count($value);
             }
         }
