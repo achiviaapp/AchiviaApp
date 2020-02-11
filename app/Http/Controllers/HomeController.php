@@ -9,6 +9,7 @@ use App\Models\UserNote;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use App\Events\PushNotificationEvent;
 
@@ -34,14 +35,16 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-//        $filter = $request->input('query');
-//        $userId = Auth::user()->id;
-//        $query = new user();
-//        $firstBar = $this->firstBar($query, $userId);
-//        $secondBar = $this->secondBar($query, $userId, $filter);
+        $filter = $request->input('query');
+        $userId = Auth::user()->id;
+        $query = new user();
+        $firstBar = $this->firstBar($query, $userId);
+        $statusBar = $this->statusBar($query, $userId, $filter);
+        $projectsChartBar = $this->projectsChartBar($userId, $filter);
+        $salesChartBar = $this->salesChartBar($userId, $filter);
 
-//        return view('home', compact('firstBar', 'secondBar'));
-        return view('home');
+        return view('home', compact('firstBar', 'statusBar', 'projectsChartBar', 'salesChartBar'));
+//        return view('home');
     }
 
     public function firstBar($query, $userId)
@@ -70,7 +73,7 @@ class HomeController extends Controller
         } elseif ((Auth::user()->role->name == 'sale Man')) {
             $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId);
-            })->where('duplicated', '>', 1)->toArray();
+            })->where('duplicated', '>', 1)->get()->toArray();
 
         }
 
@@ -158,14 +161,14 @@ class HomeController extends Controller
         } elseif ((Auth::user()->role->name == 'sale Man')) {
             $totalDelay = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId);
-            })->where('duplicated', '=', 1)->toArray();
+            })->where('duplicated', '=', 1)->get()->toArray();
 
         }
 
         return $totalDelay;
     }
 
-    public function secondBar($query, $userId, $filter)
+    public function statusBar($query, $userId, $filter)
     {
         $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
         $time = strtotime(date('Y-m-d') . ' +365 days');
@@ -203,6 +206,91 @@ class HomeController extends Controller
             $allStatus[$state['id']]['total'] = count($total);
         }
         return $allStatus;
+    }
+
+    public function projectsChartBar($userId, $filter)
+    {
+        $from = date('Y-m-d');
+        $to = date('Y-m-d');
+
+        if ($filter['createDate']) {
+            $dates = explode(' - ', $filter['createDate']);
+            $from = $dates[0];
+            $to = $dates[0];
+            if (isset($dates[1])) {
+                $to = $dates[1];
+            }
+        }
+
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $query = ClientDetail::
+            whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->where('platform', '!=', null)
+                ->where('projectId', '!=', null)
+                ->get();
+
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $query = ClientDetail::
+            whereDate('created_at', '>=', $from)
+                ->whereDate('created_at', '<=', $to)
+                ->where('platform', '!=', null)
+                ->where('projectId', '!=', null)
+                ->where('assignToSaleManId', $userId)->get();
+        }
+
+        $projectsWithPlatforms = $query->groupBy(['projectId', 'platform'])->toArray();
+        $data = [];
+        foreach ($projectsWithPlatforms as $key => $one) {
+            $projectName = Project::where('id', $key)->first()['name'];
+            foreach ($one as $platform => $value) {
+                $data[$projectName][$platform] = count($value);
+            }
+        }
+
+        return $data;
+    }
+
+    public function salesChartBar($userId, $filter)
+    {
+        $from = date('Y-m-d');
+        $to = date('Y-m-d');
+
+        if ($filter['createDate']) {
+            $dates = explode(' - ', $filter['createDate']);
+            $from = $dates[0];
+            $to = $dates[0];
+            if (isset($dates[1])) {
+                $to = $dates[1];
+            }
+        }
+
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
+            $query = ClientDetail::
+            whereDate('notificationDate', '>=', $from)
+                ->whereDate('notificationDate', '<=', $to)
+                ->where('actionId', '!=', null)
+                ->where('assignToSaleManId', '!=', null)->get();
+
+        } elseif ((Auth::user()->role->name == 'sale Man')) {
+            $query = ClientDetail::
+            whereDate('notificationDate', '>=', $from)
+                ->whereDate('notificationDate', '<=', $to)
+                ->where('actionId', '!=', null)
+                ->where('assignToSaleManId', $userId)->get();
+        }
+
+        $salesWithStatus = $query->groupBy(['assignToSaleManId', 'actionId'])->toArray();
+        $data = [];
+        foreach ($salesWithStatus as $key => $one) {
+            $saleName = User::where('id', $key)->first()['name'];
+            foreach ($one as $action => $value) {
+                $statusName = Action::where('id', $action)->first()['name'];
+                $data[$saleName][$statusName] = count($value);
+            }
+        }
+
+        return $data;
     }
 
 
