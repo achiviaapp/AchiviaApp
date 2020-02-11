@@ -25,7 +25,8 @@
                 </li>
                 <li class="kt-menu__item kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                        <i class="kt-menu__link-icon flaticon2-group"><span></span></i>
+                        <i class="kt-menu__link-icon 
+                        flaticon-users-1"><span></span></i>
                         <span class="kt-menu__link-text">Add Clients</span>
                         <i class="kt-menu__ver-arrow la la-angle-right"></i>
                     </a>
@@ -33,18 +34,19 @@
                         <span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
                             <li class="kt-menu__item " aria-haspopup="true">
-                                <a href="{{url('client-create')}}" class="kt-menu__link ">
-                                    <i class="kt-menu__link-bullet kt-menu__link-icon flaticon-user-add"></i>
+                                <a href="{{url('client-create')}}" class="kt-menu__link ">                                    
+                                    <i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i>
                                     <span class="kt-menu__link-text"> Add New Client</span></a>
                             </li>
                             <li class="kt-menu__item " aria-haspopup="true"><a
                                         href="{{url('client-quick-create')}}" class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-upload-1"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-add-circular-button"><span></span></i><span
                                             class="kt-menu__link-text"> Quick Add Clients</span></a>
                             </li>
                             <li class="kt-menu__item " aria-haspopup="true"><a
                                         href="{{url('client-upload-view')}}" class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-upload-1"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon 
+                                            flaticon-file-1"><span></span></i><span
                                             class="kt-menu__link-text"> Upload Clients</span></a>
                             </li>
 
@@ -53,7 +55,8 @@
                 </li>
                 <li class="kt-menu__item kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                        <i class="kt-menu__link-icon flaticon2-group"><span></span></i>
+                        <i class="kt-menu__link-icon 
+                        flaticon-customer"><span></span></i>
                         <span class="kt-menu__link-text">New Clients</span>
                         <i class="kt-menu__ver-arrow la la-angle-right"></i>
                     </a>
@@ -63,20 +66,20 @@
                             @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('new-requests')}}"
                                                                                    class="kt-menu__link "><i
-                                                class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
+                                                class="kt-menu__link-bullet kt-menu__link-icon flaticon-exclamation-square"><span></span></i><span
                                                 class="kt-menu__link-text">New Requests</span></a></li>
                             @endif
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('new-clients')}}"
                                                                                class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-support"><span></span></i><span
                                             class="kt-menu__link-text">My New Clients</span></a></li>
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('duplicated-clients')}}"
                                                                                class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-background"><span></span></i><span
                                             class="kt-menu__link-text">Duplicated Requests</span></a></li>
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('transfered-clients')}}"
                                                                                class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-network"><span></span></i><span
                                             class="kt-menu__link-text">Re Assigned</span></a></li>
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-sm"></div>
 
@@ -86,17 +89,17 @@
 
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon flaticon-settings-1"><span></span></i><span
+                                class="kt-menu__link-icon flaticon-graphic"><span></span></i><span
                                 class="kt-menu__link-text">Clients Status</span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
                             <div class="row pr-5 pl-5" style="width:max-content;">
-                                <div class="col">
+                                <div class="col-12 col-lg-6 border-right">
                                 @foreach($list as $one)
                                     @if($one['order'] == 9)
                                     </div><!--End Of Column-->
-                                    <div class="col">
+                                    <div class="col-12 col-lg-6">
                                     <li class="kt-menu__item " aria-haspopup="true"><a
                                                 href="{{url('action-client/' . $one['id'])}}"
                                                 class="kt-menu__link "><i
@@ -114,23 +117,18 @@
                                 @endforeach
                                 </div><!--End Of Column-->
                             </div><!--End Of Row-->
-                            
-                                
-                                
-                            
-
-                            <div class="kt-separator kt-separator--border-dashed kt-separator--space-sm"></div>
-                            <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('all-clients')}}"
-                                                                               class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
-                                            class="kt-menu__link-text">All Clients</span></a></li>
-
                         </ul>
                     </div>
                 </li>
+                <li class="kt-menu__item" aria-haspopup="true">
+                    <a href="{{url('all-clients')}}" class="kt-menu__link ">
+                        <i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i>
+                        <span class="kt-menu__link-text">All Clients</span>
+                    </a>
+                </li>
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon  flaticon-calendar"></i><span
+                                class="kt-menu__link-icon  flaticon2-calendar-9"></i><span
                                 class="kt-menu__link-text">Calendar</span><span
                                 class="kt-menu__link-badge"></span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
@@ -145,18 +143,20 @@
                                             {{--class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span--}}
                                             {{--class="kt-menu__link-text">Hot ToDo </span></a></li>--}}
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('todo-hot-data')}}" class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-list-2"><span></span></i><span
                                             class="kt-menu__link-text">Hot ToDo </span></a></li>
                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('todo-data')}}" class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-list-3"><span></span></i><span
                                             class="kt-menu__link-text">VIP ToDo </span></a></li>
                         </ul>
                     </div>
                 </li>
+                
                 @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                    class="kt-menu__link-icon  flaticon2-calendar-6"></i><span
+                                    class="kt-menu__link-icon  
+                                    flaticon2-line-chart"></i><span
                                     class="kt-menu__link-text">Reports</span><span
                                     class="kt-menu__link-badge"></span><i
                                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
@@ -167,25 +167,25 @@
                                                 class="kt-menu__link-badge"><span
                                                     class="kt-badge kt-badge--brand"></span></span></span></li>
                                 <li class="kt-menu__item " aria-haspopup="true"><a
-                                            href="{{url('all-reports/'.Auth()->id())}}" class="kt-menu__link "><i
-                                                class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                            href="{{url('all-reports/'.Auth()->id())}}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon fas fa-building"><span></span></i><span
                                                 class="kt-menu__link-text">All Reports</span></a></li>
                                 <li class="kt-menu__item " aria-haspopup="true"><a
-                                            href="{{url('team-report/'.Auth()->id())}}" class="kt-menu__link "><i
-                                                class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                class="kt-menu__link-text">Team Report</span></a></li>
+                                            href="{{url('team-report/'.Auth()->id())}}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon fas fa-users"><span></span></i>
+                                            <span class="kt-menu__link-text">Team Report</span></a></li>
                                 <li class="kt-menu__item " aria-haspopup="true"><a
-                                            href="{{url('sale-man-report/'.Auth()->id())}}" class="kt-menu__link "><i
-                                                class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                class="kt-menu__link-text">SaleMan Report</span></a></li>
+                                            href="{{url('sale-man-report/'.Auth()->id())}}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon fas fa-user-tie"><span></span></i><span
+                                            class="kt-menu__link-text">SaleMan Report</span></a></li>
                             </ul>
                         </div>
                     </li>
                 @endif
                 @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                        data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                    class="kt-menu__link-icon  flaticon-statistics"></i><span
+                        data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                            <i class="kt-menu__link-icon  flaticon-diagram"></i><span
                                     class="kt-menu__link-text">Statistic</span><span
                                     class="kt-menu__link-badge"></span><i
                                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
@@ -197,7 +197,7 @@
                                                 class="kt-menu__link-badge"><span
                                                     class="kt-badge kt-badge--brand"></span></span></span></li>
                                 <li class="kt-menu__item " aria-haspopup="true"><a href="#" class="kt-menu__link "><i
-                                                class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                class="kt-menu__link-icon flaticon2-graph-2"><span></span></i><span
                                                 class="kt-menu__link-text">SalesMen Statistic</span></a></li>
                             </ul>
                         </div>
@@ -205,34 +205,31 @@
                 @endif
                 @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                        data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
-                                    class="kt-menu__link-icon flaticon-settings-1"></i><span class="kt-menu__link-text">Root Panel</span><span
+                        data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                            <i class="kt-menu__link-icon  flaticon2-dashboard"></i>
+                            <span class="kt-menu__link-text">Root Panel</span><span
                                     class="kt-menu__link-badge"></span><i
                                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
-                                <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
-                                            class="kt-menu__link"><span
-                                                class="kt-menu__link-text">Root Panel</span><span
-                                                class="kt-menu__link-badge"><span
-                                                    class="kt-badge kt-badge--brand"></span></span></span></li>
+                                <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link">
+                                    <span class="kt-menu__link-text">Root Panel</span><span class="kt-menu__link-badge"><span class="kt-badge kt-badge--brand"></span></span></span>
+                                </li>
 
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
-                                                                          class="kt-menu__link kt-menu__toggle"><i
-                                                class="kt-menu__link-bullet kt-menu__link-icon flaticon2-group"><span></span></i><span
+                                                                          class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon 
+                                                                          flaticon-users-1"><span></span></i><span
                                                 class="kt-menu__link-text">Users</span><i
                                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
                                             <li class="kt-menu__item " aria-haspopup="true"><a
                                                         href="{{url('user-create')}}"
-                                                        class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-user-add"><span></span></i><span
+                                                        class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i><span
                                                             class="kt-menu__link-text">Add User</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('/users')}}"
-                                                                                               class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                                                               class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon far fa-eye"></i><span
                                                             class="kt-menu__link-text">view Users</span></a></li>
                                         </ul>
                                     </div>
@@ -261,24 +258,21 @@
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                                                                           class="kt-menu__link kt-menu__toggle"><i
-                                                class="kt-menu__link-bullet  kt-menu__link-icon flaticon-list-1"><span></span></i><span
+                                                class="kt-menu__link-bullet  kt-menu__link-icon flaticon2-file"><span></span></i><span
                                                 class="kt-menu__link-text">projects</span><i
                                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
                                             <li class="kt-menu__item " aria-haspopup="true"><a
-                                                        href="{{url('project-create')}}" class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-plus"><span></span></i><span
+                                                        href="{{url('project-create')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i><span
                                                             class="kt-menu__link-text">Add Project</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a
                                                         href="{{url('/projects')}}"
-                                                        class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                        class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon far fa-eye"></i><span
                                                             class="kt-menu__link-text">view Projects</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a
                                                         href="{{url('/project-custom')}}"
-                                                        class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                        class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i><span
                                                             class="kt-menu__link-text">Add Customize Project</span></a>
                                             </li>
                                         </ul>
@@ -295,12 +289,10 @@
                                         <ul class="kt-menu__subnav">
                                             <li class="kt-menu__item " aria-haspopup="true"><a
                                                         href="{{url('team-create')}}"
-                                                        class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-plus"><span></span></i><span
+                                                        class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i><span
                                                             class="kt-menu__link-text">Add Team</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a href="{{url('/teams')}}"
-                                                                                               class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                                                               class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon far fa-eye"></i><span
                                                             class="kt-menu__link-text">view Teams</span></a></li>
 
                                         </ul>
@@ -310,19 +302,17 @@
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                                                                           class="kt-menu__link kt-menu__toggle"><i
-                                                class="kt-menu__link-bullet  kt-menu__link-icon flaticon-list-1"><span></span></i><span
+                                                class="kt-menu__link-bullet  kt-menu__link-icon flaticon-chat"><span></span></i><span
                                                 class="kt-menu__link-text">Sending Message</span><i
                                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
                                             <li class="kt-menu__item " aria-haspopup="true"><a
-                                                        href="{{url('sending-create')}}" class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-plus"><span></span></i><span
+                                                        href="{{url('sending-create')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon flaticon2-add"><span></span></i><span
                                                             class="kt-menu__link-text">Add message</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a
                                                         href="{{url('/sending')}}"
-                                                        class="kt-menu__link "><i
-                                                            class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                        class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-icon far fa-eye"></i><span
                                                             class="kt-menu__link-text">view messages</span></a></li>
                                         </ul>
                                     </div>
