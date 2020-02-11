@@ -11,9 +11,11 @@
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
 
         {{--<div style="height: 750px">--}}
-            {{--<p>{{ var_dump($firstBar)}}</p>--}}
-            {{--<p>{{ var_dump($secondBar)}}</p>--}}
         {{--</div>--}}
+        <p>{{ var_dump($firstBar)}}</p>
+        <p>{{ var_dump($statusBar)}}</p>
+        <p>{{ var_dump($projectsChartBar)}}</p>
+        <p>{{ var_dump($salesChartBar)}}</p>
 
     </div>
 
