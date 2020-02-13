@@ -18,6 +18,12 @@
 }
 
 @media (min-width: 1025px){
+	.kt-widget.kt-widget--project-1 .kt-widget__body .kt-widget__stats .kt-widget__item{
+		margin: 0!important;
+	}
+	.kt-widget.kt-widget--project-1 .kt-widget__body .kt-widget__stats .kt-widget__item:last-child{
+		padding-left: 0!important;
+	}
 	.kt-aside .kt-aside-menu .kt-menu__nav > .kt-menu__item > .kt-menu__link{
 		margin-bottom: 0;
 	}
