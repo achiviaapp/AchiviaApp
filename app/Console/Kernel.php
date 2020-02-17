@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\PunishedSaleManCron::class,
     ];
 
     /**
@@ -24,8 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $filePath = url('storage/logs/punished-sale-man.log');
+        $schedule->command('punished-sale-man:cron')
+            ->everyFiveMinutes()->sendOutputTo($filePath);
     }
 
     /**

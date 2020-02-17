@@ -53,7 +53,7 @@ class AssignSaleManToClientAutoListener
                 $mySelectedSales = $this->checkSales($selectedSales);
 //
                 foreach ($mySelectedSales as $sale) {
-                    if (($sale['lastAssigned'] == 0 || $sale['weight'] > $sale['lastAssigned']) && $sale['assign'] == 0) {
+                    if (($sale['lastAssigned'] == 0 || $sale['weight'] > $sale['lastAssigned']) && $sale['assign'] == 0 && $sale['saleManPunished'] == 0 ) {
                         ClientDetail::where('userId', $client['userId'])
                             ->update([
                                 'assignToSaleManId' => $sale['id'],
