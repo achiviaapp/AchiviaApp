@@ -24,9 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $filePath = url('storage/logs/punished-sale-man.log');
+
         $schedule->command('punished-sale-man:cron')
-            ->everyFiveMinutes()->sendOutputTo($filePath);
+            ->everyFiveMinutes()->sendOutputTo( url('storage/logs/punished-sale-man.log'));
     }
 
     /**
