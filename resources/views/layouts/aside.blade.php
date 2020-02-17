@@ -240,10 +240,10 @@
                                                             class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
                                                             class="kt-menu__link-text">view Projects</span></a></li>
                                             <li class="kt-menu__item " aria-haspopup="true"><a
-                                                        href="{{url('/project-custom')}}"
+                                                        href="{{url('/add-sub-project')}}"
                                                         class="kt-menu__link "><i
                                                             class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
-                                                            class="kt-menu__link-text">Add Customize Project</span></a>
+                                                            class="kt-menu__link-text">Add Sub Projects</span></a>
                                             </li>
                                         </ul>
                                     </div>
