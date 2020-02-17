@@ -83,6 +83,7 @@ class ClientActionController extends Controller
 
         $query->whereDate('client_details.notificationDate', '>=', $from)
             ->whereDate('client_details.notificationDate', '<=', $to)
+//            ->orWhere('client_details.notificationDate', '=', null)
             ->when($filter['createDate'] ?? '', function ($query) use ($filter) {
                 $query->where(function ($query) use ($filter) {
                     $dates = explode(' - ', $filter['createDate']);
@@ -315,7 +316,6 @@ class ClientActionController extends Controller
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
-
 
         } elseif ((Auth::user()->role->name == 'sale Man')) {
 
@@ -956,10 +956,15 @@ class ClientActionController extends Controller
 
         $clients = $request->ids;
         $saleId = $request->sale;
+        $transferred = 0;
         foreach ($clients as $client) {
+            $assignSaleId = ClientDetail::where('userId', $client)->first()['assignToSaleManId'];
+            if ($assignSaleId != null) {
+                $transferred = 1;
+            }
             ClientDetail::where('userId', $client)->update([
                 'assignToSaleManId' => $saleId,
-                'transferred' => 1,
+                'transferred' => $transferred,
                 'assignedDate' => now()->format('Y-m-d'),
                 'assignedTime' => now()->format('H:i:s'),
             ]);
