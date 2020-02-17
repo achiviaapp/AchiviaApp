@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('auto-assign:cron')
+            ->dailyAt('7:00')->sendOutputTo( url('storage/logs/auto-assign.log'));
     }
 
     /**
