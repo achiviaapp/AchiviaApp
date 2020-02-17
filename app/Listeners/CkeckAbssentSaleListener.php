@@ -23,14 +23,13 @@ class CkeckAbssentSaleListener
     /**
      * Handle the event.
      *
-     * @param  object $event
+     * @param  $event
      * @return void
      */
     public function handle(CkeckAbssentSaleEvent $event)
     {
         $today = date('Y-m-d');
         $sale = $event->user;
-
         $lastLeave = Leave::where('userId', $sale['id'])->latest('created_at')->first();
         $fromDate = $lastLeave['start_date'];
         $toDate = $lastLeave['end_date'];
