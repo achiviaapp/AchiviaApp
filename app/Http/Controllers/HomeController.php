@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use App\Events\PushNotificationEvent;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -44,7 +45,6 @@ class HomeController extends Controller
         $salesChartBar = $this->salesChartBar($userId, $filter);
 
         return view('home', compact('firstBar', 'statusBar', 'projectsChartBar', 'salesChartBar'));
-//        return view('home');
     }
 
     public function firstBar($query, $userId)
