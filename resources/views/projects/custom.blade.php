@@ -140,25 +140,25 @@
 
                                                                     <div class="col-lg-5 col-md-5">
 
-                                                                        <input id="" name="links[]"
+                                                                        <input id="" name="link"
                                                                                class="form-control" type="text"
                                                                                value="">
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-form-label col-lg-3">
-                                                                        Links </label>
-                                                                    <span class="col-lg-4">{{ url('/') }}</span>
+                                                                {{--<div class="form-group row">--}}
+                                                                    {{--<label class="col-form-label col-lg-3">--}}
+                                                                        {{--Links </label>--}}
+                                                                    {{--<span class="col-lg-4">{{ url('/') }}</span>--}}
 
-                                                                    <div class="col-lg-5 col-md-5">
+                                                                    {{--<div class="col-lg-5 col-md-5">--}}
 
-                                                                        <input id="" name="links[]"
-                                                                               class="form-control" type="text"
-                                                                               value="">
-                                                                    </div>
+                                                                        {{--<input id="" name="links[]"--}}
+                                                                               {{--class="form-control" type="text"--}}
+                                                                               {{--value="">--}}
+                                                                    {{--</div>--}}
 
-                                                                </div>
+                                                                {{--</div>--}}
                                                                 <div class="form-group row">
                                                                     <label class="col-form-label col-lg-3">
                                                                         Platform </label>
