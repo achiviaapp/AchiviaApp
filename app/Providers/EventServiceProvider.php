@@ -9,6 +9,8 @@ use App\Listeners\AssignSaleManToClientAutoListener;
 use App\Listeners\UserCreatedSMSListener;
 use App\Listeners\UserSalesUpdatedSMSListener;
 use App\Listeners\PushNotificationListener;
+use App\Events\CkeckAbssentSaleEvent;
+use App\Listeners\CkeckAbssentSaleListener;
 use App\Events\PushNotificationEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -51,6 +53,10 @@ class EventServiceProvider extends ServiceProvider
 
         PushNotificationEvent::class => [
             PushNotificationListener::class,
+        ],
+
+        CkeckAbssentSaleEvent::class => [
+            CkeckAbssentSaleListener::class,
         ],
     ];
 

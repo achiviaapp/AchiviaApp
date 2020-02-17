@@ -7,6 +7,7 @@ use App\Events\ClientDetailCreatedEvent;
 use Carbon\Carbon;
 use App\Services\AutoAssignService;
 
+
 class AssignSaleManToClientAutoListener
 {
     private $autoAssign;
@@ -36,8 +37,9 @@ class AssignSaleManToClientAutoListener
         if ($now < $from && $now > $to) {
             return;
         }
+        $client = $event->user;
 
-        $this->autoAssign->autoAssign($event);
+        $this->autoAssign->autoAssign($client);
     }
 
 

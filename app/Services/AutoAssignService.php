@@ -20,14 +20,12 @@ use App\User;
 
 class AutoAssignService
 {
-    public function autoAssign($event)
+    public function autoAssign($client)
     {
-        $client = $event->user;
         $user = User::where('id', $client['userId'])->first();
         if ($client['assignToSaleManId'] != 0) {
             return;
         }
-
         $rotationType = RotationAuto::first()['type'];
         if ($rotationType == 1 && $client['projectId']) {
             $project = Project::find($client['projectId']);
@@ -43,6 +41,8 @@ class AutoAssignService
             $mySelectedSales = $this->checkSales($selectedSales);
 
             foreach ($mySelectedSales as $sale) {
+                $saleMan = User::where('id', $sale['id']);
+                $sale = $saleMan->first();
                 event(new CkeckAbssentSaleEvent($sale));
                 if (($sale['lastAssigned'] == 0 || $sale['weight'] > $sale['lastAssigned']) && $sale['assign'] == 0) {
                     ClientDetail::where('userId', $client['userId'])
@@ -52,7 +52,6 @@ class AutoAssignService
                             'assignedTime' => now()->format('H:i:s'),
                         ]);
 
-                    $saleMan = User::where('id', $sale['id']);
                     $saleMan->update(['lastAssigned' => ($sale['lastAssigned'] + 1)]);
                     $date = null;
                     if ($client['notificationDate']) {
@@ -67,7 +66,7 @@ class AutoAssignService
                         'date' => $date,
                     ]);
 
-                    $sale = $saleMan->first();
+
                     event(new PushNotificationEvent($sale, $user));
                     event(new UserSalesUpdatedEvent($user));
                     return;
