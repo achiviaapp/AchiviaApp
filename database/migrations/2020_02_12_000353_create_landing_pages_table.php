@@ -15,11 +15,11 @@ class CreateLandingPagesTable extends Migration
     {
         Schema::create('landing_pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('projectId')->nullable();
+            $table->unsignedBigInteger('linkId')->nullable();
             $table->string('templateName')->nullable();
             $table->json('content')->nullable();
             $table->timestamps();
-            $table->foreign('projectId')->references('id')->on('projects');
+            $table->foreign('linkId')->references('id')->on('project_links');
         });
     }
 

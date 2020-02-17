@@ -245,7 +245,7 @@ class ProjectController extends Controller
             'projectId' => 'required|integer',
             'marketers' => 'required',
             'description' => 'required',
-            'links' => 'required',
+            'link' => 'required|alpha_dash',
         ]);
         //campaign
         $data = array(
@@ -266,22 +266,20 @@ class ProjectController extends Controller
             CampaignMarketer::create($marketerData);
         }
 
-        //capmaign links
+        //campaign links
 
         $baseUrl = url('/');
 
-        foreach ($request->links as $link) {
-
             $linkData = [
-                'link' => $baseUrl . '/landing_page' . $link,
-                'alias' => $baseUrl . '/landing_page' . $link,
+                'link' => $baseUrl . '/landing_page/' . $request->link,
+                'alias' => $baseUrl . '/landing_page/' . $request->link,
                 'projectId' => $request->projectId,
                 'campaignId' => $campaignCreated->id,
                 'platform' => $request->platform,
             ];
 
-            ProjectLink::create($linkData);
-        }
+            $linkCreated = ProjectLink::create($linkData);
+//
 
         //landing page
 
@@ -294,8 +292,7 @@ class ProjectController extends Controller
 
         $pageData = [
             'templateName' => $request->templateName,
-            'projectId' => $request->projectId,
-
+            'linkId' => $linkCreated->id,
             'content' => $content,
         ];
 
@@ -309,10 +306,9 @@ class ProjectController extends Controller
         $baseUrl = url('/');
         $url = $baseUrl . '/landing_page/' . $link;
         $projectLink = ProjectLink::where('link', $url)->orwhere('alias', $url)->first();
-
         if ($projectLink) {
-            $projectId = $projectLink['projectId'];
-            $landingPage = LandingPage::where('projectId', $projectId)->first();
+            $linkId = $projectLink['id'];
+            $landingPage = LandingPage::where('linkId', $linkId)->first();
             if ($landingPage) {
                 $content = json_decode($landingPage['content']);
                 return view('projects.' . $landingPage['templateName'], compact('content'));
