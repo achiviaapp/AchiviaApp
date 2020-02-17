@@ -42,5 +42,4 @@ class AssignSaleManToClientAutoListener
         $this->autoAssign->autoAssign($client);
     }
 
-
 }
