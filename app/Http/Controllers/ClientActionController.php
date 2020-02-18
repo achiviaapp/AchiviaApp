@@ -83,7 +83,7 @@ class ClientActionController extends Controller
 
         $query->whereDate('client_details.notificationDate', '>=', $from)
             ->whereDate('client_details.notificationDate', '<=', $to)
-//            ->orWhere('client_details.notificationDate', '=', null)
+            ->orWhere('client_details.notificationDate', '=', null)
             ->when($filter['createDate'] ?? '', function ($query) use ($filter) {
                 $query->where(function ($query) use ($filter) {
                     $dates = explode(' - ', $filter['createDate']);
