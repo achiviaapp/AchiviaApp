@@ -856,9 +856,10 @@ class ClientActionController extends Controller
                 'assignedTime' => now()->format('H:i:s'),
             ]);
 
-           $sale = User::where('id', $saleId)->first();
-           $user = User::where('id', $client)->first();
-           event(new PushNotificationEvent($sale, $user));
+            $sale = User::where('id', $saleId)->first();
+            $user = User::where('id', $client)->first();
+            event(new PushNotificationEvent($sale, $user));
+
         }
 
         return 'done';
