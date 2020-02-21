@@ -829,8 +829,8 @@ class ClientActionController extends Controller
         return $requestData;
     }
 
-    public
-    function assignUser(Request $request)
+
+    public function assignUser(Request $request)
     {
         $request->validate([
             'ids' => 'required',
@@ -841,10 +841,14 @@ class ClientActionController extends Controller
         $saleId = $request->sale;
         $transferred = 0;
         foreach ($clients as $client) {
-            $assignSaleId = ClientDetail::where('userId', $client)->first()['assignToSaleManId'];
-            if ($assignSaleId != null) {
+            $clientDetail = ClientDetail::where('userId', $client)->first();
+            $assignSaleId = $clientDetail['assignToSaleManId'];
+            $actionId = $clientDetail['actionId'];
+            if ($assignSaleId != null && $actionId != null) {
                 $transferred = 1;
             }
+            
+
             ClientDetail::where('userId', $client)->update([
                 'assignToSaleManId' => $saleId,
                 'transferred' => $transferred,
@@ -852,15 +856,16 @@ class ClientActionController extends Controller
                 'assignedTime' => now()->format('H:i:s'),
             ]);
 
-            $sale = User::where('id', $saleId)->first();
-            $user = User::where('id', $client)->first();
-            event(new PushNotificationEvent($sale, $user));
+           $sale = User::where('id', $saleId)->first();
+           $user = User::where('id', $client)->first();
+           event(new PushNotificationEvent($sale, $user));
         }
+
         return 'done';
     }
 
-    public
-    function loadHistory(Request $request)
+
+    public function loadHistory(Request $request)
     {
         $id = $request->option;
 
