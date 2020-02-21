@@ -1,19 +1,58 @@
-@extends('layouts.app')
+@extends('web.layouts.app')
 
 @section('content')
 
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session()->get('message') }}
+@if(session()->has('message'))
+<script>
+        Swal.fire({
+                text: "{{ session()->get('message') }}",
+                icon: 'info',
+                showCloseButton: true,
+                showCancelButton: false,
+                showConfirmButton: false,
+        })
+</script>
+@endif
+
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid" id="kt_content">
+        <div class="row justify-content-center">
+            <div class="col-6 col-md-2">
+                <div class="card bg-success text-white">
+                    <div class="card-body">Success card</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">Success card</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card bg-info text-white">
+                    <div class="card-body">Success card</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">Success card</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">Success card</div>
+                </div>
+            </div>
+            
         </div>
-    @endif
 
-    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-
+        <div class="row">
+        </div>
+        
         {{--<div style="height: 750px">--}}
-            {{--<p>{{ var_dump($firstBar)}}</p>--}}
-            {{--<p>{{ var_dump($secondBar)}}</p>--}}
         {{--</div>--}}
+        <p>{{ var_dump($firstBar)}}</p>
+        <p>{{ var_dump($statusBar)}}</p>
+        <p>{{ var_dump($projectsChartBar)}}</p>
+        <p>{{ var_dump($salesChartBar)}}</p>
 
     </div>
 

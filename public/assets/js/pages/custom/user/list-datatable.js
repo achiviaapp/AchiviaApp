@@ -20,7 +20,7 @@ var KTUserListDatatable = function () {
                     },
                 },
 
-                pageSize: 10, // display 20 records per page
+                pageSize: 20, // display 20 records per page
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
@@ -56,7 +56,7 @@ var KTUserListDatatable = function () {
                 {
                     field: 'userId',
                     title: '#',
-                    width: 20,
+                    width: 10,
                     textAlign: 'center',
                     selector: {
                         class: 'kt-checkbox--solid'
@@ -69,11 +69,18 @@ var KTUserListDatatable = function () {
                     width: 240,
                     // callback function support for column rendering
                     template: function (data, i) {
-
                         return window.info(data);
                     }
                 },
-
+                {
+                    field: "takeActions",
+                    title: 'Take An Action',
+                    width: 450,
+                    // callback function support for column rendering
+                    template: function (data) {
+                        return window.takeAction(data);
+                    }
+                },
                 {
                     field: "actionId",
                     title: window.title,
@@ -81,15 +88,14 @@ var KTUserListDatatable = function () {
                     class: 'last',
                     // callback function support for column rendering
                     template: function (data) {
-
-                        return window.last(data);
+                        return window.takeAction(data);
                     }
                 },
 
                 {
                     field: '',
                     title: 'Next Action',
-                    width: 650,
+                    width: 450,
 
                     template: function (data) {
 

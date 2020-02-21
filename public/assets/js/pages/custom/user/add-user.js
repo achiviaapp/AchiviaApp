@@ -193,7 +193,8 @@ var KTUserAdd = function () {
                     required: true
                 },
                 phone: {
-                    required: true
+                    required: true,
+                    number: true,
                 },
                 email: {
                     required: true,

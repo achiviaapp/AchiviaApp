@@ -21,7 +21,7 @@
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    Users
+                    Clients
                 </h3>
                 <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                 <div class="kt-subheader__group" id="kt_subheader_search">
@@ -300,6 +300,66 @@
     </script>
 
     <script>
+        function takeAction(data) {
+            return '<div class="kt-widget kt-widget--project-1">\
+                <div class="kt-widget__head p-0">\
+                    <div class="kt-widget__label">\
+                        <div class=" kt-widget__info p-0">\
+							<p class="kt-widget__title mb-0 text-info">\
+								Last Action\
+							</p>\
+						</div>\
+                    </div>\
+                    <div class="kt-widget__section">\
+                        <input type="text" hidden class="user" value="' + data.userId + '"> \
+                        <button type="button" class="getHistory btn btn-brand btn-sm btn-upper btn-bold">Load History</button>\
+                        <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class="whats btn btn-success btn-sm btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
+                    </div>\
+                </div>\
+                <div class="kt-widget__body p-0">\
+							<div class="kt-widget__stats">\
+								<div class="kt-widget__item">\
+									<span class="kt-widget__date">\
+                                        ' + data.statusName + '\
+									</span>\
+								    <div class="kt-widget__label">\
+										<span class="btn btn-label-danger btn-sm btn-bold btn-upper">' + data.notificationDate + ' ' + data.notificationTime + '</span>\
+									</div>\
+                                </div>\
+                                <div class="kt-widget__item">\
+									<span class="kt-widget__date">\
+										Method\
+									</span>\
+								    <div class="kt-widget__label">\
+										<span class="btn btn-label-brand btn-sm btn-bold btn-upper">Via ' + data.methodName + '</span>\
+									</div>\
+                                </div>\
+                                <div class="kt-widget__item">\
+									<span class="kt-widget__date">\
+										Summary\
+									</span>\
+								    <div class="kt-widget__label">\
+										<span class="btn btn-label-warning btn-sm btn-bold btn-upper">' + summery[data.summery].title + '</span>\
+									</div>\
+								</div>\
+                                <div class="kt-widget__item">\
+									<span class="kt-widget__date">\
+										# of Actions\
+									</span>\
+								    <div class="kt-widget__label">\
+										<span class="btn btn-label-success btn-sm btn-bold btn-upper">100</span>\
+									</div>\
+								</div>\
+							</div>\
+							<span class="kt-widget__text mt-2">\
+								<strong>Notes: </strong>' + data.notes + '\
+							</span>\
+                        </div>\
+					</div>';
+        }
+    </script>
+
+<script>
         function last(data) {
 
             var summery = {
@@ -383,12 +443,7 @@
                         			<p class="kt-user-card-v2__name"> Note : ' + data.notes + '  </p>\
                         		</div>\
                         		</div>\
-                        		<div>\
-                        		<input type="text" hidden class="user" value="' + data.userId + '"> \
-                        	<button type="button" class="getHistory btn btn-bold btn-label-brand btn-lg" style="width:160px; margin-bottom:10px">Load History</button>\
-                            <a  href="https://wa.me/' + data.phone + '" target="_blank" class="whats btn btn-bold btn-label-success btn-lg" style="width:160px;">\
-                             <i class="fab fa-whatsapp"></i>whatsApp</a>\
-                              </div>';
+                        		<div>';
 
         }
     </script>
@@ -404,7 +459,7 @@
                 'SaleMan',
                 'Client',
             ];
-            var stateNo = KTUtil.getRandomInt(0, 6);
+            var stateNo = KTUtil.getRandomInt(0, 5);
             var states = [
                 'success',
                 'brand',
@@ -415,24 +470,53 @@
             ];
             var state = states[stateNo];
 
-            return '<div class="kt-user-card-v2">\
-                <!--<div class="kt-user-card-v2__pic">\
-                        <div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
-                    </div>-->\
-                    <div class="kt-user-card-v2__details">\
-                    <p class="kt-user-card-v2__name"> Name : \
-                     <a href="' + URL + '/client-profile/' + data.userId + '"> ' + data.name + '</a>\
-                     </p>\
-                    <p class="kt-user-card-v2__name"> Email : ' + data.email + '  </p>\
-                   <p class="kt-user-card-v2__name"> Phone : \
-                              <a href="tel:' + data.phone + '">' + data.phone + '</a>  </p>\
-                    <p class="kt-user-card-v2__name"> Interested Project : ' + data.projectName + '  </p>\
-                    <p class="kt-user-card-v2__name"> Job Title : ' + data.jobTitle + '  </p>\
+            return '<div class="kt-widget kt-widget--user-profile-1 pb-0">\
+												<div class="kt-widget__head">\
+													<div class="kt-widget__content pl-0">\
+														<div class="kt-widget__section">\
+															<a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">\
+																' + data.name + '\
+															</a>\
+															<span class="kt-widget__subtitle">\
+																' + data.jobTitle + '\
+															</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__action">\
+                                                            <input type="text" hidden class="user" value="' + data.userId + '"> \
+															<button type="button" class="getHistory btn btn-info btn-sm">Histroy</button>&nbsp;\
+															<a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class="whats btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></a>\
+														</div>\
+													</div>\
+												</div>\
+												<div class="kt-widget__body">\
+													<div class="kt-widget__content">\
+														<div class="kt-widget__info">\
+															<span class="kt-widget__label">Email:</span>\
+															<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+														</div>\
+														<div class="kt-widget__info">\
+															<span class="kt-widget__label">Phone:</span>\
+															<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
+														</div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Project:</span>\
+															<span class="kt-widget__data">' + data.projectName + '</span>\
+                                                        </div>\
+                                                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Salesman:</span>\
+															<span class="kt-widget__data">' + data.saleName + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Created at:</span>\
+															<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                        </div>\
+                                                        @endif\
+													</div>\
+												</div>\
+											</div>\
+                <div class="kt-user-card-v2">\
                     <p class="kt-user-card-v2__name"> Notes : ' + data.notes + '  </p>\
-                    @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
-                    <p class="kt-user-card-v2__name"> Assign To : ' + data.saleName + '  </p>\
-                    @endif\
-                    <p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\
                 </div>\
                 </div>\
                      ';
