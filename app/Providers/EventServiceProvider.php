@@ -9,6 +9,8 @@ use App\Listeners\AssignSaleManToClientAutoListener;
 use App\Listeners\UserCreatedSMSListener;
 use App\Listeners\UserSalesUpdatedSMSListener;
 use App\Listeners\PushNotificationListener;
+use App\Events\CkeckAbssentSaleEvent;
+use App\Listeners\CkeckAbssentSaleListener;
 use App\Events\PushNotificationEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,15 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
+
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\LogSuccessfulLogout',
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
@@ -42,6 +53,10 @@ class EventServiceProvider extends ServiceProvider
 
         PushNotificationEvent::class => [
             PushNotificationListener::class,
+        ],
+
+        CkeckAbssentSaleEvent::class => [
+            CkeckAbssentSaleListener::class,
         ],
     ];
 

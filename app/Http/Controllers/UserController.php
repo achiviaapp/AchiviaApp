@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use App\Events\PushNotificationEvent;
 use App\Models\Team;
+use App\Models\SaleLog;
 
 class UserController extends Controller
 {
@@ -57,7 +58,7 @@ class UserController extends Controller
         $key = 0;
         foreach ($data as $one) {
             $teamId = User::where('id', $one['id'])->first()['teamId'];
-            $teamName = Team::where('teamLeaderId' ,$teamId)->first()['name'];
+            $teamName = Team::where('teamLeaderId', $teamId)->first()['name'];
             $data[$key]['teamName'] = $teamName;
             $key = $key + 1;
         }
@@ -127,7 +128,7 @@ class UserController extends Controller
                 $teamId = null;
             }
             $created = null;
-            if($request->createdBy !=0){
+            if ($request->createdBy != 0) {
                 $created = $request->createdBy;
             }
             $userData = array(
@@ -251,6 +252,16 @@ class UserController extends Controller
             return Response::make($teams);
         }
 
+    }
+
+    public function salesActive()
+    {
+        $salesActive = SaleLog::where('last_login_at', '!=', null)->where('last_logout_at', null)->get()->toArray();
+        foreach ($salesActive as $key => $one){
+            $salesActive[$key]['name'] = User::where('id', $one['userId'])->first()['name'];
+        }
+
+        return $salesActive;
     }
 
 }

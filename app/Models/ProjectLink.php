@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectLink extends Model
 {
     protected $fillable = [
-        'link','projectId',
+        'link','projectId','alias' , 'campaignId' , 'platform',
     ];
 
     protected $table = 'project_links';

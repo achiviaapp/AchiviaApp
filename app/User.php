@@ -101,4 +101,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Campaign','campaign_marketers','marketerId', 'campaignId');
     }
 
+    public function leaves() {
+
+        return $this->hasMany('App\Models\Leave');
+    }
+
 }
