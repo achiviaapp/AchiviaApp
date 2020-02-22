@@ -113,14 +113,6 @@
         <div class="row">
         </div>
         
-        {{--<div style="height: 750px">--}}
-        {{--</div>--}}
-        <!--<p>{{ var_dump($firstBar)}}</p>-->
-        <p>{{ var_dump($statusBar)}}</p>
-        
-        <!--<p>{{ var_dump($projectsChartBar)}}</p>
-        <p>{{ var_dump($salesChartBar)}}</p>-->
-
     </div>
 
 @endsection
