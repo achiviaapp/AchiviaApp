@@ -379,7 +379,7 @@ var KTUserListDatatable = function () {
         $('#kt_subheader_group_actions_status_change a.kt-nav__link').on('click', function () {
             var sale = $(this).data('status');
             var status = $(this).find('.sale').text();
-
+            var type = $(this).data('type');
 
 // fetch selected IDs
             var ids = datatable.rows('.kt-datatable__row--active').nodes().find('.kt-checkbox--single > [type="checkbox"]').map(function (i, chk) {
@@ -408,7 +408,8 @@ var KTUserListDatatable = function () {
                             url: URL + '/assign-user',
                             data: {
                                 ids: ids.toArray(),
-                                sale: sale
+                                sale: sale,
+                                type:type
                             },
                             success: function (data) {
                                 swal.fire({

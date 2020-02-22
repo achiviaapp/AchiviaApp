@@ -6,26 +6,32 @@ use App\Models\Action;
 use App\Models\ClientDetail;
 use App\Models\Method;
 use App\Models\Project;
+use App\Models\Team;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Events\PushNotificationEvent;
 use DateTime;
+use App\Services\AutoAssignService;
+use App\Models\RotationAuto;
+use App\Events\UserSalesUpdatedEvent;
+use App\Events\CkeckAbssentSaleEvent;
+use App\Models\ClientHistory;
 
 class ClientActionController extends Controller
 {
-    private $model, $clientModel;
+    private $model, $clientModel, $autoAssign;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $model, ClientDetail $clientModel)
+    public function __construct(User $model, ClientDetail $clientModel, AutoAssignService $autoAssign)
     {
         $this->model = $model;
         $this->clientModel = $clientModel;
+        $this->autoAssign = $autoAssign;
     }
 
     /**
@@ -35,6 +41,7 @@ class ClientActionController extends Controller
     {
         $actionId = 'all';
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get()->toArray();
+        $teams = Team::all()->toArray();
         $projects = Project::all()->toArray();
         $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
         foreach ($projects as $key => $project) {
@@ -45,7 +52,8 @@ class ClientActionController extends Controller
             }
         }
 
-        return View('client_action.all_clients', compact('actionId', 'sales', 'projects'));
+        return View('client_action.all_clients', compact('actionId', 'sales', 'projects', 'teams'));
+
     }
 
     public function getAllData(Request $request)
@@ -317,7 +325,7 @@ class ClientActionController extends Controller
             ->where('client_details.actionId', $id)
             ->where('client_details.assignToSaleManId', '!=', null);
 
-             $this->filters($query, $filter)
+        $this->filters($query, $filter)
             ->when($id == null, function ($query) {
                 $query->orderBy('client_details.assignedDate', 'asc')
                     ->orderBy('client_details.assignedTime', 'asc');
@@ -325,7 +333,6 @@ class ClientActionController extends Controller
                 $query->orderBy('client_details.notificationDate', 'asc')
                     ->orderBy('client_details.notificationTime', 'asc');
             })
-
             ->select('users.*', 'client_details.*');
 
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
@@ -424,7 +431,7 @@ class ClientActionController extends Controller
         $query->where('duplicated', '>', 1)
             ->whereDate('client_details.assignedDate', '>=', $from)
             ->whereDate('client_details.assignedDate', '<=', $to);
-            $this->filters($query, $filter)->orderBy('client_details.assignedDate', 'asc')
+        $this->filters($query, $filter)->orderBy('client_details.assignedDate', 'asc')
             ->orderBy('client_details.assignedTime', 'asc')
             ->select('users.*', 'client_details.*');
 
@@ -522,7 +529,7 @@ class ClientActionController extends Controller
         $query->whereDate('client_details.assignedDate', '>=', $from)
             ->whereDate('client_details.assignedDate', '<=', $to)
             ->where('client_details.transferred', 1);
-             $this->filters($query, $filter)
+        $this->filters($query, $filter)
             ->orderBy('client_details.assignedDate', 'asc')
             ->orderBy('client_details.assignedTime', 'asc')
             ->select('users.*', 'client_details.*');
@@ -635,7 +642,7 @@ class ClientActionController extends Controller
             ->whereIn('client_details.actionId', [2, 3, 4, 5, 11, 12])
             ->whereDate('client_details.notificationDate', '>=', $from)
             ->whereDate('client_details.notificationDate', '<=', $to);
-           $this->filters($query, $filter)
+        $this->filters($query, $filter)
             ->orderBy('client_details.notificationDate', 'asc')
             ->orderBy('client_details.notificationTime', 'asc')
             ->select('users.*', 'client_details.*');
@@ -744,7 +751,7 @@ class ClientActionController extends Controller
                     ->orWhere('client_details.transferred', 1)
                     ->orWhere('client_details.actionId', null);
             });
-           $this->filters($query, $filter)
+        $this->filters($query, $filter)
             ->orderBy('client_details.assignedDate', 'asc')
             ->orderBy('client_details.assignedTime', 'asc')
             ->select('users.*', 'client_details.*');
@@ -780,18 +787,95 @@ class ClientActionController extends Controller
         return $requestData;
     }
 
+    public function assignUser(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required',
+            'sale' => 'required',
+            'type' => 'required',
+        ]);
+
+        $clients = $request->ids;
+        $assignId = $request->sale;
+        $type = $request->type;
+        $transferred = 0;
+        foreach ($clients as $client) {
+            if ($type == 'sale') {
+                $clientDetail = ClientDetail::where('userId', $client)->first();
+                $assignSaleId = $clientDetail['assignToSaleManId'];
+                $actionId = $clientDetail['actionId'];
+                if ($assignSaleId != null && $actionId != null) {
+                    $transferred = 1;
+                }
+
+                ClientDetail::where('userId', $client)->update([
+                    'assignToSaleManId' => $assignId,
+                    'transferred' => $transferred,
+                    'assignedDate' => now()->format('Y-m-d'),
+                    'assignedTime' => now()->format('H:i:s'),
+                ]);
+
+                $sale = User::where('id', $assignId)->first();
+                $user = User::where('id', $client)->first();
+                event(new PushNotificationEvent($sale, $user));
+
+            } elseif ($type == 'team') {
+
+                $this->assignTeam($assignId,$client);
+            }
+        }
+
+        return 'done';
+    }
+
+
+    public function assignTeam($teamId, $client)
+    {
+        $user = User::where('id', $client)->first();
+        $sales = [];
+        $team = Team::find($teamId);
+        $teamleader = User::where('id', $team['teamLeaderId'])->get()->toArray();
+        $sales[] = $teamleader;
+        $sales[] = $team->teamLeader->sales()->get()->toArray();
+        $selectedSales = call_user_func_array("array_merge", $sales);
+        $mySelectedSales = $this->autoAssign->checkSales($selectedSales);
+
+        foreach ($mySelectedSales as $sale) {
+            $saleMan = User::where('id', $sale['id']);
+            $sale = $saleMan->first();
+            event(new CkeckAbssentSaleEvent($sale));
+            if (($sale['lastAssigned'] == 0 || $sale['weight'] > $sale['lastAssigned']) && $sale['assign'] == 0) {
+                $clientDetail = ClientDetail::where('userId', $client)->first();
+                $assignSaleId = $clientDetail['assignToSaleManId'];
+                $actionId = $clientDetail['actionId'];
+                $transferred = 0;
+                if ($assignSaleId != null && $actionId != null) {
+                    $transferred = 1;
+                }
+                ClientDetail::where('userId', $client)->update([
+                    'assignToSaleManId' => $sale['id'],
+                    'transferred' => $transferred,
+                    'assignedDate' => now()->format('Y-m-d'),
+                    'assignedTime' => now()->format('H:i:s'),
+                ]);
+
+                $saleMan->update(['lastAssigned' => ($sale['lastAssigned'] + 1)]);
+
+                event(new PushNotificationEvent($sale, $user));
+                return;
+            }
+        }
+    }
+
     /**
      * view  index history
      */
-    public
-    function history($id)
+    public function history($id)
     {
         $userId = $id;
         return View('client_action.history_client', compact('userId'));
     }
-
-    public
-    function getHistory($id, Request $request)
+    public function getHistory($id, Request $request)
     {
         $paginationOptions = $request->input('pagination');
         if ($paginationOptions['perpage'] == -1) {
@@ -828,43 +912,6 @@ class ClientActionController extends Controller
 
         return $requestData;
     }
-
-
-    public function assignUser(Request $request)
-    {
-        $request->validate([
-            'ids' => 'required',
-            'sale' => 'required',
-        ]);
-
-        $clients = $request->ids;
-        $saleId = $request->sale;
-        $transferred = 0;
-        foreach ($clients as $client) {
-            $clientDetail = ClientDetail::where('userId', $client)->first();
-            $assignSaleId = $clientDetail['assignToSaleManId'];
-            $actionId = $clientDetail['actionId'];
-            if ($assignSaleId != null && $actionId != null) {
-                $transferred = 1;
-            }
-            
-
-            ClientDetail::where('userId', $client)->update([
-                'assignToSaleManId' => $saleId,
-                'transferred' => $transferred,
-                'assignedDate' => now()->format('Y-m-d'),
-                'assignedTime' => now()->format('H:i:s'),
-            ]);
-
-            $sale = User::where('id', $saleId)->first();
-            $user = User::where('id', $client)->first();
-            event(new PushNotificationEvent($sale, $user));
-
-        }
-
-        return 'done';
-    }
-
 
     public function loadHistory(Request $request)
     {

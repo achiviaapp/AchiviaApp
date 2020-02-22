@@ -84,7 +84,7 @@
                             <div class="dropdown" id="kt_subheader_group_actions_status_change">
                                 <button type="button" class="btn btn-label-brand btn-bold btn-sm dropdown-toggle"
                                         data-toggle="dropdown">
-                                    Select SalesMan
+                                    Select Assign To
                                 </button>
                                 <div class="dropdown-menu">
                                     <ul class="kt-nav">
@@ -93,11 +93,26 @@
                                         </li>
                                         @foreach($sales as $sale)
                                             <li class="kt-nav__item">
-                                                <a class="kt-nav__link" data-toggle="status-change"
+                                                <a class="kt-nav__link" data-toggle="status-change" data-type="team"
                                                    data-status="{{$sale['id']}}">
                                                 <span class="kt-nav__link-text">
                                                     <span class="sale kt-badge kt-badge--unified-success kt-badge--inline kt-badge--bold">
                                                         {{$sale['name']}}
+                                                    </span>
+                                                </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        <li class="kt-nav__section kt-nav__section--first">
+                                            <span class="kt-nav__section-text"> Select Team:</span>
+                                        </li>
+                                        @foreach($teams as $team)
+                                            <li class="kt-nav__item">
+                                                <a class="kt-nav__link" data-toggle="status-change"
+                                                   data-status="{{$team['id']}}" data-type="team">
+                                                <span class="kt-nav__link-text">
+                                                    <span class="sale kt-badge kt-badge--unified-success kt-badge--inline kt-badge--bold">
+                                                        {{$team['name']}}
                                                     </span>
                                                 </span>
                                                 </a>
