@@ -141,9 +141,10 @@ class ClientActionController extends Controller
     function newRequests()
     {
         $actionId = 0;
+        $teams = Team::all()->toArray();
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get()->toArray();
 
-        return View('client_action.new_requests', compact('actionId', 'sales'));
+        return View('client_action.new_requests', compact('actionId', 'sales' , 'teams'));
     }
 
     /**
@@ -224,6 +225,7 @@ class ClientActionController extends Controller
     {
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $actionId = 0;
+        $teams = Team::all()->toArray();
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         $projects = Project::all()->toArray();
@@ -239,7 +241,7 @@ class ClientActionController extends Controller
         if ((Auth::user()->role->name == 'sale Man')) {
             $sales = $this->model->where('id', Auth::user()->id)->get(['id', 'name']);
         }
-        return View('client_action.new_clients', compact('projects', 'sales', 'actionId', 'actions', 'methods'));
+        return View('client_action.new_clients', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
     }
 
 
@@ -250,6 +252,7 @@ class ClientActionController extends Controller
     {
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $actionId = $id;
+        $teams = Team::all()->toArray();
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         $projects = Project::all()->toArray();
@@ -265,7 +268,7 @@ class ClientActionController extends Controller
         if ((Auth::user()->role->name == 'sale Man')) {
             $sales = $this->model->where('id', Auth::user()->id)->get(['id', 'name']);
         }
-        return View('client_action.action_client', compact('projects', 'sales', 'actionId', 'actions', 'methods'));
+        return View('client_action.action_client', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
 
     }
 
@@ -377,6 +380,7 @@ class ClientActionController extends Controller
     {
         $actionId = 'duplicated';
         $methods = Method::all()->toArray();
+        $teams = Team::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $projects = Project::all()->toArray();
@@ -389,7 +393,7 @@ class ClientActionController extends Controller
             }
         }
 
-        return View('client_action.duplicated', compact('projects', 'actionId', 'sales', 'actions', 'methods'));
+        return View('client_action.duplicated', compact('projects', 'actionId', 'sales', 'actions', 'methods', 'teams'));
     }
 
     public
@@ -476,6 +480,7 @@ class ClientActionController extends Controller
     {
         $actionId = 'transfered';
         $methods = Method::all()->toArray();
+        $teams = Team::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $projects = Project::all()->toArray();
@@ -488,7 +493,7 @@ class ClientActionController extends Controller
             }
         }
 
-        return View('client_action.transfered', compact('projects', 'actionId', 'sales', 'actions', 'methods'));
+        return View('client_action.transfered', compact('projects', 'actionId', 'sales', 'actions', 'methods', 'teams'));
     }
 
     public function getTransferedData(Request $request)
@@ -575,6 +580,7 @@ class ClientActionController extends Controller
     {
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $actionId = 'todo';
+        $teams = Team::all()->toArray();
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         if ((Auth::user()->role->name == 'sale Man')) {
@@ -589,7 +595,7 @@ class ClientActionController extends Controller
                 }
             }
         }
-        return View('client_action.todo_client', compact('projects', 'sales', 'actionId', 'actions', 'methods'));
+        return View('client_action.todo_client', compact('projects', 'sales', 'actionId', 'actions', 'methods' , 'teams'));
 
     }
 
@@ -687,6 +693,7 @@ class ClientActionController extends Controller
     {
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
         $actionId = 'todo';
+        $teams = Team::all()->toArray();
         $methods = Method::all()->toArray();
         $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
         if ((Auth::user()->role->name == 'sale Man')) {
@@ -701,7 +708,7 @@ class ClientActionController extends Controller
                 }
             }
         }
-        return View('client_action.todo_hot_client', compact('projects', 'sales', 'actionId', 'actions', 'methods'));
+        return View('client_action.todo_hot_client', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
 
     }
 
