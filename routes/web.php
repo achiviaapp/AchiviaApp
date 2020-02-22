@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/join-to-us', 'HomeController@welCome');
 Route::get('api/mobile-data', 'HomeController@mobData');
 Route::post('client-landing-page', 'HomeController@landingStore');
+Route::get('/landing_page/{link}', 'ProjectController@show');
 Auth::routes();
 
 Route::get('/login', function(){
@@ -63,14 +64,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('projects', 'ProjectController@index');
         Route::get('project-create', 'ProjectController@create');
         Route::post('project-store', 'ProjectController@store');
-        Route::get('project-edit', 'ProjectController@edit');
-        Route::patch('project-update/{id}', 'ProjectController@update');
+        Route::get('project-edit/{id}', 'ProjectController@edit');
+        Route::post('project-update', 'ProjectController@update');
         Route::delete('project-delete/{id}', 'ProjectController@destroy');
         Route::get('api/dropdown/cities', 'ProjectController@dropDownCity');
         Route::get('project/get_data', 'ProjectController@getAllData');
         Route::get('api/dropdown/project_teams', 'ProjectController@dropDownTeams');
-        Route::get('project-custom', 'ProjectController@createCustom');
-        Route::post('project-custom-store', 'ProjectController@storeCustom');
+        Route::get('add-sub-project', 'ProjectController@createSubProject');
+        Route::post('sub-project-store', 'ProjectController@storeSubProject');
+        Route::get('project-custom/{id}', 'ProjectController@createProjectDetail');
+        Route::post('project-custom-store', 'ProjectController@storeProjectDetail');
+
 
         /**
          * city routes
@@ -105,9 +109,21 @@ Route::middleware(['auth'])->group(function () {
 
 
         /**
+         * leaves routes
+         */
+
+        //route for leave
+        Route::resource('leave-app','LeaveController');
+        Route::post('leave-app/{id}/approve','LeaveController@approveLeave');
+        Route::post('leave-app/{id}/reject','LeaveController@rejectLeave');
+        //route filter for leave application
+//        Route::get('api/dropdown','LeaveController@filter');
+
+        /**
          * user routes
          */
         Route::get('users', 'UserController@index');
+        Route::get('sales-active', 'UserController@salesActive');
         Route::get('user-create', 'UserController@create');
         Route::post('user-store', 'UserController@store');
         Route::get('user-edit/{id}', 'UserController@edit');
