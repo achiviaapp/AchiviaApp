@@ -16,6 +16,12 @@
 #app-name{
 	background-color: #fff!important;
 }
+.kt-iconbox{
+	padding: 0!important;
+}
+.kt-portlet .kt-portlet__body{
+	padding: 10px 25px!important;
+}
 
 @media (min-width: 1025px){
 	.kt-widget.kt-widget--project-1 .kt-widget__body .kt-widget__stats .kt-widget__item{

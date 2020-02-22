@@ -50,6 +50,46 @@ var KTUserListDatatable = function () {
                 input: $('#projectFilter'),
                 delay: 500,
             },
+            priorityFilter: {
+                input: $('#priorityFilter'),
+                delay: 500,
+            },
+            statusFilter: {
+                input: $('#statusFilter'),
+                delay: 500,
+            },
+            propertyFilter: {
+                input: $('#propertyFilter'),
+                delay: 500,
+            },
+            areaFilter: {
+                input: $('#areaFilter'),
+                delay: 500,
+            },
+            budgetFilter: {
+                input: $('#budgetFilter'),
+                delay: 500,
+            },
+            convertToProjectFilter: {
+                input: $('#convertToProjectFilter'),
+                delay: 500,
+            },
+            marketerFilter: {
+                input: $('#marketerFilter'),
+                delay: 500,
+            },
+            customLinkFilter: {
+                input: $('#customLinkFilter'),
+                delay: 500,
+            },
+            campaignFilter: {
+                input: $('#campaignFilter'),
+                delay: 500,
+            },
+            platformFilter: {
+                input: $('#platformFilter'),
+                delay: 500,
+            },
 
             // columns definition
             columns: [
@@ -66,7 +106,7 @@ var KTUserListDatatable = function () {
                 {
                     field: "name",
                     title: "Client Info",
-                    width: 240,
+                    width: 300,
                     // callback function support for column rendering
                     template: function (data, i) {
                         return window.info(data);
@@ -75,34 +115,56 @@ var KTUserListDatatable = function () {
                 {
                     field: "takeActions",
                     title: 'Take An Action',
-                    width: 450,
+                    width: 600,
                     // callback function support for column rendering
                     template: function (data) {
                         return window.takeAction(data);
                     }
                 },
                 {
-                    field: "actionId",
-                    title: window.title,
-                    width: 230,
-                    class: 'last',
+                    field: "Client'sQuestions",
+                    title: "Client's Questions",
+                
                     // callback function support for column rendering
                     template: function (data) {
-                        return window.takeAction(data);
+                        return window.clientsQuestions(data);
                     }
                 },
-
                 {
-                    field: '',
-                    title: 'Next Action',
-                    width: 450,
-
-                    template: function (data) {
-
-                        return window.output(data);
-                    }
-                },
-
+					field: 'Priority',
+					title: 'Priority',
+                    autoHide: false,
+                    width:70,
+					// callback function support for column rendering
+					template: function(data) {
+						var status = {
+							High: {'title': 'Online', 'state': 'danger'},
+							Normal: {'title': 'Retail', 'state': 'warning'},
+							Low: {'title': 'Direct', 'state': 'primary'},
+						};
+						return '<span class="kt-badge kt-badge--' + status[data.priority].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + status[data.priority].state +
+							'">' +
+							data.priority + '</span>';
+					},
+                },{
+					field: 'Status',
+                    title: 'Status',
+                    autoHide: false,
+                    width:70,
+					// callback function support for column rendering
+					template: function(data) {
+						var status = {
+							1: {'title': 'Pending', 'class': 'kt-badge--brand'},
+							2: {'title': 'Delivered', 'class': ' kt-badge--danger'},
+							3: {'title': 'Canceled', 'class': ' kt-badge--primary'},
+							4: {'title': 'Success', 'class': ' kt-badge--success'},
+							5: {'title': 'Info', 'class': ' kt-badge--info'},
+							6: {'title': 'Danger', 'class': ' kt-badge--danger'},
+							7: {'title': 'Warning', 'class': ' kt-badge--warning'},
+						};
+						return '<span class="kt-badge ' + 'kt-badge--success' + ' kt-badge--inline kt-badge--pill">' + 'Success' + '</span>';
+					},
+				},
                 {
                     field: "Actions",
                     width: 50,
@@ -166,20 +228,86 @@ var KTUserListDatatable = function () {
             datatable.search($(this).val(), "name");
         });
     }
-
     // filter
     var filterSale = function () {
         $('#saleFilter').on('change', function () {
             datatable.search($(this).val(), "sale");
         });
     }
-
     // filter
     var projectFilter = function () {
         $('#projectFilter').on('change', function () {
             datatable.search($(this).val(), "project");
         });
     }
+    // filter
+    var priorityFilter = function () {
+        $('#priorityFilter').on('change', function () {
+            datatable.search($(this).val(), "priority");
+        });
+    }
+    // filter
+    var statusFilter = function () {
+        $('#statusFilter').on('change', function () {
+            datatable.search($(this).val(), "status");
+        });
+    }
+    // filter
+    var propertyFilter = function () {
+        $('#propertyFilter').on('change', function () {
+            datatable.search($(this).val(), "property");
+        });
+    }
+    // filter
+    var areaFilter = function () {
+        $('#areaFilter').on('change', function () {
+            datatable.search($(this).val(), "area");
+        });
+    }
+    // filter
+    var budgetFilter = function () {
+        $('#budgetFilter').on('change', function () {
+            datatable.search($(this).val(), "budget");
+        });
+    }
+    // filter
+    var budgetFilter = function () {
+        $('#budgetFilter').on('change', function () {
+            datatable.search($(this).val(), "budget");
+        });
+    }
+    // filter
+    var convertToProjectFilter = function () {
+        $('#convertToProjectFilter').on('change', function () {
+            datatable.search($(this).val(), "convertToProject");
+        });
+    }
+    // filter
+    var marketerFilter = function () {
+        $('#marketerFilter').on('change', function () {
+            datatable.search($(this).val(), "marketer");
+        });
+    }
+    // filter
+    var customLinkFilter = function () {
+        $('#customLinkFilter').on('change', function () {
+            datatable.search($(this).val(), "customLink");
+        });
+    }
+    // filter
+    var campaignFilter = function () {
+        $('#campaignFilter').on('change', function () {
+            datatable.search($(this).val(), "campaign");
+        });
+    }
+    // filter
+    var platformFilter = function () {
+        $('#platformFilter').on('change', function () {
+            datatable.search($(this).val(), "platform");
+        });
+    }
+
+
 
     // selection
     var selection = function () {
@@ -403,6 +531,18 @@ var KTUserListDatatable = function () {
             search();
             filterSale();
             projectFilter();
+            priorityFilter();
+            statusFilter();
+
+            propertyFilter();
+            areaFilter();
+            budgetFilter();
+            convertToProjectFilter();
+            marketerFilter();
+            customLinkFilter();
+            campaignFilter();
+            platformFilter();
+
             listners();
             selection();
             selectedFetch();
