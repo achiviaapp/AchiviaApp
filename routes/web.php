@@ -135,7 +135,6 @@ Route::middleware(['auth'])->group(function () {
          * leaves routes
          */
         //route for leave
-        Route::get('leave-app', 'LeaveController@index');
         Route::post('leave-app/status', 'LeaveController@updateLeave');
         //route filter for leave application
 //        Route::get('api/dropdown','LeaveController@filter');
@@ -187,6 +186,7 @@ Route::middleware(['auth'])->group(function () {
         //leaves add
         Route::get('leave-app/create', 'LeaveController@create');
         Route::post('leave-app/store', 'LeaveController@store');
+        Route::get('leave-app', 'LeaveController@index');
 
     });
 });

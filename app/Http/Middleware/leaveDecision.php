@@ -17,7 +17,7 @@ class leaveDecision
     public function handle($request, Closure $next)
     {
 
-        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root' || Auth::user()->role->name ==  'Sales Team Leader') {
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root' || Auth::user()->role->name ==  'Sales Team Leader' || Auth::user()->role->name ==  ' Sales Manager') {
 
             return $next($request);
         }

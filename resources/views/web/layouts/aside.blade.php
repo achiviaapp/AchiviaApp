@@ -212,6 +212,51 @@
                             </div>
                         </li>
                     @endif
+
+                    @if(@Auth::user()->role->name != 'client')
+                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                            data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
+                                                                  class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-icon  flaticon2-dashboard"></i>
+                                <span class="kt-menu__link-text">HR</span><span
+                                        class="kt-menu__link-badge"></span><i
+                                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                            <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
+                                                class="kt-menu__link">
+                                    <span class="kt-menu__link-text">Root Panel</span><span class="kt-menu__link-badge"><span
+                                                        class="kt-badge kt-badge--brand"></span></span></span>
+                                    </li>
+                                    <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                                        data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
+                                                                              class="kt-menu__link kt-menu__toggle"><i
+                                                    class="kt-menu__link-bullet  kt-menu__link-icon flaticon-list-1"><span></span></i><span
+                                                    class="kt-menu__link-text">Vacations</span><i
+                                                    class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                        <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                                            <ul class="kt-menu__subnav">
+                                                <li class="kt-menu__item " aria-haspopup="true"><a
+                                                            href="{{url('leave-app/create')}}"
+                                                            class="kt-menu__link "><i
+                                                                class="kt-menu__link-bullet kt-menu__link-icon flaticon-plus"><span></span></i><span
+                                                                class="kt-menu__link-text">Add vacation</span></a>
+                                                </li>
+
+                                                <li class="kt-menu__item " aria-haspopup="true"><a
+                                                            href="{{url('/leave-app')}}"
+                                                            class="kt-menu__link "><i
+                                                                class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
+                                                                class="kt-menu__link-text">view vacations</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @endif
+
                     @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root')
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                             data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
@@ -342,34 +387,7 @@
                                         </div>
                                     </li>
                                     @endif
-                                    @if(@Auth::user()->role->name != 'client')
-                                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                                            data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
-                                                                                  class="kt-menu__link kt-menu__toggle"><i
-                                                        class="kt-menu__link-bullet  kt-menu__link-icon flaticon-list-1"><span></span></i><span
-                                                        class="kt-menu__link-text">Vacations</span><i
-                                                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                                            <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-                                                <ul class="kt-menu__subnav">
-                                                    <li class="kt-menu__item " aria-haspopup="true"><a
-                                                                href="{{url('leave-app/create')}}"
-                                                                class="kt-menu__link "><i
-                                                                    class="kt-menu__link-bullet kt-menu__link-icon flaticon-plus"><span></span></i><span
-                                                                    class="kt-menu__link-text">Add vacation</span></a>
-                                                    </li>
-                                                    @if(@Auth::user()->role->name == 'admin' || @Auth::user()->role->name == 'root' || @Auth::user()->role->name ==  'Sales Team Leader')
 
-                                                        <li class="kt-menu__item " aria-haspopup="true"><a
-                                                                    href="{{url('/leave-app')}}"
-                                                                    class="kt-menu__link "><i
-                                                                        class="kt-menu__link-bullet kt-menu__link-icon flaticon-eye"><span></span></i><span
-                                                                        class="kt-menu__link-text">view vacations</span></a>
-                                                        </li>
-                                                    @endif
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    @endif
                                     {{--<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"--}}
                                     {{--data-ktmenu-submenu-toggle="hover"><a href="javascript:;"--}}
                                     {{--class="kt-menu__link kt-menu__toggle"><i--}}

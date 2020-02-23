@@ -71,7 +71,7 @@ class HomeController extends Controller
             $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null);
             })->where('duplicated', '>', 1)->get()->toArray();
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId);
             })->where('duplicated', '>', 1)->get()->toArray();
@@ -90,7 +90,7 @@ class HomeController extends Controller
                 $q->where('assignToSaleManId', '!=', null)
                     ->where('transferred', 1);
             })->get()->toArray();
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $totalTransfered = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId)
                     ->where('transferred', 1);
@@ -110,7 +110,7 @@ class HomeController extends Controller
                 $q->where('assignToSaleManId', '!=', null)
                     ->where('actionId', null);
             })->where('duplicated', '=', 1)->get()->toArray();
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $totalNew = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId)
                     ->where('actionId', null);
@@ -139,7 +139,7 @@ class HomeController extends Controller
                     });
             })->where('duplicated', '=', 1)->get()->toArray();
 
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $totalNext = $query->with('detail')->whereHas('detail', function ($q) use ($userId, $from, $to) {
                 $q->where('assignToSaleManId', $userId)
                     ->whereDate('notificationDate', '>=', $from)
@@ -163,7 +163,7 @@ class HomeController extends Controller
             $totalDelay = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null);
             })->where('duplicated', '=', 1)->get()->toArray();
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $totalDelay = $query->with('detail')->whereHas('detail', function ($q) use ($userId) {
                 $q->where('assignToSaleManId', $userId);
             })->where('duplicated', '=', 1)->get()->toArray();
@@ -198,7 +198,7 @@ class HomeController extends Controller
                         ->where('transferred', '=', 0)
                         ->where('actionId', $state['id']);
                 })->where('duplicated', '=', 1)->get()->toArray();
-            } elseif ((Auth::user()->role->name == 'sale Man')) {
+            } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
                 $total = $query->with('detail')->whereHas('detail', function ($q) use ($userId, $state, $from, $to) {
                     $q->where('assignToSaleManId', $userId)
                         ->whereDate('notificationDate', '>=', $from)
@@ -236,7 +236,7 @@ class HomeController extends Controller
                 ->where('projectId', '!=', null)
                 ->get();
 
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
             $query = ClientDetail::
             whereDate('created_at', '>=', $from)
                 ->whereDate('created_at', '<=', $to)
@@ -278,7 +278,8 @@ class HomeController extends Controller
                 ->where('actionId', '!=', null)
                 ->where('assignToSaleManId', '!=', null)->get();
 
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
+
             $query = ClientDetail::
             whereDate('notificationDate', '>=', $from)
                 ->whereDate('notificationDate', '<=', $to)
