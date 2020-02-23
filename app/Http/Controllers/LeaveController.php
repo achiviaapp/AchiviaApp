@@ -16,8 +16,8 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::latest('id')->get();
-        return view('leaves.index', compact('leaves'));
+        $leaves_app = Leave::latest('id')->get();
+        return view('leaves.index', compact('leaves_app'));
     }
 
     /**
@@ -27,7 +27,8 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        return view('leaves.create');
+        $sales = User::where('roleId', 4)->get()->toArray();
+        return view('leaves.create', compact('sales'));
     }
 
     /**
@@ -48,7 +49,7 @@ class LeaveController extends Controller
 
         $input = $request->all();
         $leave = Leave::create($input);
-        return redirect('leaves')->withSuccess("leave created successfully");
+        return redirect('leave-app')->withSuccess("leave created successfully");
     }
 
     /**
@@ -86,19 +87,15 @@ class LeaveController extends Controller
     }
 
 
-    public function rejectLeave($id)
+    public function updateLeave(Request $request)
     {
-        $update = Leave::find($id)->update(['status' => '0']);
+        $status = $request->status;
+        Leave::find($request->id)->update(['status' => $status]);
+        if ($status == 1) {
+            $leave = Leave::find($request->id);
+            User::find($leave->userId)->update(['assign' => '1']);
+        }
         return back()->withSuccess("Leave Application reject successfully");
-    }
-
-
-    public function approveLeave($id)
-    {
-        $leave = Leave::find($id);
-        $update = $leave->update(['status' => '1']);
-        $update = User::find($leave->userId)->update(['assign' => '1']);
-        return back()->with('success', "Leave Application approve successfully");
     }
 
 

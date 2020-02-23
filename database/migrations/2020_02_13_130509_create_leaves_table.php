@@ -19,7 +19,7 @@ class CreateLeavesTable extends Migration
             $table->date('end_date');
             $table->integer('leave_days')->unsigned();
             $table->text('reason');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->integer('status')->default(2);
             $table->timestamps();
             $table->unsignedBigInteger('userId');
