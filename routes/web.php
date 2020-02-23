@@ -20,7 +20,7 @@ Route::post('client-landing-page', 'HomeController@landingStore');
 Route::get('/landing_page/{link}', 'ProjectController@show');
 Auth::routes();
 
-Route::get('/login', function(){
+Route::get('/login', function () {
     abort(404);
 });
 
@@ -109,17 +109,6 @@ Route::middleware(['auth'])->group(function () {
 
 
         /**
-         * leaves routes
-         */
-
-        //route for leave
-        Route::resource('leave-app','LeaveController');
-        Route::post('leave-app/{id}/approve','LeaveController@approveLeave');
-        Route::post('leave-app/{id}/reject','LeaveController@rejectLeave');
-        //route filter for leave application
-//        Route::get('api/dropdown','LeaveController@filter');
-
-        /**
          * user routes
          */
         Route::get('users', 'UserController@index');
@@ -139,6 +128,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('team-report/{id}', 'ReportController@teamReport');
         Route::get('sale-man-report/{id}', 'ReportController@saleManReport');
         Route::get('all-reports', 'ReportController@AllReports');
+    });
+
+    Route::middleware(['leaveDecision'])->group(function () {
+        /**
+         * leaves routes
+         */
+        //route for leave
+        Route::get('leave-app', 'LeaveController@index');
+        Route::post('leave-app/status', 'LeaveController@updateLeave');
+        //route filter for leave application
+//        Route::get('api/dropdown','LeaveController@filter');
     });
 
     Route::middleware(['notClient'])->group(function () {
@@ -183,6 +183,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('transfered-clients', 'ClientActionController@transfered');
         Route::get('client/get_transfered_data', 'ClientActionController@getTransferedData');
         Route::get('client/load-history', 'ClientActionController@loadHistory');
+
+        //leaves add
+        Route::get('leave-app/create', 'LeaveController@create');
+        Route::post('leave-app/store', 'LeaveController@store');
 
     });
 });

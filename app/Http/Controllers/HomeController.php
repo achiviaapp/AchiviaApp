@@ -66,6 +66,7 @@ class HomeController extends Controller
 
     public function totalDuplicated($query, $userId)
     {
+        $totalDuplicated = [];
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $totalDuplicated = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null);
@@ -83,6 +84,7 @@ class HomeController extends Controller
 
     public function totalTransferred($query, $userId)
     {
+        $totalTransfered = [];
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $totalTransfered = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null)
@@ -102,6 +104,7 @@ class HomeController extends Controller
 
     public function totalNew($query, $userId)
     {
+        $totalNew = [];
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $totalNew = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null)
@@ -121,6 +124,7 @@ class HomeController extends Controller
 
     public function totalNextToday($query, $userId)
     {
+        $totalNext = [];
         $from = date('Y-m-d H:i:s');
         $to = date('Y-m-d H:i:s');
 
@@ -154,6 +158,7 @@ class HomeController extends Controller
 
     public function totalDelay($query, $userId)
     {
+        $totalDelay = [];
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $totalDelay = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('assignToSaleManId', '!=', null);
@@ -183,6 +188,7 @@ class HomeController extends Controller
         }
         $status = Action::where('active', 1)->select('id', 'name')->get()->toArray();
         $allStatus = [];
+        $total = [];
         foreach ($status as $state) {
             if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
                 $total = $query->with('detail')->whereHas('detail', function ($q) use ($state, $from, $to) {
