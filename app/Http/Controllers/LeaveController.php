@@ -6,6 +6,7 @@ use App\Models\Leave;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeaveController extends Controller
 {
@@ -16,7 +17,13 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves_app = Leave::latest('id')->get();
+        $userId = Auth::user()->id;
+        if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root' || Auth::user()->role->name == 'Sales Team Leader') {
+            $leaves_app = Leave::latest('id')->get();
+        }
+        elseif(Auth::user()->role->name == 'sale Man' ){
+            $leaves_app = Leave::where('userId', $userId)->latest('id')->get();
+        }
         return view('leaves.index', compact('leaves_app'));
     }
 
@@ -27,7 +34,7 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        $sales = User::where('roleId', 4)->get()->toArray();
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->get()->toArray();
         return view('leaves.create', compact('sales'));
     }
 
