@@ -125,9 +125,10 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::post('user-store', 'UserController@store');
         Route::get('user-edit/{id}', 'UserController@edit');
         Route::post('user-update', 'UserController@update');
-        Route::delete('user-delete/{id}', 'UserController@destroy');
+        Route::post('user-delete', 'UserController@destroy');
         Route::get('users/get_data', 'UserController@getAllData');
         Route::get('api/dropdown/teams', 'UserController@dropDownTeams');
+        Route::get('api/dropdown/sales_team', 'UserController@salesTeam');
 
 
         /**

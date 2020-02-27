@@ -1,4 +1,3 @@
-<!-- begin::Global Config(global config for global JS sciprts) -->
 <script>
     var KTAppOptions = {
         "colors": {
