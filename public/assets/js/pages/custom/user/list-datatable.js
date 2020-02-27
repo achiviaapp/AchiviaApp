@@ -109,7 +109,7 @@ var KTUserListDatatable = function () {
                     overflow: 'visible',
                     autoHide: false,
                     sortable: false,
-                    width: 400,
+                    width: 300,
                     // callback function support for column rendering
                     template: function (data, i) {
                         return window.info(data);

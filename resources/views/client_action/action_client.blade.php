@@ -320,10 +320,13 @@
     <script> HREF = "{{ url('client/get_data/'.$actionId) }}"; </script>
     <script>
         function clientsQuestions(data){
-            return '<div class="kt-portlet kt-portlet--height-fluid">\
-                                            <div class="kt-notes">\
-												<div class="kt-notes__items">\
-													<div class="kt-notes__item pb-2">\
+            var returend_data = '';
+            //open kt-portlet and kt-notes and kt-notes__items
+            returend_data = '<div class="kt-portlet kt-portlet--height-fluid">\
+                                <div class="kt-notes">\
+                                    <div class="kt-notes__items">';
+            if(data.property !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="fa fa-building kt-font-info"></i>\
@@ -341,8 +344,10 @@
 																</div>\
 															</div>\
                                                         </div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.propertyLocation !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="flaticon2-location kt-font-info"></i>\
@@ -360,8 +365,10 @@
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.propertyUtility !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="flaticon2-information kt-font-info"></i>\
@@ -379,8 +386,10 @@
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.areaFrom !== null && data.areaTo !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="flaticon-squares kt-font-info"></i>\
@@ -392,14 +401,16 @@
 																	<p class="kt-notes__title">\
 																		Area\
 																	</p>\
-																	<span class="kt-notes__desc">\
-																		'+data.areaFrom+' : '+ data.areaTo+'\
+																	<span class="kt-notes__desc">From \
+																		'+data.areaFrom+' : To '+ data.areaTo+'\
 																	</span>\
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.budget !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="fa fa-dollar-sign kt-font-info"></i>\
@@ -417,8 +428,10 @@
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.deliveryDateId !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="fa fa-calendar-check kt-font-info"></i>\
@@ -436,8 +449,10 @@
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.convertProject1 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="fa fa-project-diagram kt-font-info"></i>\
@@ -447,7 +462,7 @@
 															<div class="kt-notes__section">\
 																<div class="kt-notes__info">\
 																	<p class="kt-notes__title">\
-																		Convert Project\
+																		Convert Project 1\
 																	</p>\
 																	<span class="kt-notes__desc">\
 																		'+data.convertProject1+'\
@@ -455,8 +470,10 @@
 																</div>\
 															</div>\
 														</div>\
-                                                    </div>\
-                                                    <div class="kt-notes__item pb-2">\
+                                                    </div>';
+            }
+            if(data.convertProject2 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
 														<div class="kt-notes__media">\
 															<span class="kt-notes__icon kt-notes__icon--danger">\
 																<i class="fa fa-project-diagram kt-font-info"></i>\
@@ -474,10 +491,32 @@
 																</div>\
 															</div>\
 														</div>\
+                                                    </div>';
+            }
+            if(data.property === null && data.propertyLocation === null && data.propertyUtility === null && data.areaFrom === null && data.areaTo === null 
+            && data.budget === null && data.deliveryDateId === null && data.convertProject1 === null && data.convertProject2 === null ){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-2">\
+													<div class="kt-notes__media">\
+														<span class="kt-notes__icon kt-notes__icon--danger">\
+															<i class="fas fa-times"></i>\
+														</span>\
 													</div>\
-												</div>\
-											</div>\
-										</div>';
+													<div class="kt-notes__content">\
+														<div class="kt-notes__section">\
+															<div class="kt-notes__info">\
+																<p class="kt-notes__title">\
+																	No Questions Available\
+																</p>\
+															</div>\
+														</div>\
+                                                    </div>\
+                                                </div>';
+            }
+            
+            //Close kt-portlet and kt-notes and kt-notes__items
+            returend_data = returend_data + '</div></div></div>';
+
+            return returend_data;
         }
         function output(data) {
             return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
@@ -604,7 +643,7 @@
 										# of Actions\
 									</span>\
 								    <div class="kt-widget__label">\
-										<span class="w-100 btn btn-label-success btn-sm btn-bold btn-upper">100</span>\
+										<span class="w-100 btn btn-label-success btn-sm btn-bold btn-upper">' + data.num_of_actions + '</span>\
 									</div>\
 								</div>\
 							</div>\
@@ -824,10 +863,133 @@
             ];
             var state = states[stateNo];
 
+            var return_data = " ";
+
+            //open the kt-widget
+            return_data = '<div class="kt-widget kt-widget--user-profile-1 pb-0">';
+            
+            //add clinet's name and the status if delayed or not
+            //not delayed
+            if(data.delayed === false){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-success">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //delayed
+            else if(data.delayed === true){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-danger">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's phone
+            if(data.phone !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											<span class="kt-widget__label">Phone:</span>\
+											<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
+										</div>';
+            }
+            //adding client's emial
+            if(data.email !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											    <span class="kt-widget__label">Email:</span>\
+												<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+											</div>';
+            }
+            //adding client's job title
+            if(data.jobTitle !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Job Title:</span>\
+												<span class="kt-widget__data">' + data.jobTitle + '</span>\
+                                            </div>';
+            }
+            //adding client's Notes
+            if(data.notes !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Notes:</span>\
+												<span class="kt-widget__data">' + data.notes + '</span>\
+                                            </div>';
+            }
+            //adding client's saleName
+            if(data.notes !== null){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Salesman:</span>\
+													<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's created at and by
+            if( (data.created_at !== null) && (data.created_by !== null) ){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created at:</span>\
+													<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                </div>\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created By:</span>\
+													<span class="kt-widget__data">' + data.created_by + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //adding client's marketer
+            if(data.marketer !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Marketer:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.marketer + '</span>\
+                                            </div>';
+            }
+            //adding client's campaign
+            if(data.campaign !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Campaign:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.campaign + '</span>\
+                                            </div>';
+            }
+            //adding client's custom_link
+            if(data.custom_link !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Custom Link:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.custom_link + '</span>\
+                                            </div>';
+            }
+            //adding client's platform
+            if(data.platform !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Platform:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.platform + '</span>\
+                                            </div>';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+            //Close the kt-widget
+            return_data = '</div>';
+
+            //return return_data;
+            
+
             return '<div class="border-left-green kt-widget kt-widget--user-profile-1 pb-0">\
 												<div class="kt-widget__head">\
 													<div class="kt-widget__content pl-0">\
-														<div class="kt-widget__section">\
+														<div class="kt-widget__section left-status left-status-danger">\
 															<a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">\
 																' + data.name + '\
 															</a>\
@@ -835,11 +997,6 @@
 																' + data.projectName + '\
 															</span>\
                                                         </div>\
-                                                        <!--<div class="kt-widget__action">\
-                                                            <input type="text" hidden class="user" value="' + data.userId + '"> \
-															<button type="button" class="getHistory btn btn-info btn-sm">Histroy</button>&nbsp;\
-															<a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class="whats btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></a>\
-														</div>-->\
 													</div>\
 												</div>\
 												<div class="kt-widget__body">\
@@ -863,7 +1020,7 @@
                                                         @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
                                                         <div class="kt-widget__info">\
 															<span class="kt-widget__label">Salesman:</span>\
-															<span class="kt-widget__data">' + data.saleName + '</span>\
+															<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
                                                         </div>\
                                                         @endif\
 													</div>\
