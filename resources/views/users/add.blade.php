@@ -1,12 +1,13 @@
 @extends('layouts.app')
-<!--begin::Page Custom Styles(used by this page) -->
-<link href="{{url('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css"/>
-<style>
-    .alert {
-        display: block !important;
-    }
-</style>
-<!--end::Page Custom Styles -->
+@section('head')
+    <link href="{{url('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css"/>
+    <style>
+        .alert {
+            display: block !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     @if(session()->has('message'))
         <div class="alert alert-danger">
@@ -272,7 +273,7 @@
 
                                                                     <div class="show form-group row hidden">
                                                                         <label class="col-xl-3 col-lg-3 col-form-label">
-                                                                             Team Leader</label>
+                                                                            Select Team </label>
                                                                         <select id="teamId" name="teamId"
                                                                                 class="form-control col-lg-9 col-xl-9">
                                                                         </select>
@@ -322,19 +323,18 @@
                 jQuery(document).ready(function (e) {
 
                     $('.hidden').hide();
-
-                    $('#roleId').change(function () {
-                        var roleId = $('#roleId').val();
+                    $(document).on('change', '#roleId', function () {
+                        var roleId = $(this).val();
+                        console.log(roleId);
                         $.get(
                             "{{ url('api/dropdown/teams')}}",
                             {
                                 option: $(this).val()
                             },
                             function (data) {
-
                                 var teamId = $('#teamId');
                                 teamId.empty();
-                                teamId.append("<option value=''> Select Team Leader  </option>");
+                                teamId.append("<option value=''> Select Team  </option>");
                                 $.each(data, function (index, element) {
                                     teamId.append("<option value='" + element.id + "'>" + element.name + "</option>");
                                 });

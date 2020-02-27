@@ -14,16 +14,17 @@ use App\Models\SaleLog;
 
 class UserController extends Controller
 {
-    private $model;
+    private $model, $client;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $model)
+    public function __construct(User $model, ClientActionController $clientActionController)
     {
         $this->model = $model;
+        $this->client = $clientActionController;
     }
 
     /**
@@ -122,9 +123,9 @@ class UserController extends Controller
                 $imageName = time() . '.' . $request->image->extension();
                 $request->image->move(public_path('images'), $imageName);
             }
-            $teamId = $request->teamId;
-            if ($request->teamId == 0) {
-                $teamId = null;
+            $teamLeaderId = null;
+            if ($request->teamId != 0) {
+                $teamLeaderId = Team::where('id', $request->teamId)->first()['teamLeaderId'];
             }
             $created = null;
             if ($request->createdBy != 0) {
@@ -143,7 +144,7 @@ class UserController extends Controller
                 'createdBy' => $created,
                 'userName' => '',
                 'phone' => $phone,
-                'teamId' => $teamId,
+                'teamId' => $teamLeaderId,
                 'mangerId' => $request->mangerId,
                 'userStatus' => 1,
                 'saleManPunished' => $request->saleManPunished,
@@ -198,10 +199,13 @@ class UserController extends Controller
         if ($request->password) {
             $password = Hash::make($request->password);
         }
-        $teamId = $model['teamId'];
+
+
+        $teamLeaderId = $model['teamId'];
         if ($request->teamId) {
-            $teamId = $request->teamId;
+            $teamLeaderId = Team::where('id', $request->teamId)->first()['teamLeaderId'];
         }
+
         $active = $model['active'];
         if ($request->active != 2) {
             $active = $request->active;
@@ -212,7 +216,7 @@ class UserController extends Controller
         $model->password = $password;
         $model->phone = $request->phone;
         $model->roleId = $request->roleId;
-        $model->teamId = $teamId;
+        $model->teamId = $teamLeaderId;
         $model->userStatus = 1;
         $model->active = $active;
         $model->expireDate = $request->expireDate;
@@ -241,26 +245,88 @@ class UserController extends Controller
     /**
      * delete user
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $model = $this->model->find($id);
+        $deleteSale = $request->id;
+        $model = $this->model->find($deleteSale);
+//        if ($model->roleId == 4) {
+//            $clients = ClientDetail::where('assignToSaleManId', $deleteSale)->select('userId')->get()->toArray();
+//            foreach ($clients as $client) {
+//                $myClients[] = $client['userId'];
+//            }
+//            $request = [
+//                'ids' => $myClients,
+//                'sale' => 62,
+//                'type' => 'sale',
+//            ];
+//            $assigned = $this->assignUser($request);
+//        }
+
         $model->delete();
 
         return redirect('/users')->withMessage('Deleted successfully');
     }
 
+    public function assignUser($request)
+    {
+        $clients = $request['ids'];
+        $assignId = $request['sale'];
+        $type = $request['type'];
+        $transferred = 0;
+        foreach ($clients as $client) {
+            if ($type == 'sale') {
+                $clientDetail = ClientDetail::where('userId', $client)->first();
+                $assignSaleId = $clientDetail['assignToSaleManId'];
+                $actionId = $clientDetail['actionId'];
+                if ($assignSaleId != null && $actionId != null) {
+                    $transferred = 1;
+                }
 
-    public
-    function dropDownTeams(Request $request)
+                ClientDetail::where('userId', $client)->update([
+                    'assignToSaleManId' => $assignId,
+                    'transferred' => $transferred,
+                    'assignedDate' => now()->format('Y-m-d'),
+                    'assignedTime' => now()->format('H:i:s'),
+                ]);
+
+                $sale = User::where('id', $assignId)->first();
+                $user = User::where('id', $client)->first();
+
+                event(new PushNotificationEvent($sale, $user));
+
+            } elseif ($type == 'team') {
+
+                $this->client->assignTeam($assignId, $client);
+            }
+        }
+
+        return 'done';
+    }
+
+    public function salesTeam(Request $request)
+    {
+        $saleId = $request->option;;
+        $model = $this->model->find($saleId);
+        $teamLeaderId = $model->teamId;
+        $team = Team::where('teamLeaderId', $teamLeaderId)->first();
+        $teamLeader = $this->model->where('id', $teamLeaderId)->get()->toArray();
+        $sales = $team->teamLeader->sales()->get()->toArray();
+        $allSales = array_merge($teamLeader, $sales);
+
+        return $allSales;
+
+    }
+
+
+    public function dropDownTeams(Request $request)
     {
         $roleId = $request->option;
 
         if ($roleId == 4) {
-            $teams = User::where('roleId', 3)->get()->toArray();
+            $teams = Team::get()->toArray();
 
             return Response::make($teams);
         }
-
     }
 
     public function salesActive()
