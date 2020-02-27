@@ -146,7 +146,8 @@ var KTUserListDatatable = function () {
 							'">' +
 							data.priority + '</span>';
 					},
-                },{
+                },
+                {
 					field: 'Status',
                     title: 'Status',
                     autoHide: false,

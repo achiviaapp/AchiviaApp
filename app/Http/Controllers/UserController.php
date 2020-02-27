@@ -63,7 +63,6 @@ class UserController extends Controller
             $key = $key + 1;
         }
 
-
         $meta = [
             "page" => $data->currentPage(),
             "pages" => intval($data->total() / $data->perPage()),
@@ -131,6 +130,10 @@ class UserController extends Controller
             if ($request->createdBy != 0) {
                 $created = $request->createdBy;
             }
+            $active = null;
+            if ($request->active != 2) {
+                $active = $request->active;
+            }
             $userData = array(
                 'name' => $request->name,
                 'password' => $password,
@@ -146,7 +149,8 @@ class UserController extends Controller
                 'saleManPunished' => $request->saleManPunished,
                 'saleManAssignedToClient' => $request->saleManAssignedToClient,
                 'saleManSendingMsgLimit' => $request->saleManSendingMsgLimit,
-                'active' => 1,
+                'active' => $active,
+                'expireDate' => $request->expireDate,
             );
             $user = $this->model->create($userData);
             return ['user' => $user, 'exist' => 'no'];
@@ -198,6 +202,10 @@ class UserController extends Controller
         if ($request->teamId) {
             $teamId = $request->teamId;
         }
+        $active = $model['active'];
+        if ($request->active != 2) {
+            $active = $request->active;
+        }
 
         $model->name = $request->name;
         $model->email = $request->email;
@@ -206,7 +214,8 @@ class UserController extends Controller
         $model->roleId = $request->roleId;
         $model->teamId = $teamId;
         $model->userStatus = 1;
-        $model->active = 1;
+        $model->active = $active;
+        $model->expireDate = $request->expireDate;
         $updated = $model->save();
         return $updated;
     }
@@ -257,7 +266,7 @@ class UserController extends Controller
     public function salesActive()
     {
         $salesActive = SaleLog::where('last_login_at', '!=', null)->where('last_logout_at', null)->get()->toArray();
-        foreach ($salesActive as $key => $one){
+        foreach ($salesActive as $key => $one) {
             $salesActive[$key]['name'] = User::where('id', $one['userId'])->first()['name'];
         }
 

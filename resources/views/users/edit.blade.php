@@ -174,7 +174,7 @@
                                                                                        id="phone"
                                                                                        name="phone"
                                                                                        value="{{$requestData['phone']}}"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                     >
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -187,11 +187,10 @@
                                                                                             class="input-group-text"><i
                                                                                                 class="la la-at"></i></span>
                                                                                 </div>
-                                                                                <input id="email" type="text"
+                                                                                <input id="email" type="email"
                                                                                        class="form-control"
                                                                                        value="{{$requestData['email']}}"
-                                                                                       name="email"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                       name="email">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -209,8 +208,28 @@
                                                                                        class="form-control"
                                                                                        value=""
                                                                                        name="password"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                >
                                                                             </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                            User Activate</label>
+                                                                        <select id="roleId" name="active"
+                                                                                class="form-control col-lg-9 col-xl-9">
+                                                                            <option selected value="2">Select Activate
+                                                                            </option>
+                                                                                <option value="1" {{ 1 == $requestData['active'] ? 'selected' : '' }} >Active</option>
+                                                                                <option value="0" {{ 1 == $requestData['active'] ? 'selected' : '' }} >DeActive</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                           Expire Date</label>
+                                                                        <div class="col-lg-9 col-xl-9">
+                                                                        <input  type="date" class="form-control" value="" name="expireDate">
                                                                         </div>
                                                                     </div>
 

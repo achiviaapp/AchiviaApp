@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Campaign;
 use App\Models\ClientDetail;
+use App\Models\ClientHistory;
 use App\Models\Method;
 use App\Models\Project;
+use App\Models\ProjectLink;
 use App\Models\Team;
 use App\User;
 use Illuminate\Http\Request;
@@ -13,10 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Events\PushNotificationEvent;
 use DateTime;
 use App\Services\AutoAssignService;
-use App\Models\RotationAuto;
-use App\Events\UserSalesUpdatedEvent;
 use App\Events\CkeckAbssentSaleEvent;
-use App\Models\ClientHistory;
+use Carbon\Carbon;
 
 class ClientActionController extends Controller
 {
@@ -84,7 +85,7 @@ class ClientActionController extends Controller
             $query->when($filter['sale'] ?? '', function ($query) use ($filter) {
                 $query->where('assignToSaleManId', $filter['sale']);
             });
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Sales Team Leader')) {
 
             $query->where('assignToSaleManId', $userId);
         }
@@ -104,18 +105,89 @@ class ClientActionController extends Controller
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
 
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
+        $data = $this->TransformData($data);
+
+        $meta = [
+            "page" => $data->currentPage(),
+            "pages" => intval($data->total() / $data->perPage()),
+            "perpage" => $data->perPage(),
+            "total" => $data->total(),
+            "sort" => "asc",
+            "field" => "id",
+        ];
+
+        $requestData = [
+            'meta' => $meta,
+            'data' => $data->items(),
+        ];
+
+        return $requestData;
+    }
+
+    public function AllClientWithNextAction()
+    {
+        $actionId = 'all';
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get()->toArray();
+        $teams = Team::all()->toArray();
+        $projects = Project::all()->toArray();
+        $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
+        foreach ($projects as $key => $project) {
+            foreach ($projectsIgnore as $ignore) {
+                if ($ignore['id'] == $project['id']) {
+                    unset($projects[$key]);
+                }
+            }
         }
+
+        $methods = Method::all()->toArray();
+        $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
+
+        return View('client_action.all_clients_actions', compact('actions', 'methods', 'actionId', 'sales', 'projects', 'teams'));
+
+    }
+
+    public function getAllClientWithNextActionData(Request $request)
+    {
+        $paginationOptions = $request->input('pagination');
+        if ($paginationOptions['perpage'] == -1) {
+            $paginationOptions['perpage'] = 0;
+        }
+
+        $userId = Auth::user()->id;
+        $filter = $request->input('query');
+        $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
+        if (isset($filter['date'])) {
+            $dates = explode(' - ', $filter['date'] ?? '');
+            $from = $dates[0];
+            $to = $dates[0];
+        }
+
+        if (isset($dates[1])) {
+            $to = $dates[1];
+        }
+
+        $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
+
+        $query->where('assignToSaleManId', $userId);
+
+        $query->where(function ($q) use ($from, $to) {
+            $q->whereDate('client_details.notificationDate', '>=', $from)
+                ->whereDate('client_details.notificationDate', '<=', $to)
+                ->orWhere('client_details.notificationDate', null);
+        });
+
+        $this->filters($query, $filter)
+            ->orderBy('client_details.notificationDate', 'desc')
+            ->orderBy('client_details.notificationTime', 'desc')
+            ->select('users.*', 'client_details.*');
+
+//        dd($query->toSql());
+        $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
+
+
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -144,7 +216,7 @@ class ClientActionController extends Controller
         $teams = Team::all()->toArray();
         $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get()->toArray();
 
-        return View('client_action.new_requests', compact('actionId', 'sales' , 'teams'));
+        return View('client_action.new_requests', compact('actionId', 'sales', 'teams'));
     }
 
     /**
@@ -182,20 +254,10 @@ class ClientActionController extends Controller
         if (Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root') {
             $data = $query->with('detail')->whereHas('detail', function ($q) {
                 $q->where('actionId', null)->where('assignToSaleManId', null);
+
             })->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
-            $key = 0;
-            foreach ($data as $one) {
-                $projectName = Project::where('id', $one['detail']['projectId'])->first()['name'];
-                $saleName = User::where('id', $one['detail']['assignToSaleManId'])->first()['name'];
-                $statusName = Action::where('id', $one['actionId'])->first()['name'];
-                $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-                $data[$key]['projectName'] = $projectName;
-                $data[$key]['saleName'] = $saleName;
-                $data[$key]['statusName'] = $statusName;
-                $data[$key]['methodName'] = $methodName;
-                $key = $key + 1;
-            }
+            $data = $this->TransformData($data);
 
             $meta = [
                 "page" => $data->currentPage(),
@@ -273,9 +335,6 @@ class ClientActionController extends Controller
     }
 
 
-    /**
-     * view  index get data
-     */
     public function getData($id, Request $request)
     {
         $paginationOptions = $request->input('pagination');
@@ -309,7 +368,7 @@ class ClientActionController extends Controller
                 $query->where('assignToSaleManId', $filter['sale']);
             });
 
-        } elseif ((Auth::user()->role->name == 'sale Man')) {
+        } elseif ((Auth::user()->role->name == 'sale Man' || Auth::user()->role->name == 'Ambassador' || Auth::user()->role->name == 'Sales Team Leader')) {
 
             $query->where('assignToSaleManId', $userId);
         }
@@ -340,19 +399,183 @@ class ClientActionController extends Controller
 
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
+        $data = $this->TransformData($data);
 
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
+        $meta = [
+            "page" => $data->currentPage(),
+            "pages" => intval($data->total() / $data->perPage()),
+            "perpage" => $data->perPage(),
+            "total" => $data->total(),
+            "sort" => "asc",
+            "field" => "id",
+        ];
+
+        $requestData = [
+            'meta' => $meta,
+            'data' => $data->items(),
+        ];
+
+        return $requestData;
+    }
+
+
+
+    /**
+     * view  index actionClient
+     */
+    public function visitDubai()
+    {
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
+        $actionId = 10;
+        $teams = Team::all()->toArray();
+        $methods = Method::all()->toArray();
+        $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
+        $projects = Project::all()->toArray();
+        $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
+        foreach ($projects as $key => $project) {
+            foreach ($projectsIgnore as $ignore) {
+                if ($ignore['id'] == $project['id']) {
+                    unset($projects[$key]);
+                }
+            }
         }
+
+        return View('client_action.visit_dubai', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
+    }
+
+    /**
+     * view  index get data
+     */
+    public function getVisitDubaiData(Request $request)
+    {
+        $paginationOptions = $request->input('pagination');
+        if ($paginationOptions['perpage'] == -1) {
+            $paginationOptions['perpage'] = 0;
+        }
+
+        $id = 10;
+        $userId = Auth::user()->id;
+        $filter = $request->input('query');
+        $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
+        if (isset($filter['date'])) {
+            $dates = explode(' - ', $filter['date'] ?? '');
+            $from = $dates[0];
+            $to = $dates[0];
+        }
+
+        if (isset($dates[1])) {
+            $to = $dates[1];
+        }
+
+        $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
+
+        $query->where('assignToSaleManId', $userId);
+        $query->whereDate('client_details.notificationDate', '>=', $from)
+            ->whereDate('client_details.notificationDate', '<=', $to)
+            ->where('client_details.transferred', '=', 0);
+
+        $query->where('duplicated', '=', 1)
+            ->where('client_details.actionId', $id)
+            ->where('client_details.assignToSaleManId', '!=', null);
+
+        $this->filters($query, $filter)
+            ->orderBy('client_details.notificationDate', 'asc')
+            ->orderBy('client_details.notificationTime', 'asc')
+            ->select('users.*', 'client_details.*');
+
+        $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
+
+
+        $data = $this->TransformData($data);
+
+        $meta = [
+            "page" => $data->currentPage(),
+            "pages" => intval($data->total() / $data->perPage()),
+            "perpage" => $data->perPage(),
+            "total" => $data->total(),
+            "sort" => "asc",
+            "field" => "id",
+        ];
+
+        $requestData = [
+            'meta' => $meta,
+            'data' => $data->items(),
+        ];
+
+        return $requestData;
+    }
+
+    /**
+     * view  index actionClient
+     */
+    public function DoneDeal()
+    {
+        $sales = User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished', null)->get(['id', 'name']);
+        $actionId = 1;
+        $teams = Team::all()->toArray();
+        $methods = Method::all()->toArray();
+        $actions = Action::where('active', 1)->orderBy('order')->get()->toArray();
+        $projects = Project::all()->toArray();
+        $projectsIgnore = Project::with('parentProject')->whereHas('parentProject')->get()->toArray();
+        foreach ($projects as $key => $project) {
+            foreach ($projectsIgnore as $ignore) {
+                if ($ignore['id'] == $project['id']) {
+                    unset($projects[$key]);
+                }
+            }
+        }
+
+        return View('client_action.done_deal', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
+    }
+
+    /**
+     * view  index get data
+     */
+    public function getDoneDealData(Request $request)
+    {
+        $paginationOptions = $request->input('pagination');
+        if ($paginationOptions['perpage'] == -1) {
+            $paginationOptions['perpage'] = 0;
+        }
+
+        $id = 1;
+        $userId = Auth::user()->id;
+        $filter = $request->input('query');
+        $from = date('Y-m-d H:i:s', strtotime('1970-01-01'));
+        $time = strtotime(date('Y-m-d') . ' +365 days');
+        $to = date('Y-m-d H:i:s', $time);
+        if (isset($filter['date'])) {
+            $dates = explode(' - ', $filter['date'] ?? '');
+            $from = $dates[0];
+            $to = $dates[0];
+        }
+
+        if (isset($dates[1])) {
+            $to = $dates[1];
+        }
+
+        $query = User::join('client_details', 'users.id', '=', 'client_details.userId');
+
+        $query->where('assignToSaleManId', $userId);
+        $query->whereDate('client_details.notificationDate', '>=', $from)
+            ->whereDate('client_details.notificationDate', '<=', $to)
+            ->where('client_details.transferred', '=', 0);
+
+        $query->where('duplicated', '=', 1)
+            ->where('client_details.actionId', $id)
+            ->where('client_details.assignToSaleManId', '!=', null);
+
+        $this->filters($query, $filter)
+            ->orderBy('client_details.notificationDate', 'asc')
+            ->orderBy('client_details.notificationTime', 'asc')
+            ->select('users.*', 'client_details.*');
+
+        $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
+
+
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -442,18 +665,7 @@ class ClientActionController extends Controller
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
 
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
-        }
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -542,18 +754,7 @@ class ClientActionController extends Controller
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
 
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
-        }
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -595,7 +796,7 @@ class ClientActionController extends Controller
                 }
             }
         }
-        return View('client_action.todo_client', compact('projects', 'sales', 'actionId', 'actions', 'methods' , 'teams'));
+        return View('client_action.todo_client', compact('projects', 'sales', 'actionId', 'actions', 'methods', 'teams'));
 
     }
 
@@ -655,18 +856,7 @@ class ClientActionController extends Controller
 
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
 
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
-        }
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -764,18 +954,7 @@ class ClientActionController extends Controller
             ->select('users.*', 'client_details.*');
 
         $data = $query->paginate($paginationOptions['perpage'], ['*'], 'page', $paginationOptions['page']);
-        $key = 0;
-        foreach ($data as $one) {
-            $projectName = Project::where('id', $one['projectId'])->first()['name'];
-            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
-            $statusName = Action::where('id', $one['actionId'])->first()['name'];
-            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
-            $data[$key]['projectName'] = $projectName;
-            $data[$key]['saleName'] = $saleName;
-            $data[$key]['statusName'] = $statusName;
-            $data[$key]['methodName'] = $methodName;
-            $key = $key + 1;
-        }
+        $data = $this->TransformData($data);
 
         $meta = [
             "page" => $data->currentPage(),
@@ -828,7 +1007,7 @@ class ClientActionController extends Controller
 
             } elseif ($type == 'team') {
 
-                $this->assignTeam($assignId,$client);
+                $this->assignTeam($assignId, $client);
             }
         }
 
@@ -882,6 +1061,7 @@ class ClientActionController extends Controller
         $userId = $id;
         return View('client_action.history_client', compact('userId'));
     }
+
     public function getHistory($id, Request $request)
     {
         $paginationOptions = $request->input('pagination');
@@ -1018,6 +1198,42 @@ class ClientActionController extends Controller
             });
         return $query;
 
+    }
+
+    public function TransformData($data)
+    {
+        $key = 0;
+        foreach ($data as $one) {
+            $projectName = Project::where('id', $one['projectId'])->first()['name'];
+            $saleName = User::where('id', $one['assignToSaleManId'])->first()['name'];
+            $statusName = Action::where('id', $one['actionId'])->first()['name'];
+            $methodName = Method::where('id', $one['viaMethodId'])->first()['name'];
+            $createdByName = User::where('id', $one['createdBy'])->first()['name'];
+            $marketerName = User::where('id', $one['marketerId'])->first()['name'];
+            $campaignName = Campaign::where('id', $one['campaignId'])->first()['name'];
+            $LinkName = ProjectLink::where('id', $one['addClientLinkId'])->first()['link'];
+            $clientActions = [];
+            $clientActions = ClientHistory::where('userId', $one['userId'])->where('actionId', '!=', null)->get()->toArray();
+            $today = Carbon::now()->format('Y-m-d H:i:s');
+            $nextAction = Carbon::parse($one['notificationDate'] . $one['notificationTime'])->format('Y-m-d H:i:s');
+            $delayed = false;
+            if ($today > $nextAction) {
+                $delayed = true;
+            }
+            $data[$key]['projectName'] = $projectName;
+            $data[$key]['saleName'] = $saleName;
+            $data[$key]['statusName'] = $statusName;
+            $data[$key]['methodName'] = $methodName;
+            $data[$key]['created_by'] = $createdByName;
+            $data[$key]['marketer'] = $marketerName;
+            $data[$key]['campaign'] = $campaignName;
+            $data[$key]['custom_link'] = $LinkName;
+            $data[$key]['num_of_actions'] = count($clientActions);
+            $data[$key]['delayed'] = $delayed;
+            $key = $key + 1;
+        }
+
+        return $data;
     }
 
 }

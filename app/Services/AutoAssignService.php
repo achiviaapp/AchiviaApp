@@ -14,7 +14,7 @@ use App\Events\CkeckAbssentSaleEvent;
 use App\Models\ClientDetail;
 use App\Models\ClientHistory;
 use App\Models\Project;
-use App\Models\RotationAuto;
+use App\Models\Setting;
 use App\Models\Team;
 use App\User;
 
@@ -26,7 +26,7 @@ class AutoAssignService
         if ($client['assignToSaleManId'] != 0) {
             return;
         }
-        $rotationType = RotationAuto::first()['type'];
+        $rotationType = Setting::where('name', 'rotation')->first()['type'];
         if ($rotationType == 1 && $client['projectId']) {
             $project = Project::find($client['projectId']);
             $teams = $project->teams()->get()->toArray();

@@ -34,6 +34,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\LogSuccessfulLogout',
         ],
 
+        'Illuminate\Auth\Events\Attempting' => [
+            'App\Listeners\LogAuthenticationAttempt',
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],

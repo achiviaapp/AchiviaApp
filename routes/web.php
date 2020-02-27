@@ -26,7 +26,7 @@ Route::get('/login', function () {
 
 Route::get('/axiepanel', 'Auth\LoginController@showLoginForm')->name('login');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::middleware(['admin'])->group(function () {
@@ -39,6 +39,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('sending-edit/{id}', 'SendingController@edit');
         Route::post('sending-update', 'SendingController@update');
         Route::get('sms/get_data', 'SendingController@getAllData');
+
+        /**
+         * settings routes
+         */
+        Route::get('settings', 'SettingController@index');
+        Route::get('setting-edit/{id}', 'SettingController@edit');
+        Route::post('setting-update', 'SettingController@update');
+        Route::get('settings/get_data', 'SettingController@getAllData');
 
         /**
          * client actions routes
@@ -102,8 +110,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('teams', 'TeamController@index');
         Route::get('team-create', 'TeamController@create');
         Route::post('team-store', 'TeamController@store');
-        Route::get('team-edit', 'TeamController@edit');
-        Route::patch('team-update/{id}', 'TeamController@update');
+        Route::get('team-edit/{id}', 'TeamController@edit');
+        Route::post('team-update', 'TeamController@update');
         Route::delete('team-delete/{id}', 'TeamController@destroy');
         Route::get('team/get_data', 'TeamController@getAllData');
 
@@ -163,9 +171,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('client-profile/{id}', 'ClientController@profile');
         Route::get('client/get-profile-data/{id}', 'ClientController@getProfileData');
 
+
         /**
          * client actions routes
          */
+        Route::get('client/all_client_action', 'ClientActionController@AllClientWithNextAction');
+        Route::get('client/all_client_with_action_data', 'ClientActionController@getAllClientWithNextActionData');
+        Route::get('client/done_deal', 'ClientActionController@DoneDeal');
+        Route::get('client/done_deal_data', 'ClientActionController@getDoneDealData');
+
+    });
+    Route::middleware(['notAmbassador'])->group(function () {
         Route::get('all-clients', 'ClientActionController@allClients');
         Route::get('client/get_all_data', 'ClientActionController@getAllData');
         Route::get('new-clients', 'ClientActionController@newClients');
@@ -182,11 +198,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('transfered-clients', 'ClientActionController@transfered');
         Route::get('client/get_transfered_data', 'ClientActionController@getTransferedData');
         Route::get('client/load-history', 'ClientActionController@loadHistory');
-
         //leaves add
         Route::get('leave-app/create', 'LeaveController@create');
         Route::post('leave-app/store', 'LeaveController@store');
         Route::get('leave-app', 'LeaveController@index');
-
     });
+
+    Route::middleware(['visitDubai'])->group(function () {
+        Route::get('visit_dubai', 'ClientActionController@visitDubai');
+        Route::get('client/visit_dubai_data', 'ClientActionController@getVisitDubaiData');
+    });
+
 });

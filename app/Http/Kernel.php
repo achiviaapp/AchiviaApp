@@ -64,6 +64,10 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\IsAdmin::class,
         'leaveDecision' => \App\Http\Middleware\leaveDecision::class,
         'notClient' => \App\Http\Middleware\NotClient::class,
+        'isLimit' => \App\Http\Middleware\IsLimit::class,
+        'isExpire' => \App\Http\Middleware\IsExpire::class,
+        'notAmbassador' => \App\Http\Middleware\NotAmbassador::class,
+        'visitDubai' => \App\Http\Middleware\VisitDubai::class,
     ];
 
     /**

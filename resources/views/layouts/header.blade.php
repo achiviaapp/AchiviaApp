@@ -23,8 +23,9 @@
     <div class="kt-header__topbar">
 
         {{--<!--end: Search -->--}}
-        @if(@Auth::user()->role->name != 'client')
-        <!--begin: Notifications -->
+        @if(@Auth::user()->role->name != 'client' && @Auth::user()->role->name != 'Ambassador' && @Auth::user()->role->name != 'Visit Dubai')
+
+            <!--begin: Notifications -->
         <div class="kt-header__topbar-item dropdown">
             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
                 <span class="kt-header__topbar-icon kt-header__topbar-icon--success"><i
