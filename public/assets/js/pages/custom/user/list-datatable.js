@@ -106,9 +106,6 @@ var KTUserListDatatable = function () {
                 {
                     field: "name",
                     title: "Client Info",
-                    overflow: 'visible',
-                    autoHide: false,
-                    sortable: false,
                     width: 300,
                     // callback function support for column rendering
                     template: function (data, i) {
@@ -118,9 +115,6 @@ var KTUserListDatatable = function () {
                 {
                     field: "takeActions",
                     title: 'Take An Action',
-                    autoHide: false,
-                    overflow: 'visible',
-                    sortable: false,
                     width: 600,
                     // callback function support for column rendering
                     template: function (data) {
@@ -130,8 +124,7 @@ var KTUserListDatatable = function () {
                 {
                     field: "Client'sQuestions",
                     title: "Client's Questions",
-                    sortable: false,
-                    width: 600,
+
                     // callback function support for column rendering
                     template: function (data) {
                         return window.clientsQuestions(data);
@@ -141,7 +134,6 @@ var KTUserListDatatable = function () {
 					field: 'Priority',
 					title: 'Priority',
                     autoHide: false,
-                    sortable: false,
                     width:70,
 					// callback function support for column rendering
 					template: function(data) {
@@ -155,27 +147,6 @@ var KTUserListDatatable = function () {
 							data.priority + '</span>';
 					},
                 },
-              
-
-                {
-					field: 'Status',
-                    title: 'Status',
-                    autoHide: false,
-                    width:70,
-					// callback function support for column rendering
-					template: function(data) {
-						var status = {
-							1: {'title': 'Pending', 'class': 'kt-badge--brand'},
-							2: {'title': 'Delivered', 'class': ' kt-badge--danger'},
-							3: {'title': 'Canceled', 'class': ' kt-badge--primary'},
-							4: {'title': 'Success', 'class': ' kt-badge--success'},
-							5: {'title': 'Info', 'class': ' kt-badge--info'},
-							6: {'title': 'Danger', 'class': ' kt-badge--danger'},
-							7: {'title': 'Warning', 'class': ' kt-badge--warning'},
-						};
-						return '<span class="kt-badge ' + 'kt-badge--success' + ' kt-badge--inline kt-badge--pill">' + 'Success' + '</span>';
-					},
-				},
 
                 {
                     field: "Actions",
@@ -206,16 +177,16 @@ var KTUserListDatatable = function () {
 										</li>\
 										<li class="kt-nav__item">\
 										<a href="' + URL + '/history-clients/' + data.userId + '" class="kt-nav__link">\
-                                            <i class="kt-nav__link-icon flaticon2-file"></i>\
+                                          <i class="kt-nav__link-icon flaticon2-trash"></i>\
                                             <span class="kt-nav__link-text">History</span>\
                                             </a>\
 										    </li>\
-									        <li class="kt-nav__item">\
-											<a href="' + URL + '/client-delte/' + data.userId + '" class="kt-nav__link">\
-                                                <i class="kt-nav__link-icon flaticon2-trash"></i>\
-												<span class="kt-nav__link-text">Delet</span>\
+									<!--	<li class="kt-nav__item">\
+											<a href="#" class="kt-nav__link">\
+												<i class="kt-nav__link-icon flaticon2-mail-1"></i>\
+												<span class="kt-nav__link-text">Export</span>\
 											</a>\
-										</li>\
+										</li>\-->\
 									</ul>\
 								</div>\
 							</div>\
