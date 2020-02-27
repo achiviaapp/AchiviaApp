@@ -146,24 +146,40 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $requestData = $this->model->find($id);
-
-        return View('projects.edit', compact('requestData'));
+        $requestData = $this->model->where('id', $id)->with('teams')->whereHas('teams')->first()->toArray();
+        $teams = Team::all()->toArray();
+        return View('projects.edit', compact('requestData', 'teams'));
     }
 
     /**
      * update project
      */
-    public function update($id, Request $request)
+    public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:projects|max:255',
+            'name' => 'required|max:255|unique:projects,name,' . $request->id,
         ]);
-
-        $model = $this->model->find($id);
+        $model = $this->model->find($request->id);
         $model->name = $request->name;
         $model->description = $request->description;
+        $model->image = $request->image;
+        $model->country = $request->country;
+        $model->location = $request->location;
         $model->save();
+
+        $projectTeams = ProjectTeam::where('projectId', $request->id)->get()->toArray();
+        foreach ($projectTeams as $one) {
+            $model = ProjectTeam::find($one['id']);
+            $model->delete();
+        }
+
+        foreach ($request->teams as $team) {
+            $teamData = [
+                'teamId' => $team,
+                'projectId' => $request->id,
+            ];
+            ProjectTeam::create($teamData);
+        }
 
         return redirect('/projects')->with('success', 'Updated successfully');
     }
@@ -270,15 +286,15 @@ class ProjectController extends Controller
 
         $baseUrl = url('/');
 
-            $linkData = [
-                'link' => $baseUrl . '/landing_page/' . $request->link,
-                'alias' => $baseUrl . '/landing_page/' . $request->link,
-                'projectId' => $request->projectId,
-                'campaignId' => $campaignCreated->id,
-                'platform' => $request->platform,
-            ];
+        $linkData = [
+            'link' => $baseUrl . '/landing_page/' . $request->link,
+            'alias' => $baseUrl . '/landing_page/' . $request->link,
+            'projectId' => $request->projectId,
+            'campaignId' => $campaignCreated->id,
+            'platform' => $request->platform,
+        ];
 
-            $linkCreated = ProjectLink::create($linkData);
+        $linkCreated = ProjectLink::create($linkData);
 //
 
         //landing page

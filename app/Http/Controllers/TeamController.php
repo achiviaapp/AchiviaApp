@@ -104,29 +104,25 @@ class TeamController extends Controller
     public function edit($id)
     {
         $requestData = $this->model->find($id);
+        $teamleaders = User::where('roleId', 3)->get()->toArray();
 
-        return View('teams.edit', compact('requestData'));
+        return View('teams.edit', compact('requestData' , 'teamleaders'));
     }
 
     /**
      * update team
      */
-    public function update($id, Request $request)
+    public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:teams|max:255',
+            'name' => 'required|max:255|unique:teams,name,' . $request->id,
             'teamLeaderId' => 'required',
         ]);
 
-        $model = $this->model->find($id);
-        $model->projects()->delete();
+        $model = $this->model->find($request->id);
         $model->name = $request->name;
         $model->teamLeaderId = $request->teamLeaderId;
         $model->save();
-
-        if ($request->projectId) {
-            $model->projects()->create($request->projectId);
-        }
 
         return redirect('/teams')->with('success', 'Updated successfully');
     }

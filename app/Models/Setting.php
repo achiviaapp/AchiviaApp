@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RotationAuto extends Model
+class Setting extends Model
 {
     protected $fillable = [
-        'type'
+        'type', 'usersNo'
     ];
 
-    protected $table = 'rotations_auto';
+    protected $table = 'settings';
 }

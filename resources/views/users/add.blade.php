@@ -239,6 +239,26 @@
 
                                                                     <div class="form-group row">
                                                                         <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                            User Activate</label>
+                                                                        <select id="roleId" name="active"
+                                                                                class="form-control col-lg-9 col-xl-9">
+                                                                            <option selected value="2">Select Activate
+                                                                            </option>
+                                                                            <option value="1">Active</option>
+                                                                            <option value="0">DeActive</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                            Expire Date</label>
+                                                                        <div class="col-lg-9 col-xl-9">
+                                                                            <input  type="date" class="form-control" value="" name="expireDate">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
                                                                             User Type</label>
                                                                         <select id="roleId" name="roleId"
                                                                                 class="form-control col-lg-9 col-xl-9">
@@ -257,7 +277,6 @@
                                                                                 class="form-control col-lg-9 col-xl-9">
                                                                         </select>
                                                                     </div>
-
 
                                                                 </div>
                                                             </div>

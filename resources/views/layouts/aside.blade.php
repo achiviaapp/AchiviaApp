@@ -12,8 +12,9 @@
 			</div>
 			<!-- end:: Aside -->
 
-    @if(@Auth::user()->role->name != 'client')
-    <!-- begin:: Aside Menu -->
+        @if(@Auth::user()->role->name != 'client' && @Auth::user()->role->name != 'Ambassador' && @Auth::user()->role->name != 'Visit Dubai')
+
+            <!-- begin:: Aside Menu -->
     <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
 		<div id="kt_aside_menu" class="kt-aside-menu  kt-aside-menu--dropdown " data-ktmenu-vertical="1" data-ktmenu-dropdown="1" data-ktmenu-scroll="0">
 			<ul class="kt-menu__nav ">

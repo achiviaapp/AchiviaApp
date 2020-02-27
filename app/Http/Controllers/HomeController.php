@@ -36,14 +36,17 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $projectsChartBar = [];
+        $salesChartBar = [];
         $filter = $request->input('query');
         $userId = Auth::user()->id;
         $query = new user();
         $firstBar = $this->firstBar($query, $userId);
         $statusBar = $this->statusBar($query, $userId, $filter);
-        $projectsChartBar = $this->projectsChartBar($userId, $filter);
-        $salesChartBar = $this->salesChartBar($userId, $filter);
-
+        if (Auth::user()->role->name != 'Visit Dubai' && Auth::user()->role->name != 'Ambassador') {
+            $projectsChartBar = $this->projectsChartBar($userId, $filter);
+            $salesChartBar = $this->salesChartBar($userId, $filter);
+        }
         return view('home', compact('firstBar', 'statusBar', 'projectsChartBar', 'salesChartBar'));
     }
 
