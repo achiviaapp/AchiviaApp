@@ -138,6 +138,7 @@ var KTUserListDatatable = function () {
 					// callback function support for column rendering
 					template: function(data) {
 						var status = {
+						    null: {'title': '-', 'state': 'info'},
 							High: {'title': 'Online', 'state': 'danger'},
 							Normal: {'title': 'Retail', 'state': 'warning'},
 							Low: {'title': 'Direct', 'state': 'primary'},
