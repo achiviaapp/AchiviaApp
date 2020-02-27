@@ -53,7 +53,7 @@
                         @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                                 <select class="form-control" id="saleFilter">
-                                    <option value="0">Select SaleMan</option>
+                                    <option value="0">SaleMan</option>
                                     @foreach($sales as $sale)
                                         <option value=" {{$sale['id']}}">  {{$sale['name']}} </option>
                                     @endforeach
@@ -62,7 +62,7 @@
                         @endif
                         <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                             <select class="form-control" id="projectFilter">
-                                <option value="0">Select Project</option>
+                                <option value="0">Project</option>
                                 @foreach($projects as $project)
                                     <option value=" {{$project['id']}}">  {{$project['name']}} </option>
                                 @endforeach
@@ -133,7 +133,7 @@
                     <div class="kt-subheader__wrapper">
                         <a class="btn kt-subheader__btn-daterange" id="kt_dashboard_daterangepicker"
                            data-toggle="kt-tooltip" title="Select dashboard daterange" data-placement="left">
-                            <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Select Date Range</span>&nbsp;
+                            <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Date Range</span>&nbsp;
                             <span class="kt-subheader__btn-daterange-date"
                                   id="kt_dashboard_daterangepicker_date"></span>
                             <i class="flaticon2-calendar-1"></i>
@@ -160,7 +160,7 @@
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body kt-portlet__body--fit">
                 
-                    <div class="accordion accordion-light  accordion-svg-icon" id="accordionExample7">
+                    <div class="accordion accordion-solid accordion-toggle-plus  accordion-svg-icon" id="accordionExample7">
                         <div class="card">
                             <div class="card-header" id="headingOne7">
                                 <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseOne7" aria-expanded="false" aria-controls="collapseOne7">
@@ -178,20 +178,20 @@
                                     <form class="kt-form kt-form--fit kt-margin-b-20 row">
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="priorityFilter">
-                                            <option value="0">Select Priorty</option>
+                                            <option value="0">Priorty</option>
                                             <option value="High">High</option>
                                             <option value="normal">normal</option>
                                             <option value="low">low</option>
                                         </select>
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="statusFilter">
-                                            <option value="0">Select Status</option>
+                                            <option value="0">Status</option>
                                             <option value="delayed">Delayed</option>
                                             <option value="notDelayed">Not Delayed</option>
                                         </select>
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="propertyFilter">
-                                            <option value="0">Select Property</option>
+                                            <option value="0">Property</option>
                                             <option value="residential">Residential</option>
                                             <option value="commercial">Commercial</option>
                                             <option value="administrative">Administrative</option>
@@ -200,25 +200,25 @@
                                         <input type="num" class="col-12 col-md-3 col-lg-2 form-control m-2" placeholder="area..." id="areaFilter">
                                         <input type="text" class="col-12 col-md-3 col-lg-2 form-control m-2" placeholder="BUdget..." id="budgetFilter">
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="convertToProjectFilter">
-                                            <option value="0">Select Convert to Project</option>
+                                            <option value="0">Convert to Project</option>
                                             @foreach($projects as $project)
                                                 <option value=" {{$project['id']}}">  {{$project['name']}} </option>
                                             @endforeach
                                         </select>
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="marketerFilter">
-                                            <option value="0">Select Marketer</option>
+                                            <option value="0">Marketer</option>
                                         </select>
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="customLinkFilter">
-                                            <option value="0">Select Cusotm Link</option>
+                                            <option value="0">Cusotm Link</option>
                                         </select>
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="campaignFilter">
-                                            <option value="0">Select Campaign</option>
+                                            <option value="0">Campaign</option>
                                         </select>
                                     
                                         <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="PlatformFilter">
-                                            <option selected value="0">Select Platform</option>
+                                            <option selected value="0">Platform</option>
                                             <option value="DirectCall"> Direct Call</option>
                                             <option disabled>──────────</option>
                                             <option value="FacebookAds"> Facebook Ads</option>
@@ -320,57 +320,203 @@
     <script> HREF = "{{ url('client/get_data/'.$actionId) }}"; </script>
     <script>
         function clientsQuestions(data){
-            return '<div class="kt-portlet kt-portlet--height-fluid">\
-                        <div class="kt-widget__stats"><div class="kt-widget__item">\
-                            <span class="kt-widget__date">Property</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.property+'</span>\
-                            </div>\
-                        </div>\
-                        <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Property Location</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.propertyLocation+'</span>\
-                            </div>\
-                        </div>\
-                        <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Property Utility</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.propertyUtility+'</span>\
-                             </div>\
-                        </div>\
-                        <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Area</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">From: '+data.areaFrom+' To: '+data.areaTo+'</span>\
-                            </div>\
-                        </div>\
-                        <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Budget</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.budget+'</span>\
-                            </div>\
-                        </div>\
-                    </div>\
-                    <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Delivery Date</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.deliveryDateId+'</span>\
-                            </div>\
-                    </div>\
-                    <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Convert Project 1</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.convertProject1+'</span>\
-                            </div>\
-                    </div>\
-                    <div class="kt-widget__item">\
-                            <span class="kt-widget__date">Convert Project 2</span>\
-                            <div class="kt-widget__label">\
-                                <span class="btn btn-label-success btn-sm btn-bold btn-upper">'+data.convertProject2+'</span>\
-                            </div>\
-                    </div>\
-										</div>';
+            var returend_data = '';
+            //open kt-portlet and kt-notes and kt-notes__items
+            returend_data = '<div class="kt-portlet kt-portlet--height-fluid">\
+                                <div class="kt-notes">\
+                                    <div class="kt-notes__items">';
+            if(data.property !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-building kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property\
+																	</p><br>\
+																	<span class="kt-notes__desc">\
+																		'+data.property+'\
+																	</span>\
+																</div>\
+															</div>\
+                                                        </div>\
+                                                    </div>';
+            }
+            if(data.propertyLocation !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon2-location kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property Location\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.propertyLocation+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.propertyUtility !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon2-information kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property Utility\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.propertyUtility+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.areaFrom !== null && data.areaTo !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon-squares kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Area\
+																	</p>\
+																	<span class="kt-notes__desc">From \
+																		'+data.areaFrom+' : To '+ data.areaTo+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.budget !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-dollar-sign kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Budget\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.budget+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.deliveryDateId !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-calendar-check kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Delievry Date\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.deliveryDateId+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.convertProject1 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-project-diagram kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Convert Project 1\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.convertProject1+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.convertProject2 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-project-diagram kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Convert Project 2\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.convertProject2+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.property === null && data.propertyLocation === null && data.propertyUtility === null && data.areaFrom === null && data.areaTo === null 
+            && data.budget === null && data.deliveryDateId === null && data.convertProject1 === null && data.convertProject2 === null ){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-2">\
+													<div class="kt-notes__media">\
+														<span class="kt-notes__icon kt-notes__icon--danger">\
+															<i class="fas fa-times"></i>\
+														</span>\
+													</div>\
+													<div class="kt-notes__content">\
+														<div class="kt-notes__section">\
+															<div class="kt-notes__info">\
+																<p class="kt-notes__title">\
+																	No Questions Available\
+																</p>\
+															</div>\
+														</div>\
+                                                    </div>\
+                                                </div>';
+            }
+            
+            //Close kt-portlet and kt-notes and kt-notes__items
+            returend_data = returend_data + '</div></div></div>';
+
+            return returend_data;
         }
         function output(data) {
             return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
@@ -379,7 +525,7 @@
                 '                    <div class="form-group row">\n' +
                 '                      <div class="col-lg-4">\n' +
                 '                            <select class="form-control actionId"  name="actionId">\n' +
-                '                                <option selected value="">Select Action</option>\n' +
+                '                                <option selected value="">Action</option>\n' +
                 '                                @foreach($actions as $action)\n' +
                 '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
                 '                                @endforeach\n' +
@@ -418,7 +564,7 @@
                 ' <div class="form-group row">\n' +
                 '<div class="col-3">\n' +
                 '<select name="priority" class="form-control">\n' +
-                ' <option selected value="">Select Priority \n' +
+                ' <option selected value="">Priority \n' +
                 ' </option>\n' +
                 '<option value="High"> High</option>\n' +
                 ' <option value="Normal"> Normal</option>\n' +
@@ -427,7 +573,7 @@
                 '</div>\n' +
                 '<div class="col-3">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
-                ' <option selected value="">Select Method</option>\n' +
+                ' <option selected value="">Method</option>\n' +
                 ' @foreach($methods as $method)\n' +
                 '<option value="{{$method['id']}}">{{$method['name']}}</option>\n' +
                 ' @endforeach \n' +
@@ -435,7 +581,7 @@
                 ' </div>\n' +
                 '<div class="col-lg-3">\n' +
                 ' <select id="" name="summery" class="form-control">\n' +
-                '<option selected value="">Select Summery</option>\n' +
+                '<option selected value="">Summery</option>\n' +
                 '<option value="1"> Replied </option>\n' +
                 ' <option value="2"> Switched Off </option>\n' +
                 '<option value="3"> No Answer </option>\n' +
@@ -467,48 +613,45 @@
 						</div>\
                     </div>\
                     <div class="kt-widget__section">\
-                        <input type="text" hidden class="user" value="' + data.userId + '"> \
-                        <button type="button" class="getHistory btn btn-brand btn-sm btn-upper btn-bold">Load History</button>\
-                        <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class="whats btn btn-success btn-sm btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
-                    </div>\
-                </div>\
-                <div class="kt-widget__body p-0">\
-							<div class="kt-widget__stats">\
-								<div class="kt-widget__item">\
+                        <div class="kt-widget__stats">\
+								<div class="mx-1 kt-widget__item float-left">\
 									<span class="kt-widget__date">\
                                         ' + data.statusName + '\
 									</span>\
 								    <div class="kt-widget__label">\
-										<span class="btn btn-label-danger btn-sm btn-bold btn-upper">' + data.notificationDate + ' ' + data.notificationTime + '</span>\
+										<span class="w-100 btn btn-label-danger btn-sm btn-bold btn-upper">' + data.notificationDate + ' ' + data.notificationTime + '</span>\
 									</div>\
                                 </div>\
-                                <div class="kt-widget__item">\
+                                <div class="mx-1 kt-widget__item float-left">\
 									<span class="kt-widget__date">\
 										Method\
 									</span>\
 								    <div class="kt-widget__label">\
-										<span class="btn btn-label-brand btn-sm btn-bold btn-upper">Via ' + data.methodName + '</span>\
+										<span class="w-100 btn btn-label-brand btn-sm btn-bold btn-upper">Via ' + data.methodName + '</span>\
 									</div>\
                                 </div>\
-                                <div class="kt-widget__item">\
+                                <div class="mx-1 kt-widget__item float-left">\
 									<span class="kt-widget__date">\
 										Summary\
 									</span>\
 								    <div class="kt-widget__label">\
-										<span class="btn btn-label-warning btn-sm btn-bold btn-upper">' + summery[data.summery].title + '</span>\
+										<span class="w-100 btn btn-label-warning btn-sm btn-bold btn-upper">' + summery[data.summery].title + '</span>\
 									</div>\
 								</div>\
-                                <div class="kt-widget__item">\
+                                <div class="mx-1 kt-widget__item float-left">\
 									<span class="kt-widget__date">\
 										# of Actions\
 									</span>\
 								    <div class="kt-widget__label">\
-										<span class="btn btn-label-success btn-sm btn-bold btn-upper">100</span>\
+										<span class="w-100 btn btn-label-success btn-sm btn-bold btn-upper">' + data.num_of_actions + '</span>\
 									</div>\
 								</div>\
 							</div>\
+                    </div>\
+                </div>\
+                <div class="kt-widget__body p-0">\
 							<span class="kt-widget__text mt-2">\
-								<strong>Notes: </strong>' + data.notes + '\
+								<strong>Notes: </strong><br>' + data.notes + '\
 							</span>\
                         </div>\
                     </div>'+
@@ -526,7 +669,7 @@
                 '                    <div class="form-group row">\n' +
                 '                      <div class="col-lg-4">\n' +
                 '                            <select class="form-control actionId"  name="actionId">\n' +
-                '                                <option selected value="">Select Action</option>\n' +
+                '                                <option selected value="">Action</option>\n' +
                 '                                @foreach($actions as $action)\n' +
                 '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
                 '                                @endforeach\n' +
@@ -559,13 +702,13 @@
                 '</div>\n' +
                 ' <div class="form-group row">\n' +
                 ' <div class="col-lg-12 col-xl-12">\n' +
-                ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
+                ' <textarea class="form-control" name="notes" type="text" value="" placeholder="Notes" rows="2"></textarea>\n' +
                 '</div>\n' +
                 ' </div>\n' +
                 ' <div class="form-group row">\n' +
                 '<div class="col-3">\n' +
                 '<select name="priority" class="form-control">\n' +
-                ' <option selected value="">Select Priority \n' +
+                ' <option selected value="">Priority \n' +
                 ' </option>\n' +
                 '<option value="High"> High</option>\n' +
                 ' <option value="Normal"> Normal</option>\n' +
@@ -574,7 +717,7 @@
                 '</div>\n' +
                 '<div class="col-3">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
-                ' <option selected value="">Select Method</option>\n' +
+                ' <option selected value="">Method</option>\n' +
                 ' @foreach($methods as $method)\n' +
                 '<option value="{{$method['id']}}">{{$method['name']}}</option>\n' +
                 ' @endforeach \n' +
@@ -582,7 +725,7 @@
                 ' </div>\n' +
                 '<div class="col-lg-3">\n' +
                 ' <select id="" name="summery" class="form-control">\n' +
-                '<option selected value="">Select Summery</option>\n' +
+                '<option selected value="">Summery</option>\n' +
                 '<option value="1"> Replied </option>\n' +
                 ' <option value="2"> Switched Off </option>\n' +
                 '<option value="3"> No Answer </option>\n' +
@@ -720,55 +863,204 @@
             ];
             var state = states[stateNo];
 
-            return '<div class="kt-widget kt-widget--user-profile-1 pb-0">\
+            var return_data = " ";
+
+            //open the kt-widget
+            return_data = '<div class="kt-widget kt-widget--user-profile-1 pb-0">';
+            
+            //add clinet's name and the status if delayed or not
+            //not delayed
+            if(data.delayed === false){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-success">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //delayed
+            else if(data.delayed === true){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-danger">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's phone
+            if(data.phone !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											<span class="kt-widget__label">Phone:</span>\
+											<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
+										</div>';
+            }
+            //adding client's emial
+            if(data.email !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											    <span class="kt-widget__label">Email:</span>\
+												<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+											</div>';
+            }
+            //adding client's job title
+            if(data.jobTitle !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Job Title:</span>\
+												<span class="kt-widget__data">' + data.jobTitle + '</span>\
+                                            </div>';
+            }
+            //adding client's Notes
+            if(data.notes !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Notes:</span>\
+												<span class="kt-widget__data">' + data.notes + '</span>\
+                                            </div>';
+            }
+            //adding client's saleName
+            if(data.notes !== null){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Salesman:</span>\
+													<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's created at and by
+            if( (data.created_at !== null) && (data.created_by !== null) ){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created at:</span>\
+													<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                </div>\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created By:</span>\
+													<span class="kt-widget__data">' + data.created_by + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //adding client's marketer
+            if(data.marketer !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Marketer:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.marketer + '</span>\
+                                            </div>';
+            }
+            //adding client's campaign
+            if(data.campaign !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Campaign:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.campaign + '</span>\
+                                            </div>';
+            }
+            //adding client's custom_link
+            if(data.custom_link !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Custom Link:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.custom_link + '</span>\
+                                            </div>';
+            }
+            //adding client's platform
+            if(data.platform !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Platform:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.platform + '</span>\
+                                            </div>';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+            //Close the kt-widget
+            return_data = '</div>';
+
+            //return return_data;
+            
+
+            return '<div class="border-left-green kt-widget kt-widget--user-profile-1 pb-0">\
 												<div class="kt-widget__head">\
 													<div class="kt-widget__content pl-0">\
-														<div class="kt-widget__section">\
+														<div class="kt-widget__section left-status left-status-danger">\
 															<a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">\
 																' + data.name + '\
 															</a>\
-															<span class="kt-widget__subtitle">\
-																' + data.jobTitle + '\
+															<span class="kt-widget__subtitle">Project: \
+																' + data.projectName + '\
 															</span>\
                                                         </div>\
-                                                        <!--<div class="kt-widget__action">\
-                                                            <input type="text" hidden class="user" value="' + data.userId + '"> \
-															<button type="button" class="getHistory btn btn-info btn-sm">Histroy</button>&nbsp;\
-															<a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class="whats btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></a>\
-														</div>-->\
 													</div>\
 												</div>\
 												<div class="kt-widget__body">\
 													<div class="kt-widget__content">\
 														<div class="kt-widget__info">\
-															<span class="kt-widget__label">Email:</span>\
-															<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
-														</div>\
-														<div class="kt-widget__info">\
 															<span class="kt-widget__label">Phone:</span>\
 															<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
 														</div>\
                                                         <div class="kt-widget__info">\
-															<span class="kt-widget__label">Project:</span>\
-															<span class="kt-widget__data">' + data.projectName + '</span>\
-                                                        </div>\
-                                                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+															<span class="kt-widget__label">Email:</span>\
+															<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+														</div>\
                                                         <div class="kt-widget__info">\
-															<span class="kt-widget__label">Salesman:</span>\
-															<span class="kt-widget__data">' + data.saleName + '</span>\
+															<span class="kt-widget__label">Job Title:</span>\
+															<span class="kt-widget__data">' + data.jobTitle + '</span>\
                                                         </div>\
-                                                        <div class="kt-widget__info">\
-															<span class="kt-widget__label">Created at:</span>\
-															<span class="kt-widget__data">' + data.created_at + '</span>\
-                                                        </div>\
-                                                        @endif\
                                                         <div class="kt-widget__info">\
 															<span class="kt-widget__label">Notes:</span>\
 															<span class="kt-widget__data">' + data.notes + '</span>\
                                                         </div>\
+                                                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Salesman:</span>\
+															<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
+                                                        </div>\
+                                                        @endif\
+													</div>\
+												</div>\
+                                                <div class="kt-widget__body">\
+													<div class="kt-widget__content p-0">\
+														@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Created at:</span>\
+															<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Created By:</span>\
+															<span class="kt-widget__data">' + data.created_by + '</span>\
+                                                        </div>\
+                                                        @endif\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Marketer:</span>\
+															<span class="kt-widget__data">' + data.marketer + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Custom Link:</span>\
+															<span class="kt-widget__data">' + data.custom_link + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Campaign:</span>\
+															<span class="kt-widget__data">' + data.campaign + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Platform:</span>\
+															<span class="kt-widget__data">' + data.platform + '</span>\
+                                                        </div>\
 													</div>\
 												</div>\
 											</div>\
+                                            <div class="my-3 text-center">\
+                                                <input type="text" hidden class="user" value="' + data.userId + '"> \
+                                                    <button type="button" class=" getHistory btn btn-brand btn-upper btn-bold">Load History</button>\
+                                                    <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class=" whats btn btn-success btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
+                                            </div>\
                 </div>\
                      ';
 
