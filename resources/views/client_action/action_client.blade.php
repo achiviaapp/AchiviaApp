@@ -263,21 +263,29 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
+                    <div class="kt-portlet kt-iconbox kt-iconbox--warning kt-iconbox--animate-slow m-0">
+                        <div class="kt-portlet__body p-4">
+                            <div class="kt-iconbox__body">
+                                <div class="kt-iconbox__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                            <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg> </div>
+                                <div class="kt-iconbox__desc w-100">
+                                    <h3 class="kt-iconbox__title mt-4">
+                                        User History
+                                    </h3>
+                                    <div class="kt-iconbox__content">
+                                       <div class="row modal-info p-3">
 
-                        <div class="row">
-
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -320,6 +328,10 @@
     <script> HREF = "{{ url('client/get_data/'.$actionId) }}"; </script>
     <script>
         function clientsQuestions(data){
+            if(data.statusName === 'No Answer' || data.statusName === 'Low Budget' || data.statusName === 'Not Interested' || data.statusName === 'Trash'){
+                $('.hide-select').css({"opacity": 0});
+            }
+        
             var returend_data = '';
             //open kt-portlet and kt-notes and kt-notes__items
             returend_data = '<div class="kt-portlet kt-portlet--height-fluid">\
@@ -651,7 +663,31 @@
                 </div>\
                 <div class="kt-widget__body p-0">\
 							<span class="kt-widget__text mt-2">\
-								<strong>Notes: </strong><br>' + data.notes + '\
+								<div class="kt-portlet kt-portlet--height-fluid">\
+                                                        <div class="kt-notes">\
+                                                            <div class="kt-notes__items">\
+                                                                <div class="kt-notes__item pb-2 pr-4 float-left">\
+                                                                    <div class="kt-notes__media">\
+                                                                        <span class="kt-notes__icon kt-notes__icon--danger">\
+                                                                            <i class="fas fa-sticky-note kt-font-info"></i>\
+                                                                        </span>\
+                                                                    </div>\
+                                                                    <div class="kt-notes__content">\
+                                                                        <div class="kt-notes__section">\
+                                                                            <div class="kt-notes__info">\
+                                                                                <p class="kt-notes__title">\
+                                                                                    Notes\
+                                                                                </p><br>\
+                                                                                <span class="kt-notes__desc">\
+                                                                                    '+data.notes+'\
+                                                                                </span>\
+                                                                            </div>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                    </div>\
 							</span>\
                         </div>\
                     </div>'+
@@ -676,7 +712,7 @@
                 '                            </select>\n' +
                 '                        </div>\n' +
                 '                    <div class="col-lg-4">\n' +
-                '                            <div class="input-group date hidden">\n' +
+                '                            <div class="input-group date hidden hide-select">\n' +
                 '                                <input type="date" class="form-control"\n' +
                 '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
                 '                                       name="notificationDate"/>\n' +
@@ -688,7 +724,7 @@
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group timepicker hidden">\n' +
+                '                            <div class="input-group timepicker hidden hide-select">\n' +
                 '                                <input class="form-control" id="kt_timepicker_2"\n' +
                 '                                       placeholder="Select time" type="time"\n' +
                 '                                       name="notificationTime"/>\n' +
@@ -706,7 +742,7 @@
                 '</div>\n' +
                 ' </div>\n' +
                 ' <div class="form-group row">\n' +
-                '<div class="col-3">\n' +
+                '<div class="col-3 hide-select">\n' +
                 '<select name="priority" class="form-control">\n' +
                 ' <option selected value="">Priority \n' +
                 ' </option>\n' +
@@ -715,7 +751,7 @@
                 '<option value="Low"> Low</option>\n' +
                 '</select>\n' +
                 '</div>\n' +
-                '<div class="col-3">\n' +
+                '<div class="col-3 hide-select">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
                 ' <option selected value="">Method</option>\n' +
                 ' @foreach($methods as $method)\n' +
@@ -723,7 +759,7 @@
                 ' @endforeach \n' +
                 '</select>\n' +
                 ' </div>\n' +
-                '<div class="col-lg-3">\n' +
+                '<div class="col-lg-3 hide-select">\n' +
                 ' <select id="" name="summery" class="form-control">\n' +
                 '<option selected value="">Summery</option>\n' +
                 '<option value="1"> Replied </option>\n' +
@@ -981,9 +1017,13 @@
             //Close the kt-widget__body and kt-widget__content
             return_data = return_data + '</div></div>';
             //Close the kt-widget
-            return_data = '</div>';
+            return_data = return_data + ' <div class="my-3 text-center">\
+                                                <input type="text" hidden class="user" value="' + data.userId + '"> \
+                                                    <button type="button" class=" getHistory btn btn-brand btn-upper btn-bold">Load History</button>\
+                                                    <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class=" whats btn btn-success btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
+                                            </div></div>';
 
-            //return return_data;
+            return return_data;
             
 
             return '<div class="border-left-green kt-widget kt-widget--user-profile-1 pb-0">\
@@ -1097,18 +1137,31 @@
                     option: $(this).parent().find('input.user').val()
                 },
                 function (data) {
-                    var modalBody = $('#kt_modal_4 .modal-body .row');
+                    var modalBody = $('#kt_modal_4 .modal-info');
 
                     modalBody.empty();
                     $.each(data, function (index, element) {
-                        modalBody.append("<div class='col-lg-3'>" +
-                            "<p>" + element.actionName + " </p>" +
-                            "<p>" + element.date + " </p>" +
-                            "<p>" + data.methodName + " </p>" +
-                            "<p>" + summery[element.summery].title + " </p>" +
-                            "<p>" + element.state + " </p>" +
-                            "<p>" + element.notes + " </p>" +
-                            "</div>");
+                        var history = '<div class="col-6">';
+                        if(element.actionName !== null){
+                            history = history + '<p> Action: <strong>' + element.actionName + '</strong></p>';
+                        }
+                        if(element.date !== null){
+                            history = history + '<p> Date: <strong>' + element.date + '</strong></p>';
+                        }
+                        if(element.methodName !== null){
+                            history = history + '<p> Method: <strong>' + element.methodName + '</strong></p>';
+                        }
+                        if(summery[element.summery].title !== null){
+                            history = history + '<p> Action: <strong>' + summery[element.summery].title + '</strong></p>';
+                        }
+                        if(element.state !== null){
+                            history = history + '<p> State: <strong>' + element.state + '</strong></p>';
+                        }
+                        if(element.notes !== null){
+                            history = history + '<p> Notes: <strong>' + element.notes + '</strong></p>';
+                        }
+                        history = history + '</div>';
+                        modalBody.append(history);
                     });
 
                     $('#kt_modal_4').modal('show');

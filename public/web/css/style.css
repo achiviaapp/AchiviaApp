@@ -18,8 +18,14 @@
     width: 4px;
     border-radius: 4px;
     height: 50px;
-    left: -1.2rem;
+    left: 75px;
     content: "";
+}
+.kt-notes .kt-notes__items .kt-notes__item .kt-notes__content{
+	padding: 1rem 1rem 1rem 1.5rem!important;
+}
+.kt-notes .kt-notes__items .kt-notes__item .kt-notes__content .kt-notes__section .kt-notes__info .kt-notes__title{
+	margin: 10px 0!important;
 }
 .kt-notes .kt-notes__items .kt-notes__item .kt-notes__content .kt-notes__section{
 	min-width: 380px;

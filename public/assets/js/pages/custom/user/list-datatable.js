@@ -178,16 +178,16 @@ var KTUserListDatatable = function () {
 										</li>\
 										<li class="kt-nav__item">\
 										<a href="' + URL + '/history-clients/' + data.userId + '" class="kt-nav__link">\
-                                          <i class="kt-nav__link-icon flaticon2-trash"></i>\
+                                            <i class="kt-nav__link-icon fas fa-history"></i>\
                                             <span class="kt-nav__link-text">History</span>\
                                             </a>\
 										    </li>\
-									<!--	<li class="kt-nav__item">\
-											<a href="#" class="kt-nav__link">\
-												<i class="kt-nav__link-icon flaticon2-mail-1"></i>\
-												<span class="kt-nav__link-text">Export</span>\
+									        <li class="kt-nav__item">\
+											<a href="' + URL + '/delete-clients/' + data.userId + '" class="kt-nav__link">\
+                                                <i class="kt-nav__link-icon flaticon2-trash"></i>\
+												<span class="kt-nav__link-text">Delete</span>\
 											</a>\
-										</li>\-->\
+										</li>\
 									</ul>\
 								</div>\
 							</div>\
