@@ -1172,9 +1172,9 @@ class ClientActionController extends Controller
             ->when($filter['status'] ?? '', function ($query) use ($filter) {
                 $today = Carbon::now()->format('Y-m-d');
                 if ($filter['status'] == 'delayed') {
-                    $query->whereDate('client_details.notificationDate','<', $today);
+                    $query->whereDate('client_details.notificationDate', '<', $today);
                 } elseif ($filter['status'] == 'notDelayed') {
-                    $query->where('client_details.notificationDate','>', $today);
+                    $query->where('client_details.notificationDate', '>', $today);
                 }
             })
             ->when($filter['convertToProject'] ?? '', function ($query) use ($filter) {
@@ -1186,7 +1186,11 @@ class ClientActionController extends Controller
             ->when($filter['area'] ?? '', function ($query) use ($filter) {
                 $query->where(function ($query) use ($filter) {
                     $query->where('areaFrom', '>=', $filter['area'])
-                        ->Where('areaTo', '<=', $filter['area']);
+                        ->where('areaTo', '<=', $filter['area']);
+                });
+                $query->orWhere(function ($query) use ($filter) {
+                    $query->where('areaFrom', '<=', $filter['area'])
+                        ->where('areaTo', '>=', $filter['area']);
                 });
             })
             ->when($filter['budget'] ?? '', function ($query) use ($filter) {
@@ -1201,6 +1205,7 @@ class ClientActionController extends Controller
             ->when($filter['campaign'] ?? '', function ($query) use ($filter) {
                 $query->where('client_details.campaignId', $filter['campaign']);
             });
+//        dd($query->toSql());
         return $query;
 
     }
