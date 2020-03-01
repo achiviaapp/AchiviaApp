@@ -419,7 +419,6 @@ class ClientActionController extends Controller
     }
 
 
-
     /**
      * view  index actionClient
      */
@@ -1171,7 +1170,12 @@ class ClientActionController extends Controller
                 $query->where('client_details.platform', 'like', '%' . $filter['platform'] . '%');
             })
             ->when($filter['status'] ?? '', function ($query) use ($filter) {
-                $query->where('client_details.actionId', $filter['status']);
+                $today = Carbon::now()->format('Y-m-d');
+                if ($filter['status'] == 'delayed') {
+                    $query->whereDate('client_details.notificationDate','<', $today);
+                } elseif ($filter['status'] == 'notDelayed') {
+                    $query->where('client_details.notificationDate','>', $today);
+                }
             })
             ->when($filter['convertToProject'] ?? '', function ($query) use ($filter) {
                 $query->where(function ($query) use ($filter) {
