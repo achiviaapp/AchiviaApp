@@ -217,7 +217,7 @@
                                             <option value="0">Campaign</option>
                                         </select>
                                     
-                                        <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="PlatformFilter">
+                                        <select class="col-12 col-md-3 col-lg-2 form-control m-2" id="platformFilter">
                                             <option selected value="0">Platform</option>
                                             <option value="DirectCall"> Direct Call</option>
                                             <option disabled>──────────</option>
@@ -663,7 +663,7 @@
                 </div>\
                 <div class="kt-widget__body p-0">\
 							<span class="kt-widget__text mt-2">\
-								<div class="kt-portlet kt-portlet--height-fluid">\
+								<div class="kt-portlet kt-portlet--height-fluid" style="box-shadow: unset!important;margin: 20px 0 5px 0;">\
                                                         <div class="kt-notes">\
                                                             <div class="kt-notes__items">\
                                                                 <div class="kt-notes__item pb-2 pr-4 float-left">\
