@@ -248,12 +248,12 @@ var KTUserListDatatable = function () {
             datatable.search($(this).val(), "area");
         });
     }
-    // filter
-    var budgetFilter = function () {
-        $('#budgetFilter').on('change', function () {
-            datatable.search($(this).val(), "budget");
-        });
-    }
+    // // filter
+    // var budgetFilter = function () {
+    //     $('#budgetFilter').on('change', function () {
+    //         datatable.search($(this).val(), "budget");
+    //     });
+    // }
     // filter
     var budgetFilter = function () {
         $('#budgetFilter').on('change', function () {
