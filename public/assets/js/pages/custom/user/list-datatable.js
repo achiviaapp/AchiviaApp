@@ -399,6 +399,7 @@ var KTUserListDatatable = function () {
                                     confirmButtonClass: "btn btn-sm btn-bold btn-brand",
                                 })
                                     .then((success) => {
+                                        console.log(data);
                                         if (success) {
                                             location.reload();
                                         }

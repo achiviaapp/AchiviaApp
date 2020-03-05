@@ -28,7 +28,6 @@ Route::get('/axiepanel', 'Auth\LoginController@showLoginForm')->name('login');
 
 Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
-
     Route::middleware(['admin'])->group(function () {
         /**
          * sending routes
@@ -49,24 +48,6 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::get('settings/get_data', 'SettingController@getAllData');
 
         /**
-         * client actions routes
-         */
-
-        Route::get('new-requests', 'ClientActionController@newRequests');
-        Route::get('client/get_new_requests_data', 'ClientActionController@getNewRequestsData');
-        Route::get('/assign-user', 'ClientActionController@assignUser');
-
-        /**
-         * action routes
-         */
-        Route::get('actions', 'ActionController@index');
-        Route::get('action-create', 'ActionController@create');
-        Route::post('action-store', 'ActionController@store');
-        Route::get('action-edit', 'ActionController@edit');
-        Route::patch('action-update/{id}', 'ActionController@update');
-        Route::delete('action-delete/{id}', 'ActionController@destroy');
-
-        /**
          * project routes
          */
         Route::get('projects', 'ProjectController@index');
@@ -75,7 +56,6 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::get('project-edit/{id}', 'ProjectController@edit');
         Route::post('project-update', 'ProjectController@update');
         Route::delete('project-delete/{id}', 'ProjectController@destroy');
-        Route::get('api/dropdown/cities', 'ProjectController@dropDownCity');
         Route::get('project/get_data', 'ProjectController@getAllData');
         Route::get('api/dropdown/project_teams', 'ProjectController@dropDownTeams');
         Route::get('add-sub-project', 'ProjectController@createSubProject');
@@ -84,25 +64,6 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::post('project-custom-store', 'ProjectController@storeProjectDetail');
 
 
-        /**
-         * city routes
-         */
-        Route::get('cities', 'ProjectCityController@index');
-        Route::get('city-create', 'ProjectCityController@create');
-        Route::post('city-store', 'ProjectCityController@store');
-        Route::get('city-edit', 'ProjectCityController@edit');
-        Route::patch('city-update/{id}', 'ProjectCityController@update');
-        Route::delete('city-delete/{id}', 'ProjectCityController@destroy');
-
-        /**
-         * method routes
-         */
-        Route::get('methods', 'MethodController@index');
-        Route::get('method-create', 'MethodController@create');
-        Route::post('method-store', 'MethodController@store');
-        Route::get('method-edit', 'MethodController@edit');
-        Route::patch('method-update/{id}', 'MethodController@update');
-        Route::delete('method-delete/{id}', 'MethodController@destroy');
 
         /**
          * team routes
@@ -120,45 +81,37 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
          * user routes
          */
         Route::get('users', 'UserController@index');
-        Route::get('sales-active', 'UserController@salesActive');
         Route::get('user-create', 'UserController@create');
         Route::post('user-store', 'UserController@store');
         Route::get('user-edit/{id}', 'UserController@edit');
         Route::post('user-update', 'UserController@update');
         Route::post('user-delete', 'UserController@destroy');
+        Route::get('sales-active', 'UserController@salesActive');
         Route::get('users/get_data', 'UserController@getAllData');
         Route::get('api/dropdown/teams', 'UserController@dropDownTeams');
         Route::get('api/dropdown/sales_team', 'UserController@salesTeam');
 
-
         /**
-         * reports routes
+         * client actions routes
          */
-        Route::get('team-report/{id}', 'ReportController@teamReport');
-        Route::get('sale-man-report/{id}', 'ReportController@saleManReport');
-        Route::get('all-reports', 'ReportController@AllReports');
-    });
 
+        Route::get('new-requests', 'ClientActionController@newRequests');
+        Route::get('client/get_new_requests_data', 'ClientActionController@getNewRequestsData');
+        Route::get('assign-user', 'ClientActionController@assignUser');
+
+    });
     Route::middleware(['leaveDecision'])->group(function () {
         /**
          * leaves routes
          */
-        //route for leave
         Route::post('leave-app/status', 'LeaveController@updateLeave');
-        //route filter for leave application
-//        Route::get('api/dropdown','LeaveController@filter');
     });
-
     Route::middleware(['notClient'])->group(function () {
 
         /**
          *
          * client routes
          */
-        Route::get('clients', 'ClientController@index');
-        Route::get('api/dropdown', 'ClientController@dropDown');
-        Route::get('api/dropdown/sales', 'ClientController@dropDownSale');
-        Route::get('api/dropdown/marketer', 'ClientController@dropDownMarketer');
         Route::get('client-create', 'ClientController@create');
         Route::post('client-store', 'ClientController@store');
         Route::get('client-quick-create', 'ClientController@quickCreate');
@@ -171,6 +124,8 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::delete('client-delete', 'ClientController@destroy');
         Route::get('client-profile/{id}', 'ClientController@profile');
         Route::get('client/get-profile-data/{id}', 'ClientController@getProfileData');
+        Route::get('api/dropdown/sales', 'ClientController@dropDownSale');
+        Route::get('api/dropdown/marketer', 'ClientController@dropDownMarketer');
 
 
         /**
@@ -188,7 +143,7 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::get('new-clients', 'ClientActionController@newClients');
         Route::get('client/get_data/{id}', 'ClientActionController@getData');
         Route::get('action-client/{id}', 'ClientActionController@actionClient');
-        Route::get('/client/get_todo_data', 'ClientActionController@getToDoData');
+        Route::get('client/get_todo_data', 'ClientActionController@getToDoData');
         Route::get('todo-data', 'ClientActionController@toDoClients');
         Route::get('client/get_todo_hot_data', 'ClientActionController@getToDoHotData');
         Route::get('todo-hot-data', 'ClientActionController@toDoHotClients');
@@ -204,7 +159,6 @@ Route::middleware(['auth', 'isLimit', 'isExpire'])->group(function () {
         Route::post('leave-app/store', 'LeaveController@store');
         Route::get('leave-app', 'LeaveController@index');
     });
-
     Route::middleware(['visitDubai'])->group(function () {
         Route::get('visit_dubai', 'ClientActionController@visitDubai');
         Route::get('client/visit_dubai_data', 'ClientActionController@getVisitDubaiData');

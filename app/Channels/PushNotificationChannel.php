@@ -49,4 +49,52 @@ class PushNotificationChannel
             ]);
         }
     }
+
+    public function sendPushActionDate($notifiable, PushNotification $notification): void
+    {
+        $headers = [
+            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
+            'Content-Type' => 'application/json',
+        ];
+
+        $message = $notification->toPushNotificationActionDate($notifiable);
+        if ($message['notification'] != 'notSend') {
+            $this->apiRequest->post(env('FCM_BASE_URL'), [
+                'headers' => $headers,
+                'json' => $message
+            ]);
+        }
+    }
+
+    public function sendPushTask($notifiable, PushNotification $notification): void
+    {
+        $headers = [
+            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
+            'Content-Type' => 'application/json',
+        ];
+
+        $message = $notification->toPushNotificationTask($notifiable);
+        if ($message['notification'] != 'notSend') {
+            $this->apiRequest->post(env('FCM_BASE_URL'), [
+                'headers' => $headers,
+                'json' => $message
+            ]);
+        }
+    }
+
+    public function sendPushCustom($notifiable, PushNotification $notification): void
+    {
+        $headers = [
+            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
+            'Content-Type' => 'application/json',
+        ];
+
+        $message = $notification->toPushNotificationCustom($notifiable);
+        if ($message['notification'] != 'notSend') {
+            $this->apiRequest->post(env('FCM_BASE_URL'), [
+                'headers' => $headers,
+                'json' => $message
+            ]);
+        }
+    }
 }
