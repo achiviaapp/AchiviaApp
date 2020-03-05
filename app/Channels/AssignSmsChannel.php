@@ -8,7 +8,7 @@
 
 namespace App\Channels;
 
-use App\Notifications\UserUpdateNotification;
+use App\Notifications\SmsNotification;
 use GuzzleHttp;
 
 class AssignSmsChannel
@@ -29,12 +29,12 @@ class AssignSmsChannel
      * Send the given notification.
      *
      * @param  mixed $notifiable
-     * @param  \App\Notifications\UserNotification $notification
+     * @param  \App\Notifications\SmsNotification $notification
      * @return void
      */
-    public function send($notifiable, UserUpdateNotification $notification): void
+    public function send($notifiable, SmsNotification $notification): void
     {
-        $message = $notification->toSms($notifiable);
+        $message = $notification->toSmsAssign($notifiable);
         if ($message != null) {
            $this->apiRequest->post(env('SMS_ENDPOINT'), ['query' => $message]);
         }
