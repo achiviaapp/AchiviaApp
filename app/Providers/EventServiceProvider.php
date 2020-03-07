@@ -13,6 +13,12 @@ use App\Events\CkeckAbssentSaleEvent;
 use App\Listeners\CkeckAbssentSaleListener;
 use App\Events\PushNotificationEvent;
 use Illuminate\Auth\Events\Registered;
+use App\Events\PushNotificationActionDateEvent;
+use App\Events\PushNotificationAssignTaskEvent;
+use App\Listeners\PushNotificationActionDateListener;
+use App\Listeners\PushNotificationAssignTaskListener;
+use App\Listeners\PushNotificationCustomNotificationListener;
+use App\Events\PushNotificationCustomNotificationEvent;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -62,6 +68,17 @@ class EventServiceProvider extends ServiceProvider
         CkeckAbssentSaleEvent::class => [
             CkeckAbssentSaleListener::class,
         ],
+
+        PushNotificationActionDateEvent::class => [
+            PushNotificationActionDateListener::class,
+        ],
+        PushNotificationAssignTaskEvent::class => [
+            PushNotificationAssignTaskListener::class,
+        ],
+        PushNotificationCustomNotificationEvent::class => [
+            PushNotificationCustomNotificationListener::class,
+        ],
+
     ];
 
     /**

@@ -1003,7 +1003,10 @@ class ClientActionController extends Controller
 
                 $sale = User::where('id', $assignId)->first();
                 $user = User::where('id', $client)->first();
-                event(new PushNotificationEvent($sale, $user));
+                if ($assignSaleId != null && $actionId != null) {
+                    event(new PushNotificationEvent($sale, $user));
+                }
+
 
             } elseif ($type == 'team') {
 
@@ -1047,7 +1050,9 @@ class ClientActionController extends Controller
 
                 $saleMan->update(['lastAssigned' => ($sale['lastAssigned'] + 1)]);
 
-                event(new PushNotificationEvent($sale, $user));
+                if ($assignSaleId != null && $actionId != null) {
+                    event(new PushNotificationEvent($sale, $user));
+                }
                 return;
             }
         }

@@ -62,6 +62,6 @@ class PunishedSaleManCron extends Command
             }
         }
 
-        $this->info('punished-sale-man:cron Cummand Run successfully!');
+        $this->info('punished-sale-man:cron Command Run successfully!');
     }
 }

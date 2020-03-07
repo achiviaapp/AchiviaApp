@@ -55,7 +55,7 @@
                                     </li>
                                     @foreach($sales as $sale)
                                         <li class="kt-nav__item">
-                                            <a class="kt-nav__link" data-toggle="status-change" data-type="team"
+                                            <a class="kt-nav__link" data-toggle="status-change" data-type="sale"
                                                data-status="{{$sale['id']}}">
                                                 <span class="kt-nav__link-text">
                                                     <span class="sale kt-badge kt-badge--unified-success kt-badge--inline kt-badge--bold">
