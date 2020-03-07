@@ -133,11 +133,12 @@
                     <div class="kt-subheader__wrapper">
                         <a class="btn kt-subheader__btn-daterange" id="kt_dashboard_daterangepicker"
                            data-toggle="kt-tooltip" title="Select dashboard daterange" data-placement="left">
-                            <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Date Range</span>&nbsp;
+                            <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Created At</span>&nbsp;
                             <span class="kt-subheader__btn-daterange-date"
                                   id="kt_dashboard_daterangepicker_date"></span>
                             <i class="flaticon2-calendar-1"></i>
                         </a>
+                        
                         @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')
                             <a class="btn kt-subheader__btn-primary btn-icon">
                                 <i class="flaticon-download-1"></i>

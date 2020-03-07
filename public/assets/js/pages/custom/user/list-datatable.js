@@ -90,6 +90,18 @@ var KTUserListDatatable = function () {
                 input: $('#platformFilter'),
                 delay: 500,
             },
+            createdAtDateFilter: {
+                input: $('#createdAtDateFilter'),
+                delay: 500,
+            },
+            lastActionDateFilter: {
+                input: $('#lastActionDateFilter'),
+                delay: 500,
+            },
+            nextActionDateFilter: {
+                input: $('#nextActionDateFilter'),
+                delay: 500,
+            },
 
             // columns definition
             columns: [
@@ -288,6 +300,25 @@ var KTUserListDatatable = function () {
     var platformFilter = function () {
         $('#platformFilter').on('change', function () {
             datatable.search($(this).val(), "platform");
+        });
+    }
+
+    // filter
+    var createdAtDateFilter = function () {
+        $('#createdAtDateFilter').on('change', function () {
+            datatable.search($(this).val(), "createdAtDate");
+        });
+    }
+    // filter
+    var lastActionDateFilter = function () {
+        $('#lastActionDateFilter').on('change', function () {
+            datatable.search($(this).val(), "lastActionDate");
+        });
+    }
+    // filter
+    var nextActionDateFilter = function () {
+        $('#nextActionDateFilter').on('change', function () {
+            datatable.search($(this).val(), "nextActionDate");
         });
     }
 
@@ -527,6 +558,9 @@ var KTUserListDatatable = function () {
             customLinkFilter();
             campaignFilter();
             platformFilter();
+            createdAtDateFilter();
+            lastActionDateFilter();
+            nextActionDateFilter();
 
             listners();
             selection();
