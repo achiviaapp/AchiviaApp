@@ -21,6 +21,9 @@
     left: 75px;
     content: "";
 }
+.kt-portlet--mobile{
+	margin-top: 25px;
+}
 .kt-notes .kt-notes__items .kt-notes__item .kt-notes__content{
 	padding: 1rem 1rem 1rem 1.5rem!important;
 }
