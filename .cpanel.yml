@@ -1,8 +1,13 @@
 ---
 deployment:
   tasks:
-    - php composer install
+    - php composer update
     - php composer dumpautoload -o
 #    - php artisan migrate:fresh --seed
     - php artisan migrate
 #    - php artisan migrate:old-data
+    - php artisan view:clear
+    - php artisan route:clear
+    - php artisan optimize:clear
+    - php artisan config:clear
+    - php artisan cache:clear
