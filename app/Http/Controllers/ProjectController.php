@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
+use App\Models\CampaignMarketer;
+use App\Models\LandingPage;
 use App\Models\Project;
 use App\Models\ProjectCity;
+use App\Models\ProjectLink;
 use App\Models\ProjectTeam;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use App\User;
 
 class ProjectController extends Controller
 {
@@ -35,7 +40,7 @@ class ProjectController extends Controller
     public function getAllData(Request $request)
     {
         $paginationOptions = $request->input('pagination');
-        if($paginationOptions['perpage'] == -1){
+        if ($paginationOptions['perpage'] == -1) {
             $paginationOptions['perpage'] = 0;
         }
 
@@ -97,7 +102,7 @@ class ProjectController extends Controller
         }
 
         $cityId = $request->cityId;
-        if($request->cityId == 0){
+        if ($request->cityId == 0) {
             $cityId = null;
         }
 
@@ -141,24 +146,40 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $requestData = $this->model->find($id);
-
-        return View('projects.edit', compact('requestData'));
+        $requestData = $this->model->where('id', $id)->with('teams')->whereHas('teams')->first()->toArray();
+        $teams = Team::all()->toArray();
+        return View('projects.edit', compact('requestData', 'teams'));
     }
 
     /**
      * update project
      */
-    public function update($id, Request $request)
+    public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:projects|max:255',
+            'name' => 'required|max:255|unique:projects,name,' . $request->id,
         ]);
-
-        $model = $this->model->find($id);
+        $model = $this->model->find($request->id);
         $model->name = $request->name;
         $model->description = $request->description;
+        $model->image = $request->image;
+        $model->country = $request->country;
+        $model->location = $request->location;
         $model->save();
+
+        $projectTeams = ProjectTeam::where('projectId', $request->id)->get()->toArray();
+        foreach ($projectTeams as $one) {
+            $model = ProjectTeam::find($one['id']);
+            $model->delete();
+        }
+
+        foreach ($request->teams as $team) {
+            $teamData = [
+                'teamId' => $team,
+                'projectId' => $request->id,
+            ];
+            ProjectTeam::create($teamData);
+        }
 
         return redirect('/projects')->with('success', 'Updated successfully');
     }
@@ -177,25 +198,16 @@ class ProjectController extends Controller
     /**
      * view create page to store project
      */
-    public function createCustom()
+    public function createSubProject()
     {
-        $projects = Project::where('idParent' , null)->get()->toArray();
-        return View('projects.custom', compact('projects'));
-    }
-
-
-    public function dropDownTeams(Request $request)
-    {
-        $project = Project::find($request->option);
-        $teams = $project->teams()->get();
-        return $teams;
-
+        $projects = Project::where('idParent', null)->get()->toArray();
+        return View('projects.sub_project', compact('projects'));
     }
 
     /**
-     * store project
+     * store sub project
      */
-    public function storeCustom(Request $request)
+    public function storeSubProject(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -224,5 +236,103 @@ class ProjectController extends Controller
 
         return redirect('/projects')->with('success', 'Stored successfully');
     }
+
+
+    public function dropDownTeams(Request $request)
+    {
+        $project = Project::find($request->option);
+        $teams = $project->teams()->get();
+        return $teams;
+
+    }
+
+    public function createProjectDetail($id)
+    {
+        $project = Project::where('id', $id)->first();
+        $marketers = User::where('roleId', 6)->get()->toArray();
+        return View('projects.custom', compact('project', 'marketers'));
+
+    }
+
+    public function storeProjectDetail(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'projectId' => 'required|integer',
+            'marketers' => 'required',
+            'description' => 'required',
+            'link' => 'required|alpha_dash',
+        ]);
+        //campaign
+        $data = array(
+            'name' => $request->name,
+            'description' => $request->description,
+            'projectId' => $request->projectId,
+        );
+        $campaignCreated = Campaign::create($data);
+
+        //campaign marketers
+        foreach ($request->marketers as $marketer) {
+
+            $marketerData = [
+                'marketerId' => $marketer,
+                'campaignId' => $campaignCreated->id,
+            ];
+
+            CampaignMarketer::create($marketerData);
+        }
+
+        //campaign links
+
+        $baseUrl = url('/');
+
+        $linkData = [
+            'link' => $baseUrl . '/landing_page/' . $request->link,
+            'alias' => $baseUrl . '/landing_page/' . $request->link,
+            'projectId' => $request->projectId,
+            'campaignId' => $campaignCreated->id,
+            'platform' => $request->platform,
+        ];
+
+        $linkCreated = ProjectLink::create($linkData);
+//
+
+        //landing page
+
+        $content = array(
+            'article' => $request->article,
+            'image' => 'test',
+        );
+
+        $content = json_encode($content);
+
+        $pageData = [
+            'templateName' => $request->templateName,
+            'linkId' => $linkCreated->id,
+            'content' => $content,
+        ];
+
+        LandingPage::create($pageData);
+
+        return redirect('/projects')->with('success', 'Stored successfully');
+    }
+
+    public function show($link)
+    {
+        $baseUrl = url('/');
+        $url = $baseUrl . '/landing_page/' . $link;
+        $projectLink = ProjectLink::where('link', $url)->orwhere('alias', $url)->first();
+        if ($projectLink) {
+            $linkId = $projectLink['id'];
+            $landingPage = LandingPage::where('linkId', $linkId)->first();
+            if ($landingPage) {
+                $content = json_decode($landingPage['content']);
+                return view('projects.' . $landingPage['templateName'], compact('content'));
+            }
+        }
+
+        return abort(404);
+    }
+
 
 }

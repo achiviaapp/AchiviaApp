@@ -9,8 +9,16 @@ use App\Listeners\AssignSaleManToClientAutoListener;
 use App\Listeners\UserCreatedSMSListener;
 use App\Listeners\UserSalesUpdatedSMSListener;
 use App\Listeners\PushNotificationListener;
+use App\Events\CkeckAbssentSaleEvent;
+use App\Listeners\CkeckAbssentSaleListener;
 use App\Events\PushNotificationEvent;
 use Illuminate\Auth\Events\Registered;
+use App\Events\PushNotificationActionDateEvent;
+use App\Events\PushNotificationAssignTaskEvent;
+use App\Listeners\PushNotificationActionDateListener;
+use App\Listeners\PushNotificationAssignTaskListener;
+use App\Listeners\PushNotificationCustomNotificationListener;
+use App\Events\PushNotificationCustomNotificationEvent;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -23,6 +31,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
+
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\LogSuccessfulLogout',
+        ],
+
+        'Illuminate\Auth\Events\Attempting' => [
+            'App\Listeners\LogAuthenticationAttempt',
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
@@ -43,6 +64,21 @@ class EventServiceProvider extends ServiceProvider
         PushNotificationEvent::class => [
             PushNotificationListener::class,
         ],
+
+        CkeckAbssentSaleEvent::class => [
+            CkeckAbssentSaleListener::class,
+        ],
+
+        PushNotificationActionDateEvent::class => [
+            PushNotificationActionDateListener::class,
+        ],
+        PushNotificationAssignTaskEvent::class => [
+            PushNotificationAssignTaskListener::class,
+        ],
+        PushNotificationCustomNotificationEvent::class => [
+            PushNotificationCustomNotificationListener::class,
+        ],
+
     ];
 
     /**

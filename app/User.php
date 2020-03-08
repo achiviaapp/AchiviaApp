@@ -21,7 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'userName', 'phone', 'roleId', 'teamId',  'mangerId', 'userStatus',
         'assign', 'saleManPunished', 'saleManSendingMsgLimit', 'active',
-        'createdBy','image','lastAssigned', 'weight',
+        'createdBy','image','lastAssigned', 'weight', 'expireDate',
     ];
     protected $dates = ['deleted_at'];
 
@@ -99,6 +99,11 @@ class User extends Authenticatable
     public function campaign()
     {
         return $this->belongsToMany('App\Models\Campaign','campaign_marketers','marketerId', 'campaignId');
+    }
+
+    public function leaves() {
+
+        return $this->hasMany('App\Models\Leave');
     }
 
 }

@@ -40,16 +40,6 @@ class ClientController extends Controller
     }
 
     /**
-     * view  index of users
-     */
-    public function index()
-    {
-        $requestData = $this->model->with('detail')->whereHas('detail')->get()->toArray();
-
-        return View('clients.view', compact('requestData'));
-    }
-
-    /**
      * view create page to store user
      */
     public function create()
@@ -142,7 +132,7 @@ class ClientController extends Controller
                 'convertProject2' => $request->convertProject2,
             );
 //
-//        //insert record
+//           //insert record
             $user = $this->clientModel->create($clientDetailsData);
 
             if ($request->assignToSaleManId != 0) {
@@ -340,7 +330,7 @@ class ClientController extends Controller
                 $sales = $this->model->where('id', (Auth::user()->id)->get(['id', 'name']));
             }
             if ((Auth::user()->role->name != 'sale Man')) {
-                $sales = User::where('roleId', 4)->orWhere('roleId' , 3)->get(['id', 'name']);
+                User::where('roleId', 4)->orWhere('roleId', 3)->where('saleManPunished' , null)->get(['id', 'name']);
             }
         }
         $dates = DeliveryDate::all()->toArray();
@@ -676,8 +666,7 @@ class ClientController extends Controller
     /**
      * uploadView user
      */
-    public
-    function uploadView()
+    public function uploadView()
     {
         $projects = $this->project->all()->toArray();
         $projectsIgnore = $this->project->with('parentProject')->whereHas('parentProject')->get()->toArray();
@@ -722,18 +711,7 @@ class ClientController extends Controller
         return redirect('/client-upload-view')->withMessage('Insert Records successfully');
     }
 
-//    public function dropDown(Request $request)
-//    {
-//        $cityId = $request->option;
-//
-//        $city = $this->city::find($cityId);
-//        $projects = $city->project();
-//
-//        return Response::make($projects->get(['id', 'name']));
-//
-//    }
-    public
-    function dropDownMarketer(Request $request)
+    public function dropDownMarketer(Request $request)
     {
         $campaignId = $request->option;
         $campaign = Campaign::find($campaignId);
@@ -772,7 +750,7 @@ class ClientController extends Controller
         $campaigns = $project->campaigns()->get()->toArray();
 
         return ['sales' => $sales,
-            'campaigns' => $campaigns,];
+                 'campaigns' => $campaigns,];
 
     }
 
@@ -812,6 +790,7 @@ class ClientController extends Controller
             'meta' => $meta,
             'data' => $data,
         ];
+
 
         return $requestData;
     }

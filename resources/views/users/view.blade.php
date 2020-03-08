@@ -111,12 +111,12 @@
     <script> URL = "{{ url('/') }}"; </script>
     <script>
         function deleted(data) {
-            return '<div><form method="POST" action="' + URL + '/user-delete/' + data.id + '">\n' +
+            return '<div><form method="POST" action="' + URL + '/user-delete">\n' +
+                  '  <input name="id" value="'+data.id+'"  hidden>\n' +
                 '          <button  type="submit" class="btn btn-danger" style="width:100px">\n' +
                 '          <i class="kt-menu__link-icon  flaticon-delete"></i>\n' +
                 '          Delete\n' +
                 '          </button>\n' +
-                '      {{ method_field('DELETE') }}\n' +
                 '      {{ csrf_field() }}\n' +
                 '</form></div>';
         }

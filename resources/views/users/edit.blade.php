@@ -1,12 +1,14 @@
 @extends('layouts.app')
-<!--begin::Page Custom Styles(used by this page) -->
-<link href="{{url('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css"/>
-<style>
-    .alert {
-        display: block !important;
-    }
-</style>
-<!--end::Page Custom Styles -->
+
+@section('head')
+    <link href="{{url('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css"/>
+    <style>
+        .alert {
+            display: block !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     @if(session()->has('message'))
         <div class="alert alert-danger">
@@ -86,7 +88,8 @@
                                                                         <div class="col-lg-9 col-xl-9">
                                                                             <input id="name" name="name"
                                                                                    class="form-control"
-                                                                                   type="text" value="{{$requestData['name']}}">
+                                                                                   type="text"
+                                                                                   value="{{$requestData['name']}}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -174,7 +177,7 @@
                                                                                        id="phone"
                                                                                        name="phone"
                                                                                        value="{{$requestData['phone']}}"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -187,11 +190,10 @@
                                                                                             class="input-group-text"><i
                                                                                                 class="la la-at"></i></span>
                                                                                 </div>
-                                                                                <input id="email" type="text"
+                                                                                <input id="email" type="email"
                                                                                        class="form-control"
                                                                                        value="{{$requestData['email']}}"
-                                                                                       name="email"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                       name="email">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -209,8 +211,33 @@
                                                                                        class="form-control"
                                                                                        value=""
                                                                                        name="password"
-                                                                                       aria-describedby="basic-addon1">
+                                                                                >
                                                                             </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                            User Activate</label>
+                                                                        <select id="roleId" name="active"
+                                                                                class="form-control col-lg-9 col-xl-9">
+                                                                            <option selected value="2">Select Activate
+                                                                            </option>
+                                                                            <option value="1" {{ 1 == $requestData['active'] ? 'selected' : '' }} >
+                                                                                Active
+                                                                            </option>
+                                                                            <option value="0" {{ 1 == $requestData['active'] ? 'selected' : '' }} >
+                                                                                DeActive
+                                                                            </option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-xl-3 col-lg-3 col-form-label">
+                                                                            Expire Date</label>
+                                                                        <div class="col-lg-9 col-xl-9">
+                                                                            <input type="date" class="form-control"
+                                                                                   value="" name="expireDate">
                                                                         </div>
                                                                     </div>
 
@@ -229,7 +256,7 @@
 
                                                                     <div class="show form-group row hidden">
                                                                         <label class="col-xl-3 col-lg-3 col-form-label">
-                                                                            Team Leader</label>
+                                                                            Team </label>
                                                                         <select id="teamId" name="teamId"
                                                                                 class="form-control col-lg-9 col-xl-9">
                                                                         </select>
@@ -277,9 +304,9 @@
             <script src="{{url('assets/js/pages/crud/file-upload/ktavatar.js')}}" type="text/javascript"></script>
 
             <script>
-                jQuery(document).ready(function (e) {
+                $(document).ready(function () {
                     $('.hidden').hide();
-                    var roleId = $('#roleId').val();
+                    const roleId = {{$requestData['roleId']}}
                     $.get(
                         "{{ url('api/dropdown/teams')}}",
                         {
@@ -288,9 +315,9 @@
                         function (data) {
                             var teamId = $('#teamId');
                             teamId.empty();
-                            teamId.append("<option value=''> Select Team Leader  </option>");
+                            teamId.append("<option value=''> Select Team  </option>");
                             $.each(data, function (index, element) {
-                                teamId.append("<option value='" + element.id + "' >" + element.name + "</option>");
+                                teamId.append("<option value='" + element.id + "') >" + element.name + "</option>");
                             });
                             if (roleId == 4) {
                                 $('.hidden').show();
@@ -300,18 +327,17 @@
                         }
                     );
 
-                    $('#roleId').change(function () {
-                        var roleId = $('#roleId').val();
+                    $(document).on('change', '#roleId', function () {
+                        var roleId = $(this).val();
                         $.get(
                             "{{ url('api/dropdown/teams')}}",
                             {
                                 option: $(this).val()
                             },
                             function (data) {
-
                                 var teamId = $('#teamId');
                                 teamId.empty();
-                                teamId.append("<option value=''> Select Team Leader  </option>");
+                                teamId.append("<option value=''> Select Team  </option>");
                                 $.each(data, function (index, element) {
                                     teamId.append("<option value='" + element.id + "'>" + element.name + "</option>");
                                 });
