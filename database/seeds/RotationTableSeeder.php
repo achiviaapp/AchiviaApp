@@ -18,7 +18,7 @@ class RotationTableSeeder extends Seeder
         DB::table('settings')->insert([
             'name' => 'limitation',
             'type' => 1,
-            'userNo' => 20,
+            'usersNo' => 20,
         ]);
     }
 }
