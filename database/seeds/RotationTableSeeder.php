@@ -11,9 +11,14 @@ class RotationTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('rotations_auto')->insert([
+        DB::table('settings')->insert([
             'name' => 'rotation',
             'type' => 1,
+        ]);
+        DB::table('settings')->insert([
+            'name' => 'limitation',
+            'type' => 1,
+            'userNo' => 20,
         ]);
     }
 }
