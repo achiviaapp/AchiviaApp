@@ -393,7 +393,9 @@
 
         }
 
+        
     </script>
+    
     <script>
         $(document).on('change', '.actionId', function () {
             var actionId = $(this).val();
@@ -408,7 +410,7 @@
     <script> URL = "{{ url('/') }}"; </script>
     <script> title = ""; </script>
     <script> user = "{{ Auth::user()->role->name }}"; </script>
-    <script src="{{url('assets/js/pages/custom/user/list-datatable.js')}}" type="text/javascript"></script>
+    <script src="{{url('assets/js/pages/custom/user/list-datatable-new.js')}}" type="text/javascript"></script>
 
 @endsection
 

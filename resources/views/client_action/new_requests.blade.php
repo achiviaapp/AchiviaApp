@@ -162,6 +162,7 @@
     <script> URL = "{{ url('/') }}"; </script>
     <script> user = "{{ Auth::user()->role->name }}"; </script>
     <script src="{{url('assets/js/pages/custom/user/list-datatable_original.js')}}" type="text/javascript"></script>
+    
 
 @endsection
 
