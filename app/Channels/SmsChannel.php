@@ -2,7 +2,7 @@
 
 namespace App\Channels;
 
-use App\Notifications\SmsNotification;
+use App\Notifications\SmsUpdateNotification;
 use GuzzleHttp;
 
 class SmsChannel
@@ -23,10 +23,10 @@ class SmsChannel
      * Send the given notification.
      *
      * @param  mixed $notifiable
-     * @param  \App\Notifications\SmsNotification $notification
+     * @param  \App\Notifications\SmsUpdateNotification $notification
      * @return void
      */
-    public function send($notifiable, SmsNotification $notification): void
+    public function send($notifiable, SmsUpdateNotification  $notification): void
     {
         $message = $notification->toSms($notifiable);
         if ($message != null) {

@@ -32,9 +32,9 @@ class AssignSmsChannel
      * @param  \App\Notifications\SmsNotification $notification
      * @return void
      */
-    public function send($notifiable, SmsNotification $notification): void
+    public function send($notifiable, SmsNotification  $notification): void
     {
-        $message = $notification->toSmsAssign($notifiable);
+        $message = $notification->toSms($notifiable);
         if ($message != null) {
            $this->apiRequest->post(env('SMS_ENDPOINT'), ['query' => $message]);
         }

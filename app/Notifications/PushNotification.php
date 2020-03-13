@@ -31,7 +31,7 @@ class PushNotification extends Notification
      */
     public function via()
     {
-//        return [PushNotificationChannel::class];
+        return [PushNotificationChannel::class];
     }
 
     /**
