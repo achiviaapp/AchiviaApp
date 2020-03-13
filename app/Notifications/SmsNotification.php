@@ -31,7 +31,7 @@ class SmsNotification extends Notification
     public function via()
     {
 
-        return [SmsChannel::class, AssignSmsChannel::class];
+//        return [SmsChannel::class, AssignSmsChannel::class];
     }
 
     /**
