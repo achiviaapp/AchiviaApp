@@ -11,4 +11,4 @@ deployment:
     - php artisan optimize:clear
     - php artisan config:clear
     - php artisan cache:clear
-    - homestead up --provision
+    - vagrant up --provision
