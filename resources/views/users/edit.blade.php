@@ -226,7 +226,7 @@
                                                                             <option value="1" {{ 1 == $requestData['active'] ? 'selected' : '' }} >
                                                                                 Active
                                                                             </option>
-                                                                            <option value="0" {{ 1 == $requestData['active'] ? 'selected' : '' }} >
+                                                                            <option value="0" {{ 0 == $requestData['active'] ? 'selected' : '' }} >
                                                                                 DeActive
                                                                             </option>
 
