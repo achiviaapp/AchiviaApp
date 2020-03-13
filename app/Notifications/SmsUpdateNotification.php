@@ -93,19 +93,7 @@ class SmsUpdateNotification extends Notification
             return $myBody;
         }
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
+    
 
 
 }
