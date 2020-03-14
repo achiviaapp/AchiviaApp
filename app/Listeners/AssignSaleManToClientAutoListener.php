@@ -31,12 +31,12 @@ class AssignSaleManToClientAutoListener
      */
     public function handle(ClientDetailCreatedEvent $event)
     {
-        $from = Carbon::parse('today 7am')->format('Y-m-d H:i:s');
-        $to = Carbon::parse('today 7pm')->format('Y-m-d H:i:s');
-        $now = Carbon::now()->format('Y-m-d H:i:s');
-        if ($now < $from && $now > $to) {
-            return;
-        }
+//        $from = Carbon::parse('today 7am')->format('Y-m-d H:i:s');
+//        $to = Carbon::parse('today 7pm')->format('Y-m-d H:i:s');
+//        $now = Carbon::now()->format('Y-m-d H:i:s');
+//        if ($now < $from && $now > $to) {
+//            return;
+//        }
         $client = $event->user;
 
         $this->autoAssign->autoAssign($client);
