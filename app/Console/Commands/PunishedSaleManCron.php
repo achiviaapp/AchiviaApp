@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\User;
+use Carbon\Carbon;
 
 class PunishedSaleManCron extends Command
 {
@@ -61,7 +62,5 @@ class PunishedSaleManCron extends Command
                 ]);
             }
         }
-
-        $this->info('punished-sale-man:cron Command Run successfully!');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 use App\Events\UserSalesUpdatedEvent;
 use App\Imports\ImportClients;
 use App\Models\Action;
@@ -137,7 +137,7 @@ class ClientController extends Controller
 
             if ($request->assignToSaleManId != 0) {
                 $sale = User::where('id', $request->assignToSaleManId)->first();
-                event(new PushNotificationEvent($sale, $userCreated));
+                event(new NewAssignNotificationEvent($sale, $userCreated));
                 event(new UserSalesUpdatedEvent($userCreated));
                 $state = '';
                 if ($request->assignToSaleManId != 0) {
@@ -237,7 +237,7 @@ class ClientController extends Controller
             $user = $this->clientModel->create($clientDetailsData);
             if ($request->assignToSaleManId != 0) {
                 $sale = User::where('id', $request->assignToSaleManId)->first();
-                event(new PushNotificationEvent($sale, $userCreated));
+                event(new NewAssignNotificationEvent($sale, $userCreated));
                 event(new UserSalesUpdatedEvent($userCreated));
                 $state = '';
                 if ($request->assignToSaleManId != 0) {
@@ -469,7 +469,7 @@ class ClientController extends Controller
         $this->clientModel->where('userId', $request->_id)->update($clientDetailsData);
         if ($client['assignToSaleManId'] == 0 && $request->assignToSaleManId != 0) {
             $sale = User::where('id', $request->assignToSaleManId)->first();
-            event(new PushNotificationEvent($sale, $user));
+            event(new NewAssignNotificationEvent($sale, $user));
             event(new UserSalesUpdatedEvent($user));
         }
         if ($request->actionId != 0) {
@@ -613,7 +613,7 @@ class ClientController extends Controller
 
         if ($client['assignToSaleManId'] == 0 && $request->assignToSaleManId != 0) {
             $sale = User::where('id', $request->assignToSaleManId)->first();
-            event(new PushNotificationEvent($sale, $user));
+            event(new NewAssignNotificationEvent($sale, $user));
             event(new UserSalesUpdatedEvent($user));
         }
         if ($request->actionId != 0) {

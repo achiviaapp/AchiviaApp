@@ -8,7 +8,7 @@
 
 namespace App\Channels;
 
-use App\Notifications\PushNotification;
+use App\Interfaces\PushNotificationInterface;
 use GuzzleHttp;
 
 
@@ -31,10 +31,10 @@ class PushNotificationChannel
      * Send the given notification.
      *
      * @param  mixed $notifiable
-     * @param  \App\Notifications\PushNotification $notification
+     * @param  \App\Interfaces\PushNotificationInterface $notification
      * @return void
      */
-    public function send($notifiable, PushNotification $notification): void
+    public function send($notifiable, PushNotificationInterface $notification): void
     {
         $headers = [
             'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
@@ -50,51 +50,4 @@ class PushNotificationChannel
         }
     }
 
-    public function sendPushActionDate($notifiable, PushNotification $notification): void
-    {
-        $headers = [
-            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
-            'Content-Type' => 'application/json',
-        ];
-
-        $message = $notification->toPushNotificationActionDate($notifiable);
-        if ($message['notification'] != 'notSend') {
-            $this->apiRequest->post(env('FCM_BASE_URL'), [
-                'headers' => $headers,
-                'json' => $message
-            ]);
-        }
-    }
-
-    public function sendPushTask($notifiable, PushNotification $notification): void
-    {
-        $headers = [
-            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
-            'Content-Type' => 'application/json',
-        ];
-
-        $message = $notification->toPushNotificationTask($notifiable);
-        if ($message['notification'] != 'notSend') {
-            $this->apiRequest->post(env('FCM_BASE_URL'), [
-                'headers' => $headers,
-                'json' => $message
-            ]);
-        }
-    }
-
-    public function sendPushCustom($notifiable, PushNotification $notification): void
-    {
-        $headers = [
-            'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
-            'Content-Type' => 'application/json',
-        ];
-
-        $message = $notification->toPushNotificationCustom($notifiable);
-        if ($message['notification'] != 'notSend') {
-            $this->apiRequest->post(env('FCM_BASE_URL'), [
-                'headers' => $headers,
-                'json' => $message
-            ]);
-        }
-    }
 }

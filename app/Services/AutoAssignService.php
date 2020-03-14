@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 use App\Events\UserSalesUpdatedEvent;
 use App\Events\CkeckAbssentSaleEvent;
 use App\Models\ClientDetail;
@@ -67,7 +67,7 @@ class AutoAssignService
                     ]);
 
 
-                    event(new PushNotificationEvent($sale, $user));
+                    event(new NewAssignNotificationEvent($sale, $user));
                     event(new UserSalesUpdatedEvent($user));
                     return;
                 }

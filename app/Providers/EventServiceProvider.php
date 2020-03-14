@@ -8,10 +8,10 @@ use App\Events\UserSalesUpdatedEvent;
 use App\Listeners\AssignSaleManToClientAutoListener;
 use App\Listeners\UserCreatedSMSListener;
 use App\Listeners\UserSalesUpdatedSMSListener;
-use App\Listeners\PushNotificationListener;
+use App\Listeners\NewAssignNotificationListener;
 use App\Events\CkeckAbssentSaleEvent;
 use App\Listeners\CkeckAbssentSaleListener;
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 use Illuminate\Auth\Events\Registered;
 use App\Events\PushNotificationActionDateEvent;
 use App\Events\PushNotificationAssignTaskEvent;
@@ -61,8 +61,8 @@ class EventServiceProvider extends ServiceProvider
             UserSalesUpdatedSMSListener::class,
         ],
 
-        PushNotificationEvent::class => [
-            PushNotificationListener::class,
+        NewAssignNotificationEvent::class => [
+            NewAssignNotificationListener::class,
         ],
 
         CkeckAbssentSaleEvent::class => [
