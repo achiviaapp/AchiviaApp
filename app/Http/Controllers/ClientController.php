@@ -350,8 +350,8 @@ class ClientController extends Controller
         if ($request->notificationDate != null) {
             $notificationDate = date("Y-m-d", strtotime($request->notificationDate));
         }
-        
-        if ($request->notificationTime) {
+
+        if ($request->notificationTime != null) {
             $notificationTime = $request->notificationTime;
         }
 
