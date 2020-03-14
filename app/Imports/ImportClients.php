@@ -15,7 +15,7 @@ use App\Models\UserNote;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 
 
 class ImportClients implements ToModel
@@ -44,7 +44,7 @@ class ImportClients implements ToModel
             $userExist->duplicated = $userExist->duplicated + 1;
             $sale = User::where('id', $sale['assignToSaleManId'])->first();
             $client = User::where('id', $userExist['id'])->first();
-            event(new PushNotificationEvent($sale, $client));
+            event(new NewAssignNotificationEvent($sale, $client));
             return $userExist;
         } elseif ($userExist && $actionId == null) {
             return $userExist;
@@ -103,7 +103,7 @@ class ImportClients implements ToModel
 
         if ($cols['saleCol'] != 0) {
             $sale = User::where('id', $cols['saleCol'])->first();
-            event(new PushNotificationEvent($sale, $userCreated));
+            event(new NewAssignNotificationEvent($sale, $userCreated));
             event(new UserSalesUpdatedEvent($userCreated));
             $date = null;
             if ($user['notificationDate']) {

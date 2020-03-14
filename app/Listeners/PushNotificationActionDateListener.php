@@ -3,7 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\PushNotificationActionDateEvent;
-use App\Notifications\PushNotification;
+use App\Notifications\ActionNotification;
+use App\Notifications\NewAssignNotification;
 use Illuminate\Support\Facades\Notification;
 
 class PushNotificationActionDateListener
@@ -26,6 +27,6 @@ class PushNotificationActionDateListener
      */
     public function handle(PushNotificationActionDateEvent $event)
     {
-        Notification::send([$event], new PushNotification());
+        Notification::send([$event], new ActionNotification());
     }
 }

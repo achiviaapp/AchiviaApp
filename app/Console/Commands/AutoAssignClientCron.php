@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\AutoAssignService;
 use App\User;
+use Carbon\Carbon;
 
 class AutoAssignClientCron extends Command
 {

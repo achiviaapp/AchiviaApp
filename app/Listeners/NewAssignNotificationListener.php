@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\PushNotificationEvent;
-use App\Notifications\PushNotification;
+use App\Events\NewAssignNotificationEvent;
+use App\Notifications\NewAssignNotification;
 use Illuminate\Support\Facades\Notification;
 
-class PushNotificationListener
+class NewAssignNotificationListener
 {
     /**
      * Create the event listener.
@@ -24,8 +24,8 @@ class PushNotificationListener
      * @param  object $event
      * @return void
      */
-    public function handle(PushNotificationEvent $event)
+    public function handle(NewAssignNotificationEvent $event)
     {
-        Notification::send([$event], new PushNotification());
+        Notification::send([$event], new NewAssignNotification());
     }
 }

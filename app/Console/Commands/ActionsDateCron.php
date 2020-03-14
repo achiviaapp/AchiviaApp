@@ -42,16 +42,15 @@ class ActionsDateCron extends Command
     {
         $clients = User::join('client_details', 'users.id', '=', 'client_details.userId')->select('users.*', 'client_details.*')->get()->toArray();
         foreach ($clients as $client) {
+            $user = User::where('id', $client['userId'])->first();
             $nextAction = Carbon::parse($client['notificationDate'] . $client['notificationTime'])->format('Y-m-d H:i:s');
             $nextActionbefore2Hour = date('Y-m-d H:i:s', strtotime($nextAction . ' -2 hours'));
             $nowDate = date('Y-m-d H:i:s');
             $sale = User::where('id', $client['assignToSaleManId'])->first();
-
             if ($nowDate >= $nextActionbefore2Hour  && $client['notificationDate'] != null) {
-                event(new PushNotificationActionDateEvent($sale, $client));
+                event(new PushNotificationActionDateEvent($sale, $user));
             }
         }
-
-        $this->info('action-date:cron Command Run successfully!');
+//
     }
 }
