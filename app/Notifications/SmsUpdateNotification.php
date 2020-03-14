@@ -8,8 +8,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Channels\AssignSmsChannel;
+use App\User;
 
-class SmsNotification extends Notification
+class SmsUpdateNotification extends Notification
 {
     use Queueable;
 
@@ -31,7 +32,7 @@ class SmsNotification extends Notification
     public function via()
     {
 
-        return [AssignSmsChannel::class];
+        return [SmsChannel::class];
     }
 
     /**
@@ -65,17 +66,29 @@ class SmsNotification extends Notification
      */
     public function toSms($notifiable)
     {
-        $sending = Sending::where('sendingTypeId', 1)->first();
+        date_default_timezone_set('Africa/Cairo');
+
+        $user = $notifiable->with('detail')->whereHas('detail')->first()->toArray();
+        $saleId = $user['detail']['assignToSaleManId'];
+        $saleData = User::where('id' ,$saleId)->first();
+
+        $date = date("Y-m-d H:i:s");
+        $delayUntil = date("Y-m-d H:i", (strtotime($date) + (60*3)));
+        $delayUntil = str_replace(':', '-', $delayUntil);
+        $delayUntil = str_replace(' ', '-', $delayUntil);
+
+        $sending = Sending::where('sendingTypeId', 3)->first();
         if ($sending && $sending['active'] == 1) {
             $phone = $notifiable['countryCode'] . ltrim($notifiable['phone'], '0');
+            $message = $sending['body'] .' , ' . 'salesman information'. ' : ' . $saleData['name'] . ' - ' . $saleData['phone'] . ' - ' . $saleData['email'];
             $myBody = [
                 'username' => env('SMS_USERNAME'),
                 'password' => env('SMS_PASSWORD'),
                 'sender' => $sending['senderId'],
                 'language' => 2,
                 'mobile' => $phone,
-                'message' => $sending['body'],
-//            'delayUntil' => $delayUntil,
+                'message' => $message,
+                'DelayUntil' => $delayUntil,
             ];
             return $myBody;
         }

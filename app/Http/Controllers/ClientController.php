@@ -345,16 +345,13 @@ class ClientController extends Controller
         $client = $this->clientModel->where('userId', $request->_id)->first()->toArray();
         $user = User::where('id', $client['userId'])->first();
 
-        $notificationDate = $client['newActionDate'];
+        $notificationDate = $client['notificationDate'];
         $notificationTime = $client['notificationTime'];
         if ($request->notificationDate != null) {
             $notificationDate = date("Y-m-d", strtotime($request->notificationDate));
         }
-        if ($request->notificationDate == null) {
-            $notificationDate = $request->notificationDate;
-        }
 
-        if ($request->notificationTime) {
+        if ($request->notificationTime != null) {
             $notificationTime = $request->notificationTime;
         }
 
