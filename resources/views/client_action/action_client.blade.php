@@ -1022,11 +1022,12 @@
                                                     </div>\
                                                 </div>';
                         }
-                        if(element.notes !== null){
+                        
+                        if(element.saleName !== null){
                             history = history + '<div class="mx-1 kt-widget__item float-left">\
-                                                    <span class="kt-widget__date">Notes</span>\
+                                                    <span class="kt-widget__date">Salesman</span>\
                                                     <div class="kt-widget__label">\
-                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.notes + '</span>\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.saleName + '</span>\
                                                     </div>\
                                                 </div>';
                         }
