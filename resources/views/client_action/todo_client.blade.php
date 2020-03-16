@@ -173,7 +173,7 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="kt-portlet kt-iconbox kt-iconbox--warning kt-iconbox--animate-slow m-0">
+                    <div class="kt-portlet kt-iconbox kt-iconbox--primary kt-iconbox--animate-slow m-0">
                         <div class="kt-portlet__body p-4">
                             <div class="kt-iconbox__body">
                                 <div class="kt-iconbox__icon">
