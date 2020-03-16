@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 use App\Models\Team;
 use App\Models\SaleLog;
 
@@ -105,7 +105,7 @@ class UserController extends Controller
             $user = $model->save();
             $sale = User::where('id', $sale['assignToSaleManId'])->first();
             $client = User::where('id', $userExist['id'])->first();
-            event(new PushNotificationEvent($sale, $client));
+            event(new NewAssignNotificationEvent($sale, $client));
 
             return ['user' => $model, 'exist' => 'yes'];
 
@@ -292,7 +292,7 @@ class UserController extends Controller
                 $sale = User::where('id', $assignId)->first();
                 $user = User::where('id', $client)->first();
 
-                event(new PushNotificationEvent($sale, $user));
+                event(new NewAssignNotificationEvent($sale, $user));
 
             } elseif ($type == 'team') {
 

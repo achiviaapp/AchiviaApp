@@ -13,7 +13,7 @@ use App\Models\Team;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Events\PushNotificationEvent;
+use App\Events\NewAssignNotificationEvent;
 use DateTime;
 use App\Services\AutoAssignService;
 use App\Events\CkeckAbssentSaleEvent;
@@ -1004,7 +1004,7 @@ class ClientActionController extends Controller
                 $sale = User::where('id', $assignId)->first();
                 $user = User::where('id', $client)->first();
                 if ($assignSaleId != null && $actionId != null) {
-                    event(new PushNotificationEvent($sale, $user));
+                    event(new NewAssignNotificationEvent($sale, $user));
                 }
 
 
@@ -1051,7 +1051,7 @@ class ClientActionController extends Controller
                 $saleMan->update(['lastAssigned' => ($sale['lastAssigned'] + 1)]);
 
                 if ($assignSaleId != null && $actionId != null) {
-                    event(new PushNotificationEvent($sale, $user));
+                    event(new NewAssignNotificationEvent($sale, $user));
                 }
                 return;
             }

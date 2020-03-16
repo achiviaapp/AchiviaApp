@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PushNotificationCustomNotificationEvent;
-use App\Notifications\PushNotification;
+use App\Notifications\CustomNotification;
 use Illuminate\Support\Facades\Notification;
 
 class PushNotificationCustomNotificationListener
@@ -26,6 +26,6 @@ class PushNotificationCustomNotificationListener
      */
     public function handle(PushNotificationCustomNotificationEvent $event)
     {
-        Notification::send([$event], new PushNotification());
+        Notification::send([$event], new CustomNotification());
     }
 }

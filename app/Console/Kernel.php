@@ -15,6 +15,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\PunishedSaleManCron::class,
         Commands\AutoAssignClientCron::class,
+        Commands\TaskDateCron::class,
+        Commands\ActionsDateCron::class,
+//        Commands\TestCommand::class,
     ];
 
     /**
@@ -25,14 +28,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
         $schedule->command('punished-sale-man:cron')
-            ->everyFiveMinutes()->sendOutputTo( url('storage/logs/punished-sale-man.log'));
+            ->everyFiveMinutes()->sendOutputTo( base_path('storage/logs/punished-sale-man.log'));
+
+        $schedule->command('task-date:cron')
+            ->everyFiveMinutes()->sendOutputTo( base_path('storage/logs/tasks.log'));
+
+        $schedule->command('action-date:cron')
+            ->everyFiveMinutes()->sendOutputTo( base_path('storage/logs/actions.log'));
 
         $schedule->command('auto-assign:cron')
             ->dailyAt('7:00')
-            ->sendOutputTo( url('storage/logs/auto-assign.log'));
+            ->sendOutputTo( base_path('storage/logs/auto-assign.log'));
 
+//        $schedule->command('test:command')
+//            ->everyMinute()
+//            ->sendOutputTo(base_path('storage/logs/test-command.log'));
     }
 
     /**

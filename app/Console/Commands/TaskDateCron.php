@@ -51,6 +51,5 @@ class TaskDateCron extends Command
             }
         }
 
-        $this->info('task-date:cron Command Run successfully!');
     }
 }

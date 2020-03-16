@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PushNotificationAssignTaskEvent;
-use App\Notifications\PushNotification;
+use App\Notifications\TaskNotification;
 use Illuminate\Support\Facades\Notification;
 
 class PushNotificationAssignTaskListener
@@ -26,6 +26,6 @@ class PushNotificationAssignTaskListener
      */
     public function handle(PushNotificationAssignTaskEvent $event)
     {
-        Notification::send([$event], new PushNotification());
+        Notification::send([$event], new TaskNotification());
     }
 }
