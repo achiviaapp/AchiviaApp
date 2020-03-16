@@ -73,6 +73,7 @@
     <link href="{{url('assets/plugins/custom/jqvmap/dist/jqvmap.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('assets/plugins/custom/uppy/dist/uppy.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url('assets/css/pages/error/error-6.css')}}" rel="stylesheet" type="text/css" />
 
     <!--end:: Vendor Plugins for custom pages -->
 

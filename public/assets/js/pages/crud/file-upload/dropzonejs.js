@@ -13,11 +13,11 @@ var KTDropzoneDemo = function () {
             maxFilesize: 5, // MB
             addRemoveLinks: true,
             accept: function (file, done) {
-                // if (file.name == "client.csv") {
-                //     done("Naha, you don't.");
-                // } else {
+                 if (file.name == "client.csv") {
+                     done("Naha, you don't.");
+                 } else {
                 done();
-                // }
+                 }
             },
 
             success: function (data) {

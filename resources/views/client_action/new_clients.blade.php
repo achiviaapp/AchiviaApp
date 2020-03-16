@@ -225,26 +225,80 @@
         };
 
         $(document).on('click', 'button.getHistory', function () {
-
             $.get(
                 "{{ url('client/load-history')}}",
                 {
                     option: $(this).parent().find('input.user').val()
                 },
                 function (data) {
-
-                    var modalBody = $('#kt_modal_4 .modal-body .row');
+                    var modalBody = $('#kt_modal_4 .modal-info');
 
                     modalBody.empty();
                     $.each(data, function (index, element) {
-                        modalBody.append("<div class='col-lg-3'>" +
-                            "<p>" + element.actionName + " </p>" +
-                            "<p>" + element.date + " </p>" +
-                            "<p>" + data.methodName + " </p>" +
-                            "<p>" + summery[element.summery].title+ " </p>" +
-                            "<p>" + element.createdBy + " </p>" +
-                            "<p>" + element.state + " </p>" +
-                            "</div>");
+                        var history = '<div class="col-12 col-lg-6 w-90 border-bottom mb-3 py-3">\
+                                            <div class="kt-widget kt-widget--project-1 card m-3 p-3">\
+                                                <div class="kt-widget__head p-0">\
+                                                    <div class="kt-widget__section">\
+                                                        <div class="kt-widgeat__stats">\
+                                                            <div class="mx-1 kt-widget__item float-left">\
+                                                                <div class="kt-widget__label">\
+                                                                    <span class="w-100 btn btn-label-primary btn-lg btn-bold btn-upper"><strong>' + (index+1) + '</strong></span>\
+                                                                </div>\
+                                                            </div>';
+                        if(element.actionName !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Action</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper"><strong>' + element.actionName + '</strong></span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        if(element.date !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Date</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.date + '</span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        if(element.methodName !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Method</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.methodName + '</span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        if(summery[element.summery].title !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Action</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + summery[element.summery].title + '</span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        if(element.state !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">State</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.state + '</span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        if(element.notes !== null){
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Notes</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.notes + '</span>\
+                                                    </div>\
+                                                </div>';
+                        }
+                        history = history + '</div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            </div>';
+                        modalBody.append(history);
                     });
 
                     $('#kt_modal_4').modal('show');
@@ -254,70 +308,284 @@
     </script>
     <script> HREF = "{{ url('client/get_data/'.$actionId) }}"; </script>
     <script>
-        function output(data) {
-            return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
+        function clientsQuestions(data){
+            if(data.statusName === 'No Answer' || data.statusName === 'Low Budget' || data.statusName === 'Not Interested' || data.statusName === 'Trash'){
+                $('.hide-select').css({"opacity": 0});
+            }
+        
+            var returend_data = '';
+            //open kt-portlet and kt-notes and kt-notes__items
+            returend_data = '<div class="kt-portlet kt-portlet--height-fluid">\
+                                <div class="kt-notes">\
+                                    <div class="kt-notes__items">';
+            if(data.property !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-building kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property\
+																	</p><br>\
+																	<span class="kt-notes__desc">\
+																		'+data.property+'\
+																	</span>\
+																</div>\
+															</div>\
+                                                        </div>\
+                                                    </div>';
+            }
+            if(data.propertyLocation !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon2-location kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property Location\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.propertyLocation+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.propertyUtility !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon2-information kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Property Utility\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.propertyUtility+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.areaFrom !== null && data.areaTo !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="flaticon-squares kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Area\
+																	</p>\
+																	<span class="kt-notes__desc">From \
+																		'+data.areaFrom+' : To '+ data.areaTo+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.budget !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-dollar-sign kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Budget\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.budget+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.deliveryDateId !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-calendar-check kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Delievry Date\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.deliveryDateId+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.convertProject1 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-project-diagram kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Convert Project 1\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.convertProject1+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.convertProject2 !== null){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-4 float-left">\
+														<div class="kt-notes__media">\
+															<span class="kt-notes__icon kt-notes__icon--danger">\
+																<i class="fa fa-project-diagram kt-font-info"></i>\
+															</span>\
+														</div>\
+														<div class="kt-notes__content">\
+															<div class="kt-notes__section">\
+																<div class="kt-notes__info">\
+																	<p class="kt-notes__title">\
+																		Convert Project 2\
+																	</p>\
+																	<span class="kt-notes__desc">\
+																		'+data.convertProject2+'\
+																	</span>\
+																</div>\
+															</div>\
+														</div>\
+                                                    </div>';
+            }
+            if(data.property === null && data.propertyLocation === null && data.propertyUtility === null && data.areaFrom === null && data.areaTo === null 
+            && data.budget === null && data.deliveryDateId === null && data.convertProject1 === null && data.convertProject2 === null ){
+                returend_data = returend_data + '<div class="kt-notes__item pb-2 pr-2">\
+													<div class="kt-notes__media">\
+														<span class="kt-notes__icon kt-notes__icon--danger">\
+															<i class="fas fa-times"></i>\
+														</span>\
+													</div>\
+													<div class="kt-notes__content">\
+														<div class="kt-notes__section">\
+															<div class="kt-notes__info">\
+																<p class="kt-notes__title">\
+																	No Questions Available\
+																</p>\
+															</div>\
+														</div>\
+                                                    </div>\
+                                                </div>';
+            }
+            
+            //Close kt-portlet and kt-notes and kt-notes__items
+            returend_data = returend_data + '</div></div></div>';
+
+            return returend_data;
+        }
+    </script>
+
+    <script>
+        function takeAction(data) {
+            return '<div class="kt-portlet kt-iconbox kt-iconbox--success kt-iconbox--animate-slow mt-3">\
+										<div class="kt-portlet__body">\
+											<div class="kt-iconbox__body">\
+												<div class="kt-iconbox__desc">\
+													<h3 class="kt-iconbox__title text-success">\
+														Next Action\
+													</h3>\
+                                                    <div class="kt-iconbox__content">'+
+                                                        '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
                 '    @csrf\n' +
                 '                    <input name="_id" type="text" hidden value="' + data.userId + '">\n' +
-               ' <div class="form-group row">\n' +
-            '                      <div class="col-lg-4">\n' +
-            '                            <select class="form-control actionId"  name="actionId">\n' +
-            '                                <option selected value="">Select Action</option>\n' +
-            '                                @foreach($actions as $action)\n' +
-            '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
-            '                                @endforeach\n' +
-            '                            </select>\n' +
-            '                        </div>\n' +
-            '                    <div class="col-lg-4">\n' +
-            '                            <div class="input-group date hidden">\n' +
-            '                                <input type="date" class="form-control"\n' +
-            '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
-            '                                       name="notificationDate"/>\n' +
-            '                                <div class="input-group-append">\n' +
-            '                                    <span class="input-group-text">\n' +
-            '                                        <i class="la la-calendar-check-o"></i>\n' +
-            '                                    </span>\n' +
-            '                                </div>\n' +
-            '                            </div>\n' +
-            '                        </div>\n' +
-            '                        <div class="col-lg-4">\n' +
-            '                            <div class="input-group timepicker hidden">\n' +
-            '                                <input class="form-control" id="kt_timepicker_2"\n' +
-            '                                       placeholder="Select time" type="time"\n' +
-            '                                       name="notificationTime"/>\n' +
-            '                                <div class="input-group-append">\n' +
-            '                                    <span class="input-group-text">\n' +
-            '                                        <i class="la la-clock-o"></i>\n' +
-            '                                    </span>\n' +
-            '                                </div>\n' +
-            '                            </div>\n' +
-            '                        </div>\n' +
-            '</div>\n' +
+                '                    <div class="form-group row">\n' +
+                '                      <div class="col-lg-4">\n' +
+                '                            <select class="form-control actionId"  name="actionId">\n' +
+                '                                <option selected value="">Action</option>\n' +
+                '                                @foreach($actions as $action)\n' +
+                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
+                '                                @endforeach\n' +
+                '                            </select>\n' +
+                '                        </div>\n' +
+                '                    <div class="col-lg-4">\n' +
+                '                            <div class="input-group date hidden hide-select">\n' +
+                '                                <input type="date" class="form-control"\n' +
+                '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
+                '                                       name="notificationDate"/>\n' +
+                '                                <div class="input-group-append">\n' +
+                '                                    <span class="input-group-text">\n' +
+                '                                        <i class="la la-calendar-check-o"></i>\n' +
+                '                                    </span>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>\n' +
+                '                        <div class="col-lg-4">\n' +
+                '                            <div class="input-group timepicker hidden hide-select">\n' +
+                '                                <input class="form-control" id="kt_timepicker_2"\n' +
+                '                                       placeholder="Select time" type="time"\n' +
+                '                                       name="notificationTime"/>\n' +
+                '                                <div class="input-group-append">\n' +
+                '                                    <span class="input-group-text">\n' +
+                '                                        <i class="la la-clock-o"></i>\n' +
+                '                                    </span>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>\n' +
+                '</div>\n' +
                 ' <div class="form-group row">\n' +
                 ' <div class="col-lg-12 col-xl-12">\n' +
-                ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
+                ' <textarea class="form-control" name="notes" type="text" value="" placeholder="Notes" rows="2"></textarea>\n' +
                 '</div>\n' +
                 ' </div>\n' +
-                '<div class="form-group row">\n' +
-                '<div class="col-3">\n' +
+                ' <div class="form-group row">\n' +
+                '<div class="col-3 hide-select">\n' +
                 '<select name="priority" class="form-control">\n' +
-                ' <option selected value="">Select Priority \n' +
+                ' <option selected value="">Priority \n' +
                 ' </option>\n' +
                 '<option value="High"> High</option>\n' +
                 ' <option value="Normal"> Normal</option>\n' +
                 '<option value="Low"> Low</option>\n' +
                 '</select>\n' +
                 '</div>\n' +
-                '<div class="col-3">\n' +
+                '<div class="col-3 hide-select">\n' +
                 '<select class="form-control" id="" name="via_method">\n' +
-                ' <option selected value="">Select Method</option>\n' +
+                ' <option selected value="">Method</option>\n' +
                 ' @foreach($methods as $method)\n' +
                 '<option value="{{$method['id']}}">{{$method['name']}}</option>\n' +
                 ' @endforeach \n' +
                 '</select>\n' +
                 ' </div>\n' +
-                '<div class="col-lg-3">\n' +
+                '<div class="col-lg-3 hide-select">\n' +
                 ' <select id="" name="summery" class="form-control">\n' +
-                '<option selected value="">Select Summery</option>\n' +
+                '<option selected value="">Summery</option>\n' +
                 '<option value="1"> Replied </option>\n' +
                 ' <option value="2"> Switched Off </option>\n' +
                 '<option value="3"> No Answer </option>\n' +
@@ -333,17 +601,14 @@
                 '                        </div>\n' +
 
                 '                    </div>\n' +
-                '</form>\n';
-        }
-    </script>
-
-    <script>
-        function last(data) {
-
-            return '<input type="text" hidden class="user" value="' + data.userId + '"> \
-               <a  href="https://wa.me/'+ data.phone +'" class="whats btn btn-bold btn-label-success btn-lg" target="_blank" style="width:160px;">\
-                    <i class="fab fa-whatsapp"></i>whatsApp</a>\
-                 ';
+                '</form>\n'
+														
+                                                    +'</div>\
+												</div>\
+											</div>\
+										</div>\
+									</div>\
+                            ';
         }
     </script>
 
@@ -358,7 +623,7 @@
                 'SaleMan',
                 'Client',
             ];
-            var stateNo = KTUtil.getRandomInt(0, 6);
+            var stateNo = KTUtil.getRandomInt(0, 5);
             var states = [
                 'success',
                 'brand',
@@ -369,27 +634,209 @@
             ];
             var state = states[stateNo];
 
-            return '<div class="kt-user-card-v2">\
-                        		<!--<div class="kt-user-card-v2__pic">\
-                        				<div class="kt-badge kt-badge--xl kt-badge--' + state + '">' + data.name.substring(0, 1) + '</div>\
-                        			</div>-->\
-                        			<div class="kt-user-card-v2__details">\
-                        		  <p class="kt-user-card-v2__name"> Name : \
-                                   <a href="'+ URL +'/client-profile/'+data.userId +'"> ' + data.name + '</a>\
-                                  </p>\
-                        			<p class="kt-user-card-v2__name"> Email : ' + data.email + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Phone : \
-                                           <a href="tel:' + data.phone + '">' + data.phone + '</a>  </p>\
-                        			<p class="kt-user-card-v2__name"> Interested Project : ' + data.projectName + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Job Title : ' + data.jobTitle + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Notes : ' + data.notes + '  </p>\
-                        			@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
-                        			<p class="kt-user-card-v2__name"> Assign To : ' + data.saleName + '  </p>\
-                        			@endif\
-                        			<p class="kt-user-card-v2__name"> Join Date: ' + data.created_at + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Assign Date: ' + data.assignedDate + ' ' + data.assignedTime + '  </p>\
-                        		</div>\
-                        		</div>';
+            var return_data = " ";
+
+            //open the kt-widget
+            return_data = '<div class="kt-widget kt-widget--user-profile-1 pb-0">';
+            
+            //add clinet's name and the status if delayed or not
+            //not delayed
+            if(data.delayed === false){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-success">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //delayed
+            else if(data.delayed === true){
+                return_data = return_data + '<div class="kt-widget__head">\
+                                                <div class="kt-widget__content pl-0">\
+                                                    <div class="kt-widget__section left-status left-status-danger">\
+                                                        <a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">' + data.name + '</a>\
+                                                        <span class="kt-widget__subtitle">Project: ' + data.projectName + '</span>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+            }
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's phone
+            if(data.phone !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											<span class="kt-widget__label">Phone:</span>\
+											<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
+										</div>';
+            }
+            //adding client's emial
+            if(data.email !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+											    <span class="kt-widget__label">Email:</span>\
+												<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+											</div>';
+            }
+            //adding client's job title
+            if(data.jobTitle !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Job Title:</span>\
+												<span class="kt-widget__data">' + data.jobTitle + '</span>\
+                                            </div>';
+            }
+            //adding client's Notes
+            if(data.notes !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Notes:</span>\
+												<span class="kt-widget__data">' + data.notes + '</span>\
+                                            </div>';
+            }
+            //adding client's saleName
+            if(data.notes !== null){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Salesman:</span>\
+													<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+
+            //open the kt-widget__body and kt-widget__content
+            return_data = return_data + '<div class="kt-widget__body">\
+													<div class="kt-widget__content">';
+            //adding client's created at and by
+            if( (data.created_at !== null) && (data.created_by !== null) ){
+                return_data = return_data + '@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created at:</span>\
+													<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                </div>\
+                                                <div class="kt-widget__info">\
+													<span class="kt-widget__label">Created By:</span>\
+													<span class="kt-widget__data">' + data.created_by + '</span>\
+                                                </div>\
+                                             @endif';
+            }
+            //adding client's marketer
+            if(data.marketer !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Marketer:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.marketer + '</span>\
+                                            </div>';
+            }
+            //adding client's campaign
+            if(data.campaign !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Campaign:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.campaign + '</span>\
+                                            </div>';
+            }
+            //adding client's custom_link
+            if(data.custom_link !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Custom Link:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.custom_link + '</span>\
+                                            </div>';
+            }
+            //adding client's platform
+            if(data.platform !== null){
+                return_data = return_data + '<div class="kt-widget__info">\
+												<span class="kt-widget__label">Platform:</span>\
+												<span class="kt-widget__data font-weight-bold">' + data.platform + '</span>\
+                                            </div>';
+            }
+            //Close the kt-widget__body and kt-widget__content
+            return_data = return_data + '</div></div>';
+            //Close the kt-widget
+            return_data = return_data + ' <div class="my-3 text-center">\
+                                                <input type="text" hidden class="user" value="' + data.userId + '"> \
+                                                    <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class=" whats btn btn-success btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
+                                            </div></div>';
+
+            return return_data;
+            
+
+            return '<div class="border-left-green kt-widget kt-widget--user-profile-1 pb-0">\
+												<div class="kt-widget__head">\
+													<div class="kt-widget__content pl-0">\
+														<div class="kt-widget__section left-status left-status-danger">\
+															<a href="' + URL + '/client-profile/' + data.userId + '" class="kt-widget__username">\
+																' + data.name + '\
+															</a>\
+															<span class="kt-widget__subtitle">Project: \
+																' + data.projectName + '\
+															</span>\
+                                                        </div>\
+													</div>\
+												</div>\
+												<div class="kt-widget__body">\
+													<div class="kt-widget__content">\
+														<div class="kt-widget__info">\
+															<span class="kt-widget__label">Phone:</span>\
+															<a href="tel:' + data.phone + '" class="kt-widget__data">' + data.phone + '</a>\
+														</div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Email:</span>\
+															<a href="mailto:' + data.email + '" class="kt-widget__data">' + data.email + '</a>\
+														</div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Job Title:</span>\
+															<span class="kt-widget__data">' + data.jobTitle + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Notes:</span>\
+															<span class="kt-widget__data">' + data.notes + '</span>\
+                                                        </div>\
+                                                        @if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Salesman:</span>\
+															<span class="kt-widget__data font-weight-bold">' + data.saleName + '</span>\
+                                                        </div>\
+                                                        @endif\
+													</div>\
+												</div>\
+                                                <div class="kt-widget__body">\
+													<div class="kt-widget__content p-0">\
+														@if(Auth::user()->role->name == 'admin' || Auth::user()->role->name == 'root')\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Created at:</span>\
+															<span class="kt-widget__data">' + data.created_at + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Created By:</span>\
+															<span class="kt-widget__data">' + data.created_by + '</span>\
+                                                        </div>\
+                                                        @endif\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Marketer:</span>\
+															<span class="kt-widget__data">' + data.marketer + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Custom Link:</span>\
+															<span class="kt-widget__data">' + data.custom_link + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Campaign:</span>\
+															<span class="kt-widget__data">' + data.campaign + '</span>\
+                                                        </div>\
+                                                        <div class="kt-widget__info">\
+															<span class="kt-widget__label">Platform:</span>\
+															<span class="kt-widget__data">' + data.platform + '</span>\
+                                                        </div>\
+													</div>\
+												</div>\
+											</div>\
+                                            <div class="my-3 text-center">\
+                                                <input type="text" hidden class="user" value="' + data.userId + '"> \
+                                                    <button type="button" class=" getHistory btn btn-brand btn-upper btn-bold">Load History</button>\
+                                                    <a  href="https://wa.me/' + data.phone + '" target="_blank" type="button" class=" whats btn btn-success btn-upper btn-bold"><i class="fab fa-whatsapp"></i> Whatsapp</a>\
+                                            </div>\
+                </div>\
+                     ';
 
         }
 
@@ -410,7 +857,7 @@
     <script> URL = "{{ url('/') }}"; </script>
     <script> title = ""; </script>
     <script> user = "{{ Auth::user()->role->name }}"; </script>
-    <script src="{{url('assets/js/pages/custom/user/list-datatable-new.js')}}" type="text/javascript"></script>
+    <script src="{{url('assets/js/pages/custom/user/list-datatable-new_clients.js')}}" type="text/javascript"></script>
 
 @endsection
 

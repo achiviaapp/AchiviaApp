@@ -264,8 +264,8 @@
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="kt-portlet kt-iconbox kt-iconbox--warning kt-iconbox--animate-slow m-0">
-                        <div class="kt-portlet__body p-4">
+                    <div class="kt-portlet kt-iconbox kt-iconbox--primary kt-iconbox--animate-slow m-0">
+                        <div class="kt-portlet__body py-4">
                             <div class="kt-iconbox__body">
                                 <div class="kt-iconbox__icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -280,7 +280,7 @@
                                         User History
                                     </h3>
                                     <div class="kt-iconbox__content">
-                                       <div class="row modal-info p-3">
+                                       <div class="row modal-info py-3">
 
                                        </div>
                                     </div>
@@ -531,87 +531,6 @@
 
             return returend_data;
         }
-        function output(data) {
-            return '<form class="kt-form" id="updateForm" method="POST" action="{{url('/client-update')}}">\n' +
-                '    @csrf\n' +
-                '                    <input name="_id" type="text" hidden value="' + data.userId + '">\n' +
-                '                    <div class="form-group row">\n' +
-                '                      <div class="col-lg-4">\n' +
-                '                            <select class="form-control actionId"  name="actionId">\n' +
-                '                                <option selected value="">Action</option>\n' +
-                '                                @foreach($actions as $action)\n' +
-                '                                    <option value="{{$action['id']}}">{{$action['name']}}</option>\n' +
-                '                                @endforeach\n' +
-                '                            </select>\n' +
-                '                        </div>\n' +
-                '                    <div class="col-lg-4">\n' +
-                '                            <div class="input-group date hidden">\n' +
-                '                                <input type="date" class="form-control"\n' +
-                '                                       placeholder="Select date" id="kt_datepicker_2"\n' +
-                '                                       name="notificationDate"/>\n' +
-                '                                <div class="input-group-append">\n' +
-                '                                    <span class="input-group-text">\n' +
-                '                                        <i class="la la-calendar-check-o"></i>\n' +
-                '                                    </span>\n' +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="col-lg-4">\n' +
-                '                            <div class="input-group timepicker hidden">\n' +
-                '                                <input class="form-control" id="kt_timepicker_2"\n' +
-                '                                       placeholder="Select time" type="time"\n' +
-                '                                       name="notificationTime"/>\n' +
-                '                                <div class="input-group-append">\n' +
-                '                                    <span class="input-group-text">\n' +
-                '                                        <i class="la la-clock-o"></i>\n' +
-                '                                    </span>\n' +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '</div>\n' +
-                ' <div class="form-group row">\n' +
-                ' <div class="col-lg-12 col-xl-12">\n' +
-                ' <input class="form-control" name="notes" type="text" value="" placeholder="Note">\n' +
-                '</div>\n' +
-                ' </div>\n' +
-                ' <div class="form-group row">\n' +
-                '<div class="col-3">\n' +
-                '<select name="priority" class="form-control">\n' +
-                ' <option selected value="">Priority \n' +
-                ' </option>\n' +
-                '<option value="High"> High</option>\n' +
-                ' <option value="Normal"> Normal</option>\n' +
-                '<option value="Low"> Low</option>\n' +
-                '</select>\n' +
-                '</div>\n' +
-                '<div class="col-3">\n' +
-                '<select class="form-control" id="" name="via_method">\n' +
-                ' <option selected value="">Method</option>\n' +
-                ' @foreach($methods as $method)\n' +
-                '<option value="{{$method['id']}}">{{$method['name']}}</option>\n' +
-                ' @endforeach \n' +
-                '</select>\n' +
-                ' </div>\n' +
-                '<div class="col-lg-3">\n' +
-                ' <select id="" name="summery" class="form-control">\n' +
-                '<option selected value="">Summery</option>\n' +
-                '<option value="1"> Replied </option>\n' +
-                ' <option value="2"> Switched Off </option>\n' +
-                '<option value="3"> No Answer </option>\n' +
-                '<option value="4"> Wrong Number </option>\n' +
-                ' </select>\n' +
-                '</div>\n' +
-                '<div class="btn-group col-lg-3">\n' +
-                '<button type="submit" class="btn btn-brand" id="">\n' +
-                '<span class="kt-hidden-mobile">Submit</span>\n' +
-                '</button>\n' +
-                '</div>\n' +
-                '</div>\n' +
-                '                        </div>\n' +
-
-                '                    </div>\n' +
-                '</form>\n';
-        }
     </script>
 
     <script>
@@ -786,95 +705,6 @@
 										</div>\
 									</div>\
                             ';
-        }
-    </script>
-
-<script>
-        function last(data) {
-
-            var summery = {
-
-                null: {
-                    'title': 'Not Yet',
-                },
-
-                1: {
-                    'title': 'Replied',
-                },
-                2: {
-                    'title': 'Switched Off',
-                },
-                3: {
-                    'title': 'No Answer',
-                },
-                4: {
-                    'title': 'Wrong Number',
-                },
-
-            };
-
-            var status = {
-
-                null: {
-                    'class': 'btn-label-brand',
-                },
-
-                1: {
-                    'class': 'btn-label-success',
-                },
-                2: {
-                    'class': 'btn-label-brand',
-                },
-                3: {
-                    'class': 'btn-label-success',
-                },
-                4: {
-                    'class': 'btn-label-primary',
-                },
-                5: {
-                    'class': 'btn-label-primary',
-                },
-                6: {
-                    'class': 'btn-label-warning',
-                },
-
-                7: {
-                    'class': 'btn-label-warning',
-                },
-                8: {
-                    'class': 'btn-label-danger',
-                },
-                9: {
-                    'class': 'btn-label-info',
-                },
-                10: {
-                    'class': 'btn-label-danger',
-                },
-                11: {
-                    'class': 'btn-label-primary',
-                },
-                12: {
-                    'class': 'btn-label-brand',
-                },
-                13: {
-                    'class': 'btn-label-success',
-                },
-                14: {
-                    'class': 'btn-label-danger',
-                },
-
-            };
-
-            return '<div class="kt-user-card-v2">\
-                        			<div class="kt-user-card-v2__details">\
-                        			<p class="btn btn-bold btn-sm btn-font-sm ' + status[data.actionId].class + '">' + data.statusName + ' At ' + data.notificationDate + ' ' + data.notificationTime + '</p>\
-                        			<p class="kt-user-card-v2__name"> Via ' + data.methodName + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Summery : ' + summery[data.summery].title + '  </p>\
-                        			<p class="kt-user-card-v2__name"> Note : ' + data.notes + '  </p>\
-                        		</div>\
-                        		</div>\
-                        		<div>';
-
         }
     </script>
 
@@ -1142,26 +972,69 @@
 
                     modalBody.empty();
                     $.each(data, function (index, element) {
-                        var history = '<div class="col-6">';
+                        var history = '<div class="col-12 col-lg-6 w-90 border-bottom mb-3 py-3">\
+                                            <div class="kt-widget kt-widget--project-1 card m-3 p-3">\
+                                                <div class="kt-widget__head p-0">\
+                                                    <div class="kt-widget__section">\
+                                                        <div class="kt-widgeat__stats">\
+                                                            <div class="mx-1 kt-widget__item float-left">\
+                                                                <div class="kt-widget__label">\
+                                                                    <span class="w-100 btn btn-label-primary btn-lg btn-bold btn-upper"><strong>' + (index+1) + '</strong></span>\
+                                                                </div>\
+                                                            </div>';
                         if(element.actionName !== null){
-                            history = history + '<p> Action: <strong>' + element.actionName + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Action</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper"><strong>' + element.actionName + '</strong></span>\
+                                                    </div>\
+                                                </div>';
                         }
                         if(element.date !== null){
-                            history = history + '<p> Date: <strong>' + element.date + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Date</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.date + '</span>\
+                                                    </div>\
+                                                </div>';
                         }
                         if(element.methodName !== null){
-                            history = history + '<p> Method: <strong>' + element.methodName + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Method</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.methodName + '</span>\
+                                                    </div>\
+                                                </div>';
                         }
                         if(summery[element.summery].title !== null){
-                            history = history + '<p> Action: <strong>' + summery[element.summery].title + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Action</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + summery[element.summery].title + '</span>\
+                                                    </div>\
+                                                </div>';
                         }
                         if(element.state !== null){
-                            history = history + '<p> State: <strong>' + element.state + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">State</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.state + '</span>\
+                                                    </div>\
+                                                </div>';
                         }
                         if(element.notes !== null){
-                            history = history + '<p> Notes: <strong>' + element.notes + '</strong></p>';
+                            history = history + '<div class="mx-1 kt-widget__item float-left">\
+                                                    <span class="kt-widget__date">Notes</span>\
+                                                    <div class="kt-widget__label">\
+                                                        <span class="w-100 btn btn-label-primary btn-sm btn-bold btn-upper">' + element.notes + '</span>\
+                                                    </div>\
+                                                </div>';
                         }
-                        history = history + '</div>';
+                        history = history + '</div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            </div>';
                         modalBody.append(history);
                     });
 

@@ -61,7 +61,13 @@
 	padding: 10px 25px!important;
 }
 
+.kt-widget__date{
+	font-weight: 900;
+}
 @media (min-width: 1025px){
+	.modal-lg, .modal-xl {
+		max-width: 1000px;
+	}
 	.kt-widget.kt-widget--project-1 .kt-widget__body .kt-widget__stats .kt-widget__item{
 		margin: 0!important;
 	}
